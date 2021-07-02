@@ -1,6 +1,6 @@
 # Build settings
 
-port: 4000
+port: 4040
 markdown:  kramdown
 permalink: "https://csooy38.github.io"/:title
 plugins:   [jekyll-sitemap, jekyll-feed,  jekyll-seo-tag]

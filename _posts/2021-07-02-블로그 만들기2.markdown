@@ -61,6 +61,10 @@ _config.yml 파일 등에서 원하는 개인 설정을 한 후 아래 명령어
 3. `git push`
 4. 마지막으로 자신의 저장소 주소(예: http://csooy38.github.io)로도 잘 열리나 확인하면 끝!!!
 
+
+참고1 : https://madplay.github.io/post/install-jekyll-on-windows
+참고2 : https://zeddios.tistory.com/1223?category=682196
+
 [해결방법]:https://seodavi.tistory.com/12
 
 
