@@ -1,6 +1,6 @@
 # Build settings
 
-port: 4040
+port: 4000
 markdown:  kramdown
 permalink: "https://csooy38.github.io/"/:title
 baseurl : ""
