@@ -11,21 +11,17 @@ menu:
 # Projects Section
 
 projects:
-- {name: 'Project One',   url: 'proj-1'}
-- {name: 'Project Two',   url: 'proj-2'}
+- {name: 'JSP: okky project',   url: 'proj-1'}
+- {name: 'JAVA: dice game',   url: 'proj-2'}
 - {name: 'Project Three', url: 'proj-3'}
 - {name: 'Project Four',  url: 'proj-4'}
-- {name: 'Project Five',  url: 'proj-5'}
 
 #-------------------------------
 # Contact Section
 
 social:
-- {icon: 'twitter',   link: 'https://twitter.com/paululele'}
-- {icon: 'instagram', link: 'https://instagram.com/paululele'}
-- {icon: 'github',    link: 'https://github.com/lenpaul'}
-- {icon: 'linkedin',  link: 'https://linkedin.com/in/lenpaul'}
-- {icon: 'envelope',  link: 'mailto:mailto:l.nguyen.paul@gmail.com'}
+- {icon: 'github',    link: 'https://github.com/csooy38'}
+- {icon: 'envelope',  link: 'mailto:csooy38@gmail.com'}
 
 # social network icons available: 'twitter' / 'facebook' / 'github' / 'pinterest' 'google-plus' / 'linkedin' / 'youtube' / 'instagram' / 'dribbble' / 'behance' / 'soundcloud' / 'vine'
 
