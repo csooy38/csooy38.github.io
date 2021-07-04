@@ -1,26 +1,8 @@
 ---
 layout: post
-title: 'JAVA 프로젝트'
+title: 'Project One'
 ---
-그러나 아이만은 여기서 만족하여 과수노파의 집을 나서 그 달음으로 자기 집까지 뛰어오면서, 그러면 그렇지 우리 오마니가 뉘(누이)처럼 미워서야 될 말이냐고 속으로 수없이 되뇌었다. 안뜰에 들어서자 누이가 안 보임을 다행으로 여기며 방안으로 들어갔다. 그리고 책상 앞으로 가 란도셀 속에서 산수책을 꺼내다가 그 속에 인형을 발견하고 주춤 손을 거두었다. 누이가 비단색 헝겊을 모아 만들어준 낭자를 튼 예쁜 각시인형이었다. 그리고 아이가 언제나 란도셀 속에 이 인형만은 변함없이 들어 있었다. 아이는 인형을 꺼내 들었다. 그러나 지금 아이는 이 인형의 여태까지 그렇게 이쁘던 얼굴이 누이의 얼굴처럼 미워짐을 어쩔 수 없었다. 곧 아이는 인형을 내다 버려야 한다는 걸 느꼈다. 그걸 품에 품고 밖으로 나섰다. 저녁 그늘이 내린 과수노파가 사는 골목을 얼마 들어가다 아이는 주위에 사람 없는 것을 살피고 나서 주머니에서 칼을 꺼냈다. 칼끝으로 땅을 파 가지고 거기에다 품속의 인형을 묻었다. 
-
-
-```xml
-
-int a = 0;
-int b = 10;
-
-System.out.println(a+b);
-
-그리고는 그곳을 떠났다. 
-```
-
->인형인가 누이인가 분간 못할 서로 얽힌 손들을 쉽사리 뿌리칠 수 있었다. 골목을 다 나온 곳에서 달구지를 벗은 당나귀가 아이의 아랫도리를 찼다. 아이는 굴러나가 동그라졌다. 
-
-
-**분하다.**
-
-일어난 아이는 당나귀 고삐를 쥐고 달구지채로 해서 당나귀 등에 올라탔다. 당나귀가 제 꼬리를 물려는 듯이 돌다가 날뛰기 시작했다. 
+Mauris velit metus, tempor gravida nulla eget, auctor accumsan tellus. Curabitur volutpat sed dolor quis tempus. In scelerisque aliquam felis at tincidunt. Proin non augue fringilla, [pretium justo vitae](#), maximus dui. Nunc ipsum nisi, fermentum sit amet volutpat cursus, sodales ac nisl. Quisque nec tellus sem. Cras pharetra felis non quam mollis, nec efficitur lectus aliquet. Maecenas ipsum felis, eleifend nec [semper venenatis](#), consequat ut nunc. Donec est augue, facilisis quis placerat sed, imperdiet sit amet neque. Maecenas nec risus metus. Nunc non condimentum ipsum. Phasellus consectetur dapibus massa, convallis iaculis nisi vestibulum id. Phasellus et fringilla augue. Donec consequat dui ut rutrum elementum. Aenean nisi arcu, ornare eu lacus vel, faucibus tempor tortor.
 
 {% include image.html url="http://www.gratisography.com" image="projects/proj-1/dog.jpg" %}
 

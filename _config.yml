@@ -2,13 +2,11 @@
 
 port: 4000
 markdown:  kramdown
-permalink: "https://csooy38.github.io/"/:title
-baseurl : ""
-url : "https://csooy38.github.io/"
+permalink: /:title
 plugins:   [jekyll-sitemap, jekyll-feed,  jekyll-seo-tag]
 
 # Customise atom feed settings (this is where Jekyll-Feed gets configuration information)
 
-title:		   "CSOOY38"
+title:		   "csooy38"
 description: "Powered by Jekyll and GitHub Pages"
 author:      "최수연"

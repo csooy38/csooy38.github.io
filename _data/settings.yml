@@ -11,15 +11,21 @@ menu:
 # Projects Section
 
 projects:
-- {name: 'SPRING',   url: 'proj-1'}
-- {name: 'JSP',   url: 'proj-2'}
-- {name: 'JAVA', url: 'proj-3'}
+- {name: 'Project One',   url: 'proj-1'}
+- {name: 'Project Two',   url: 'proj-2'}
+- {name: 'Project Three', url: 'proj-3'}
+- {name: 'Project Four',  url: 'proj-4'}
+- {name: 'Project Five',  url: 'proj-5'}
 
 #-------------------------------
 # Contact Section
 
 social:
-- {icon: 'github',    link: 'https://github.com/csooy38'}
+- {icon: 'twitter',   link: 'https://twitter.com/paululele'}
+- {icon: 'instagram', link: 'https://instagram.com/paululele'}
+- {icon: 'github',    link: 'https://github.com/lenpaul'}
+- {icon: 'linkedin',  link: 'https://linkedin.com/in/lenpaul'}
+- {icon: 'envelope',  link: 'mailto:mailto:l.nguyen.paul@gmail.com'}
 
 # social network icons available: 'twitter' / 'facebook' / 'github' / 'pinterest' 'google-plus' / 'linkedin' / 'youtube' / 'instagram' / 'dribbble' / 'behance' / 'soundcloud' / 'vine'
 
