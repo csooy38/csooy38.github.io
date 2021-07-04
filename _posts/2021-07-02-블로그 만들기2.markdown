@@ -64,6 +64,7 @@ _config.yml 파일 등에서 원하는 개인 설정을 한 후 아래 명령어
 
 참고1 : https://madplay.github.io/post/install-jekyll-on-windows
 참고2 : https://zeddios.tistory.com/1223?category=682196
+적용테마 : http://jekyllthemes.org/themes/portfolio-jekyll-theme/
 
 [해결방법]:https://seodavi.tistory.com/12
 
