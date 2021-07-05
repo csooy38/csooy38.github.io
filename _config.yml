@@ -1,7 +1,11 @@
 # Build settings
 
 port: 4000
-markdown:  kramdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+highlighter: rouge
 permalink: /:title
 url: http://www.csooy38.com/
 plugins:   [jekyll-sitemap, jekyll-feed,  jekyll-seo-tag]

@@ -12,20 +12,20 @@ h1, h2, h3, h4, h5, h6
   letter-spacing: -2px
 
 .huge, h1
-  font-size: 68px
+  font-size: 45px
   line-height: 1.05
   letter-spacing: -1px
 
 .large, h2
-  font-size: 42px
+  font-size: 35px
   line-height: 1.14
 
 .bigger, h3
-  font-size: 26px
+  font-size: 25px
   line-height: 1.38
 
 .big, h4
-  font-size: 22px
+  font-size: 15px
   line-height: 1.38
 
 .small, small
@@ -42,12 +42,13 @@ em
 
 strong
   font-weight: bold
+  color: #008299
 
 hr
   border: solid #ddd
   border-width: 1px 0 0
   clear: both
-  margin: 10px 0 30px
+  margin: 10px 0 10px
   height: 0
 
 
@@ -98,7 +99,8 @@ body
 svg
   +size(100%)
 
-h3
+
+//h3
   @extend %small-bold
   color: $accent-light
   text-align: center
@@ -108,6 +110,7 @@ fieldset
   padding: 0
   margin: 0
   border: none
+
 
 @media screen and (max-width: 480px)
   h3

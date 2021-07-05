@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "[DB] JDBC"
+date:   2021-04-07 19:03:55 +0900
+categories: jekyll update
+---
+21.04.07.
+<br>
+
+[JDBC]     
+
+클릭하면 JDBC를 정리한 구글 문서로 넘어간다.  
+
+[JDBC]:https://docs.google.com/document/d/1c2Mz3Ez54elPkd8t77Y3zA23lHqG-WoxXuxQF0vLeJM/edit
+
+
