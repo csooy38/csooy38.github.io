@@ -57,16 +57,23 @@ Ubuntu를 실행하여 기본 아이디와 비밀번호를 설정하고 아래 �
 _config.yml 파일 등에서 원하는 개인 설정을 한 후 아래 명령어를 차례로 입력한다.  
 
 1. `git add .`
-2. `git commit -m "커밋 메시지"
+2. `git commit -m "커밋 메시지"`
 3. `git push`
 4. 마지막으로 자신의 저장소 주소(예: http://csooy38.github.io)로도 잘 열리나 확인하면 끝!!!
 
 
-참고1 : https://madplay.github.io/post/install-jekyll-on-windows
-참고2 : https://zeddios.tistory.com/1223?category=682196
-적용테마 : http://jekyllthemes.org/themes/portfolio-jekyll-theme/
+참고1 : [Windows 10 Jekyll 설치 및 github blog 만들기]    
+참고2 : [왕초보를 위한 github 블로그 만들기]     
+적용테마 : [Portfolio Jekyll Theme]   
 
 [해결방법]:https://seodavi.tistory.com/12
+[Windows 10 Jekyll 설치 및 github blog 만들기]:https://madplay.github.io/post/install-jekyll-on-windows  
+[왕초보를 위한 github 블로그 만들기]:https://zeddios.tistory.com/1223?category=682196 
+[Portfolio Jekyll Theme]:http://jekyllthemes.org/themes/portfolio-jekyll-theme/  
+
+
+
+
 
 
 
