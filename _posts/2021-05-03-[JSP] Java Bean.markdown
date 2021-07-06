@@ -34,11 +34,11 @@ categories: jekyll update
 - `<jsp:getProperty>`    ==> 자바 빈에서 정보를 얻어오는 개념.
   
 - `<jsp:useBean>` 기본 형식
-	* 형식) <jsp:useBean class="클래스 풀네임" id="빈이름" [scope="범위"] />
+	* 형식) `<jsp:useBean class="클래스 풀네임" id="빈이름" [scope="범위"] />`
   
 - `<jsp:setProperty>` 기본 형식
-	* 형식) <jsp:setProperty name="빈 이름" property="프로퍼티 이름" value="값" />
+	* 형식) `<jsp:setProperty name="빈 이름" property="프로퍼티 이름" value="값" />`
 
 - `<jsp:getProperty>` 기본 형식
-	* 형식) <jsp:getProperty name="빈 이름" property="프로퍼티 이름" />
+	* 형식) `<jsp:getProperty name="빈 이름" property="프로퍼티 이름" />`
 	: 회원의 이름을 얻기 위해서 getName() 메서드를 호출하는 것과 같다. id의 빈이름과 name의 빈 이름은 반드시 같아야 한다.

@@ -6,4 +6,7 @@ permalink: /contact
 
 # Contact
 
-You may contact me [through my email](mailto:csooy38@gmail.com) 
+<img src="../assets/img/images/contact/phone.jpg" width="100%">
+
+[csooy38@gmail.com](mailto:csooy38@gmail.com)   
+[https://github.com/csooy38](https://github.com/csooy38)
