@@ -12,10 +12,21 @@ title: 'JSP project : okky'
 
 게시판 `CRUD` 중심 `jsp` 기능 활용을 위하여 okky.kr 사이트의 클론 코딩 진행.
 
+<br>
+
 ---
 #### Tools
 ![Tools](../assets/img/projects/proj-1/01.PNG)
+
++ Bootstrap
+
+<br>
+
+---
+#### Languages
 <p align="center">jsp | java | css | html | oracle</p>
+
+<br>
 
 ---
 
@@ -26,6 +37,8 @@ title: 'JSP project : okky'
 * 이성욱
 * 최수연
 
+<br>
+
 ---
 
 #### Design
@@ -33,6 +46,7 @@ title: 'JSP project : okky'
 * reference : [okky.kr]
 * figma : [figma] 
 
+<br>
 
 ---
 
