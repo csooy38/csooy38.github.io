@@ -3,11 +3,8 @@ layout: post
 title:  "[MyBatis] foreach구문 (List, array 활용)"
 date:   2021-07-09 21:56:03 +0900
 categories: jekyll update
+tags: [mybatis]
 ---
-21.07.09.
-
-<br>
-
 ## 문제
 
 프로젝트를 진행하며 반복적으로 데이터값을 바꿔 넣으며 sql문 실행이 필요한 경우가 발생하여, for문, while문 없이 MyBatis 내에서 실행 가능한 코드구현 필요   

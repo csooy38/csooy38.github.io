@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] EL/JSTL"
 date:   2021-05-13 18:13:11 +0900
 categories: jekyll update
+tags: [jsp, el/jstl]
 ---
-21.05.13
-
-<br>
-
 # EL (Expression Language)
 - 표현 언어라고 한다.
 - JSP 2.0 이후 버전부터 사용 가능.

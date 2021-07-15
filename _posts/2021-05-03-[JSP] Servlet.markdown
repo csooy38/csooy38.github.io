@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] Servlet"
 date:   2021-05-03 18:33:33 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.03
-
-<br>
-
 # JSP
 ---
 ### * 웹 프로그래밍

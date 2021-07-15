@@ -1,0 +1,72 @@
+I"B<h1 id="string-stringbuilder-stringbuffer">String, StringBuilder, StringBuffer</h1>
+
+<h2 id="1-string과-stringbuilder-stringbuffer의-차이">1. String과 StringBuilder, StringBuffer의 차이</h2>
+<p><code class="language-plaintext highlighter-rouge">String</code>은 동일한 변수명이더라도 값이 변할 때마다 <strong>새로운 주소값</strong>을 가지는 반면,<br />
+<code class="language-plaintext highlighter-rouge">StringBuilder</code>와 <code class="language-plaintext highlighter-rouge">StringBuffer</code>는 동일한 변수명은 <strong>동일한 주소값</strong>을 유지한다.</p>
+
+<p><br /></p>
+
+<p>예를 들어 <code class="language-plaintext highlighter-rouge">String</code> 변수 a의 값을 “test1”에 “test2”를 추가하면
+아래와 같이 110251487 에서 110251488로 해시코드가 변한 것을 볼 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">a</span> <span class="o">=</span> <span class="s">"test1"</span><span class="o">;</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"test1 &gt;&gt; "</span> <span class="o">+</span> <span class="n">a</span><span class="o">.</span><span class="na">hashCode</span><span class="o">());</span>
+
+<span class="n">a</span> <span class="o">+=</span> <span class="s">"test2"</span><span class="o">;</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"test2 &gt;&gt; "</span> <span class="o">+</span> <span class="n">a</span><span class="o">.</span><span class="na">hashCode</span><span class="o">());</span>
+
+<span class="n">결과</span><span class="o">)</span>
+<span class="n">test1</span> <span class="o">&gt;&gt;</span> <span class="mi">110251487</span>
+<span class="n">test2</span> <span class="o">&gt;&gt;</span> <span class="mi">110251488</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>반면에 <code class="language-plaintext highlighter-rouge">StringBuilder</code>로 변수 생성 후 동일한 테스트를 진행하면 
+처음 가진 주소값 1510467688이 그대로 유지되는 걸 볼 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">StringBuilder</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+<span class="n">b</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"test1"</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"test1 &gt;&gt; "</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="na">hashCode</span><span class="o">());</span>
+
+<span class="n">b</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"test2"</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"test2 &gt;&gt; "</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="na">hashCode</span><span class="o">());</span>
+
+<span class="n">결과</span><span class="o">)</span>
+<span class="n">test1</span> <span class="o">&gt;&gt;</span> <span class="mi">1510467688</span>
+<span class="n">test2</span> <span class="o">&gt;&gt;</span> <span class="mi">1510467688</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>이러한 차이는 어디에서 오는 걸까?</p>
+
+<p><code class="language-plaintext highlighter-rouge">String</code>에 저장되는 문자열은 <code class="language-plaintext highlighter-rouge">private final char</code> 타입으로 저장된다.<br />
+즉, 한 번 선언된 문자열은 외부에서 접근이 불가능하며, 바꿀 수도 없는 상수로 처리된다.<br />
+따라서 동일한 변수에 문자열을 추가하여도 접근조차 불가능하여 새로운 주소값을 할당받을 수밖에 없는 것이다.</p>
+
+<p><br /></p>
+
+<p>반면에 <code class="language-plaintext highlighter-rouge">StringBuilder</code>와 <code class="language-plaintext highlighter-rouge">StringBuffer</code>는 <code class="language-plaintext highlighter-rouge">private final</code>의 제약조건이 없기 때문에 동일한 변수의 주소값 내에서 문자열의 변화가 자유롭다.<br />
+<code class="language-plaintext highlighter-rouge">String</code>은 기본적인 문자열 타입으로 사용하기 무척 쉽고 유용하지만,<br />
+메모리 관리 측면에서 보자면 주소값이 반복적으로 쌓여 비효율적이라고도 할 수 있겠다.</p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-stringbuilder와-stringbuffer">2. StringBuilder와 StringBuffer</h2>
+
+<p>그렇다면 <code class="language-plaintext highlighter-rouge">StringBuilder</code>와 <code class="language-plaintext highlighter-rouge">StringBuffer</code>의 차이는 무엇일까?</p>
+
+<p><br /></p>
+
+<p>multi thread 환경에서
+<code class="language-plaintext highlighter-rouge">StringBuilder</code>에는 thread들이 동시에 접근이 가능하지만,<br />
+<code class="language-plaintext highlighter-rouge">StringBuffer</code>는 synchronization이 적용되어 다른 값을 변경할 수 없어 안전하다고 한다.</p>
+
+<p><br /></p>
+
+<hr />
+<p>참고 | <a href="https://novemberde.github.io/2017/04/15/String_0.html">Java에서 String, StringBuilder, StringBuffer의 차이</a></p>
+
+:ET

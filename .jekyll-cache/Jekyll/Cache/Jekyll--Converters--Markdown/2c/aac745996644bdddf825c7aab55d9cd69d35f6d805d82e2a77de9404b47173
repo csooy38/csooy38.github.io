@@ -1,0 +1,337 @@
+I"�~<h1 id="하단에-이동할-페이지-넣기">하단에 이동할 페이지 넣기</h1>
+
+<p><br /></p>
+
+<p align="center"><img src="../assets/img/images/210517/00.png" /></p>
+
+<p>하단에 [1][2][3] … 과 같이 클릭하면 해당 페이지로 넘어가는 페이징을 해 보자.</p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="0-action-인터페이스">0. Action 인터페이스</h2>
+<p>이번 게시판도 MVC2패턴에 Action 인터페이스를 활용하여 만들어 보았다.<br />
+기존 게시판과의 차이점은, 기존에는 Action 인터페이스에 String 타입을 반환하는 추상메서드를 선언했다면,<br />
+이번 게시판은 반환 타입이 없는 void 추상메서드를 사용했다는 점이다.</p>
+
+<p>따라서 Action 클래스 작성과 에러코드(Null)에선 자유로워졌지만<br />
+FrontController 서블릿(역할)에서 처리해야 할 코드들이 늘었다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Action</span> <span class="o">{</span>
+
+	<span class="c1">// 추상 메서드</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이 인터페이스를 앞으로 필요한 웹 페이지를 생성할 때마다 상속받아 사용한다.</p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="1-indexjsp">1. index.jsp</h2>
+<p>게시판에 들어가기 위한 기본적인 웹 페이지를 작성한다.</p>
+
+<p>[전체 게시물] 을 클릭하면 “board_list.do”를 FrontController 로 보내 문자열에 맞는 액션클래스를 실행한다.</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"blue"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;h3&gt;</span>BOARD 테이블 메인 페이지<span class="nt">&lt;/h3&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"blue"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;br&gt;&lt;br&gt;</span>
+		
+		<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span> <span class="nt">%&gt;</span><span class="s">/board_list.do"</span><span class="nt">&gt;</span>[전체 게시물]<span class="nt">&lt;/a&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<hr />
+<h2 id="2-frontcontroller">2. FrontController</h2>
+<p>1) service 메서드 아래에 기본적으로 request, response 한글 인코딩 처리를 한다.<br />
+request는 웹페이지에서 요청하는 메시지, response는 서버에서 반환하는 메세지의 한글 인코딩을 다룬다.<br />
+이 작업을 하지 않으면 인코딩이 달라 웹 페이지에서 글자가 깨지기도 하므로 꼭 하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1) 한글 인코딩 작업</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setCharacterEncoding</span><span class="o">(</span><span class="s">"UTF-8"</span><span class="o">);</span>
+<span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/html; charset=UTF-8"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) uri에서 파일명(*.do)을 구한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 2) 파일명을 구하는 작업</span>
+<span class="c1">// getRequestURI() : "/프로젝트명/파일명(*.do)" 라는 문자열을 String 타입으로 반환해 주는 메서드.</span>
+<span class="nc">String</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">();</span>
+		
+<span class="c1">// getContextPath() : 현재 프로젝트명을 String 타입으로 반화해 주는 메서드.</span>
+<span class="nc">String</span> <span class="n">path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">();</span>
+		
+<span class="nc">String</span> <span class="n">command</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">path</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>3) 2)에서 구한 파일명을 if문에 넣어 각각의 Action 클래스의 excute() 메서드를 호출한다. <br />
+equals() 메서드를 이용하여 각각의 명령어에 따라 실행된 Action 자식 클래스들을 분류하여 작성한다.<br />
+작업에 따라 페이지 이동이 이루어지면, 이동할 페이지 주소를 “viewPage” 변수에 저장한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 3) 파일명을 대조하여 해당 Action클래스의 excute() 메서드를 호출하는 작업</span>
+<span class="nc">Action</span> <span class="n">action</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>		<span class="c1">// 파일명과 대조하여 해당 Action 클래스(자식클래스로)실행하기 위해 선언.</span>
+<span class="nc">String</span> <span class="n">viewPage</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>	<span class="c1">// 액션 클래스 실행 후 이동할 주소를 지정하기 위해 선언.</span>
+		
+<span class="k">if</span><span class="o">(</span><span class="n">command</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"board_list.do"</span><span class="o">))</span> <span class="o">{</span>
+	<span class="c1">// 파일명이 "board_list.do"일 때 실행되는 Action 자식 클래스.</span>
+	<span class="n">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BoardListAction</span><span class="o">();</span>
+	
+	<span class="c1">// 클래스의 excute() 메서드를 호출한다.</span>
+	<span class="n">action</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+	
+	<span class="c1">// 작업이 완료되면 이동할 페이지를 viewPage 변수에 저장한다.</span>
+	<span class="n">viewPage</span> <span class="o">=</span> <span class="s">"view/board_list.jsp"</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>4) 페이지를 이동한다.<br />
+Action 클래스의 excute() 메서드 실행 후 저장된 “viewPage”로 이동한다. <br />
+이 때 request에 저장된 Attribute 값이 있다면 함께 이동된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 4) 페이지 이동 작업</span>
+<span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="n">viewPage</span><span class="o">);</span>
+<span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="3-boardlistaction-클래스">3. BoardListAction 클래스</h2>
+
+<ul>
+  <li>본격적인 페이징 작업</li>
+</ul>
+
+<p>FrontController 에서 대조되어 파일명이 “board_list.do” 일 때 실행되는 클래스다.<br />
+DB상의 게시글 전체 리스트를 조회한다.
+여기서 본격적인 페이징 작업을 한다. 게시글 전체 리스트를 볼 때만 하단에 이동할 페이지가 표시되기 때문이다.</p>
+
+<p>1) 필요한 변수를 선언한다.</p>
+
+<p align="center"><img src="../assets/img/images/210517/01.png" /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1) 변수 선언</span>
+<span class="kt">int</span> <span class="n">rowsize</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>	<span class="c1">// 한 페이지당 보여질 게시물의 수</span>
+<span class="kt">int</span> <span class="n">block</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>		<span class="c1">// 하단에 보여질 페이지의 최대 수 예) [1][2][3] / [4][5][6] (최대 3개씩)</span>
+<span class="kt">int</span> <span class="n">totalRecord</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span><span class="c1">// DB상의 게시물 전체 수</span>
+<span class="kt">int</span> <span class="n">allPage</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>	<span class="c1">// 전체 페이지 수</span>
+		
+<span class="kt">int</span> <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>		<span class="c1">// 현재 페이지 변수</span>
+<span class="k">if</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"page"</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// request에 저장된 page 파라미터가 있을 경우 해당 수로 저장</span>
+	<span class="n">page</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"page"</span><span class="o">));</span>
+<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+	<span class="n">page</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>	<span class="c1">// 처음으로 "전체 게시물" a 태그를 클릭한 경우 1로 저장</span>
+<span class="o">}</span>
+
+<span class="c1">// 해당 페이지에서 시작 번호</span>
+<span class="kt">int</span> <span class="n">startNo</span> <span class="o">=</span> <span class="o">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">rowsize</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="n">rowsize</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+		
+<span class="c1">// 해당 페이지에서 마지막 번호</span>
+<span class="kt">int</span> <span class="n">endNo</span> <span class="o">=</span> <span class="o">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">rowsize</span><span class="o">);</span>
+		
+<span class="c1">// 해당 페이지의 시작 블럭 </span>
+<span class="kt">int</span> <span class="n">startBlock</span> <span class="o">=</span> <span class="o">(((</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">block</span><span class="o">)</span> <span class="o">*</span> <span class="n">block</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+		
+<span class="c1">// 해당 페이지의 마지막 블럭</span>
+<span class="kt">int</span> <span class="n">endBlock</span> <span class="o">=</span> <span class="o">(((</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">block</span><span class="o">)</span> <span class="o">*</span> <span class="n">block</span><span class="o">)</span> <span class="o">+</span> <span class="n">block</span><span class="o">;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) 전체 게시물 수를 확인하는 메서드를 호출한다. <br />
+BoardDAO 에서 커넥트풀 방식으로 DB와 연동한 후,<br />
+BoardDAO 의 메서드 getListCount()를 호출하여 전체 게시물 수를 totalRecord 변수에 저장한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 2) 전체 게시물 수를 확인하는 메서드 호출</span>
+<span class="nc">BoardDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="nc">BoardDAO</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+		
+<span class="c1">// DB상의 전체 게시물의 수를 확인하는 메서드</span>
+<span class="n">totalRecord</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">getListCount</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>3) 전체 페이지 수를 구한다. <br />
+전체 게시물의 수를 한 페이지당 보여질 게시물의 수로 나누면 전체 페이지 수가 나온다.<br />
+이 때, 나머지가 있다면 반드시 페이지 수를 +1 한다.<br />
+게시물 수가 rowsize보다 작더라도(=나머지) 블럭 하나를 차지하기 때문이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 3) 전체 페이지 수 구하기</span>
+<span class="c1">// Math.ceil() : 나머지가 있으면 무조건 올림하는 메서드</span>
+<span class="n">allPage</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)(</span><span class="nc">Math</span><span class="o">.</span><span class="na">ceil</span><span class="o">(</span><span class="n">totalRecord</span> <span class="o">/</span> <span class="o">(</span><span class="kt">double</span><span class="o">)</span><span class="n">rowsize</span><span class="o">));</span> 
+		
+<span class="c1">// 마지막 블럭 수를 최대 전체 페이지 수까지로 지정.</span>
+<span class="k">if</span><span class="o">(</span><span class="n">endBlock</span> <span class="o">&gt;</span> <span class="n">allPage</span><span class="o">)</span> <span class="o">{</span>	
+	<span class="n">endBlock</span> <span class="o">=</span> <span class="n">allPage</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>4) 페이지에 해당되는 게시물을 가져오는 메서드를 호출한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 4) 페이지에 해당하는 게시물을 가져오는 메서드 호출</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">BoardDTO</span><span class="o">&gt;</span> <span class="n">pageList</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">getBoardList</span><span class="o">(</span><span class="n">page</span><span class="o">,</span> <span class="n">rowsize</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>5) 페이징 처리 시 작업했던 값들을 view 페이지로 넘긴다. <br />
+작업했던 모든 값들을 키로 저장해서 view 페이지로 넘긴다.<br />
+request의 Attribute에 set하면 FrontController에서 view 페이지로 이동하며 함께 넘어간다.<br />
+view 페이지에서 활용되지 않더라도 우선 넘겨두는 것이 좋다고 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 5) 작업했던 값들을 키로 저장하여 view 페이지로 넘기기</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"page"</span><span class="o">,</span> <span class="n">page</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"rowsize"</span><span class="o">,</span> <span class="n">rowsize</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"block"</span><span class="o">,</span> <span class="n">block</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"totalRecord"</span><span class="o">,</span> <span class="n">totalRecord</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"allPage"</span><span class="o">,</span> <span class="n">allPage</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"startNo"</span><span class="o">,</span> <span class="n">startNo</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"endNo"</span><span class="o">,</span> <span class="n">endNo</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"startBlock"</span><span class="o">,</span> <span class="n">startBlock</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"endBlock"</span><span class="o">,</span> <span class="n">endBlock</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"List"</span><span class="o">,</span> <span class="n">pageList</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="4-daogetboardlist">4. dao.getBoardList()</h2>
+<p>BoardDAO 클래스에서 getBoardList() 메서드를 호출한다.</p>
+
+<p>sql문 작성에 주의.</p>
+
+<p align="center"><img src="../assets/img/images/210517/02.png" /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sql</span> <span class="o">=</span> <span class="s">"select * from "</span>
+		<span class="o">+</span> <span class="s">"(select row_number() over(order by board_no desc) rnum, b.* from board b) "</span>
+		<span class="o">+</span> <span class="s">"where rnum &gt;= ? and rnum &lt;= ?"</span><span class="o">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">row_number()</code> : 원하는 컬럼만 정렬해서 순서를 정하거나, 원하는 곳에서 구역을 나눠 순서를 정하는 명령어. 여기선 전자의 방식으로 사용되었다.
+    <ul>
+      <li>row_number() over(order by ~ )</li>
+      <li>row_number() over(partition by ~ order by ~)</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">over()</code> : 분석함수와 집계함수를 GROUP BY 또는 서브쿼리 없이 사용할 수 있도록 하는 명령어.
+    <ul>
+      <li>분석함수 : <code class="language-plaintext highlighter-rouge">SUM</code>, <code class="language-plaintext highlighter-rouge">MAX</code>, <code class="language-plaintext highlighter-rouge">COUNT</code> 등</li>
+      <li>집계함수 : <code class="language-plaintext highlighter-rouge">GROUP BY</code>, <code class="language-plaintext highlighter-rouge">ORDER BY</code> 등</li>
+    </ul>
+  </li>
+</ul>
+
+<p>이하 getBoardList() 메서드 전체.<br />
+sql문을 제외하곤 기존의 전체 목록을 불러오는 방식과 거의 동일하다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// board 테이블에서 게시물을 가져오는 메서드</span>
+<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">BoardDTO</span><span class="o">&gt;</span> <span class="nf">getBoardList</span><span class="o">(</span><span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rowsize</span><span class="o">){</span>
+		
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">BoardDTO</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">BoardDTO</span><span class="o">&gt;();</span>	<span class="c1">// DB에서 불러올 데이터를 저장할 list 선언</span>
+			
+	<span class="kt">int</span> <span class="n">startNo</span> <span class="o">=</span> <span class="o">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">rowsize</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="n">rowsize</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>	<span class="c1">// 해당 페이지에서 시작 번호</span>
+	<span class="kt">int</span> <span class="n">endNo</span> <span class="o">=</span> <span class="o">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">rowsize</span><span class="o">);</span>							<span class="c1">// 해당 페이지에서 마지막 번호</span>
+		
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="n">openConn</span><span class="o">();</span>
+		<span class="n">sql</span> <span class="o">=</span> <span class="s">"select * from "</span>
+			<span class="o">+</span> <span class="s">"(select row_number() over(order by board_no desc) rnum, b.* from board b) "</span>
+			<span class="o">+</span> <span class="s">"where rnum &gt;= ? and rnum &lt;= ?"</span><span class="o">;</span>
+		<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">startNo</span><span class="o">);</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">endNo</span><span class="o">);</span>
+			
+		<span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+			
+		<span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+			<span class="nc">BoardDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BoardDTO</span><span class="o">();</span>
+			
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_no</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"board_no"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_writer</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_writer"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_title</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_title"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_cont</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_cont"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_pwd</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_pwd"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_hit</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"board_hit"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_regdate</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_regdate"</span><span class="o">));</span>
+				
+			<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">dto</span><span class="o">);</span>
+		<span class="o">}</span>
+			
+		<span class="c1">// open 객체 닫기</span>
+		<span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">con</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+		
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// TODO Auto-generated catch block</span>
+		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+	<span class="o">}</span>
+		<span class="k">return</span> <span class="n">list</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="5-board_listjsp">5. board_list.jsp</h2>
+<p>위에서 모든 작업이 완료되면 저장된 키 값과 함께 FrontController에서 설정했던 페이지 주소로 이동한다.<br />
+가져온 값들을 웹 페이지에 출력한다.<br />
+게시글 목록 출력은 이전에 다루었으므로 여기선 페이징 출력만 정리한다.</p>
+
+<p>모두 &lt;body&gt; 태그 안에 작성한다.</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;%-- EL언어를 사용하기 위해 taglib을 선언한다. --%&gt;</span>
+<span class="nt">&lt;%@ taglib </span><span class="na">prefix=</span><span class="s">"c"</span><span class="na"> uri=</span><span class="s">"http://java.sun.com/jsp/jstl/core"</span> <span class="nt">%&gt;</span>
+
+<span class="c">&lt;%-- 현재 페이지가 블럭 수보다 높다면 (예: 현재페이지-5, 블럭 수-3) --%&gt;</span>
+<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">page</span> <span class="o">&gt;</span> <span class="n">block</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+	<span class="c">&lt;%-- ◀◀ 를 누르면 첫 페이지로 이동한다. --%&gt;</span>
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"board_list.do?page=1"</span><span class="nt">&gt;</span>◀◀<span class="nt">&lt;/a&gt;</span>
+	
+	<span class="c">&lt;%-- ◀를 누르면 현재 페이지의 시작 블록보다 하나 작은 페이지로 이동한다. 
+	&lt;%--(예: [4][5][6]일 때, ◀를 클릭 시 [3]으로 이동) --%&gt;</span>
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"board_list.do?page=${startBlock - 1 }"</span><span class="nt">&gt;</span>◀<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/c:if&gt;</span>
+		
+<span class="c">&lt;%-- 시작블록부터 마지막블록까지 각각 반복한다. (예: [4][5][6] 각각 작성) --%&gt;</span>
+<span class="nt">&lt;c:forEach </span><span class="na">begin=</span><span class="s">"</span><span class="si">${</span><span class="n">startBlock</span> <span class="si">}</span><span class="s">"</span><span class="na"> end=</span><span class="s">"</span><span class="si">${</span><span class="n">endBlock</span> <span class="si">}</span><span class="s">"</span><span class="na"> var=</span><span class="s">"i"</span><span class="nt">&gt;</span>
+
+	 <span class="c">&lt;%-- 현재 페이지는 볼드 처리한다. --%&gt;</span>
+	<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">i</span> <span class="o">==</span> <span class="n">page</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;b&gt;&lt;a</span> <span class="na">href=</span><span class="s">"board_list.do?page=${i }"</span><span class="nt">&gt;</span>[${i }]<span class="nt">&lt;/a&gt;&lt;/b&gt;</span>
+	<span class="nt">&lt;/c:if&gt;</span>
+			
+	<span class="c">&lt;%-- 현재 페이지가 아니라면 볼드처리하지 않고 출력한다. --%&gt;</span>
+	<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">i</span> <span class="o">!=</span> <span class="n">page</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"board_list.do?page=${i }"</span><span class="nt">&gt;</span>[${i }]<span class="nt">&lt;/a&gt;</span>
+	<span class="nt">&lt;/c:if&gt;</span>
+<span class="nt">&lt;/c:forEach&gt;</span>
+		
+<span class="c">&lt;%-- 마지막 블록이 전체 페이지보다 작으면 (예: 전체페이지-[7] 현재-[4][5][6] 마지막 페이지-[6]) --%&gt;</span>
+<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">endBlock</span> <span class="o">&lt;</span> <span class="n">allPage</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+	<span class="c">&lt;%-- ▶ 클릭 시 마지막 블록보다 하나 큰 페이지로 이동한다. --%&gt;</span>
+	<span class="c">&lt;%-- (예: [4][5][6] 일 때 ▶ 클릭 시 [7]로 이동)
+	&lt;a href="board_list.do?page=${endBlock + 1 }"&gt;▶&lt;/a&gt;
+	
+	&lt;%-- ▶▶ 클릭시 마지막 페이지로 이동한다. --%&gt;</span>
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"board_list.do?page=${allPage }"</span><span class="nt">&gt;</span>▶▶<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/c:if&gt;</span>
+</code></pre></div></div>
+
+:ET

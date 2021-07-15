@@ -1,0 +1,302 @@
+I"iQ<h1 id="jsp">JSP</h1>
+<hr />
+
+<h3 id="-jsp-주석">* JSP 주석</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;%-- --%&gt;</code> : JSP의 주석. 소스코드 보기에 노출되지 않는다.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- HTML 주석 --&gt;</span>
+	
+<span class="nt">&lt;</span><span class="err">%</span><span class="na">--</span> <span class="na">JSP</span> <span class="na">주석</span> <span class="na">:</span> <span class="na">소스코드보기에</span> <span class="na">노출되지</span> <span class="na">않는다.</span> <span class="na">--</span><span class="err">%</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../../../img/images/210503/00.png" /></p>
+
+<h3 id="-한글-인코딩">* 한글 인코딩</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">method="post"</code> 일 때는 반드시 한글 인코딩 처리를 해야 <strong>입력한 값이 한글일 때</strong> 정상적으로 출력된다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">request</span><span class="o">.</span><span class="na">setCharacterEncoding</span><span class="o">(</span><span class="s">"UTF-8"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>페이지에 작성된 한글</strong>을 정상적으로 출력하기 위해선 다음 코드를 사용한다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/html; charset=UTF-8"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="1-지시어디렉티브">1. 지시어(디렉티브)</h2>
+<p>디렉티브는 JSP 페이지에 대한 설정 정보를 지정하는 공간을 의미한다.</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">&lt;%@ page %&gt;</code> : JSP 페이지에 대한 정보를 지정하는 공간.
+    <ul>
+      <li>어떻게 처리해야 하는지, 전달하기 위한 내용도 담고 있는 공간.</li>
+      <li>클라이언트의 요청에 JSP 페이지가 실행될 때 필요한 정보를 JSP 컨테이너(톰캣)에 알려주는 역할을 한다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;%@ include %&gt;</code> : 현재 페이지에 다른 문서(JSP, HTML)를 가져와서 내용을 컴파일 할 때 사용되는 디렉티브.
+    <ul>
+      <li>형식) &lt;%@ include file=”포함할 파일의 url” %&gt;</li>
+      <li>include 지시어를 사용한 JSP 페이지가 컴파일되는 과정에서 include 되는 JSP 페이지의 소스 내용을 그대로 포함해서 컴파일을 진행한다.</li>
+      <li>즉, 복사&amp;붙여넣기 방식으로 두 개의 파일이 하나의 파일로 구성된 후 같이 컴파일이 된다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;%@ taglib %&gt;</code> : 사용할 태그 라이브러리 지정
+    <ul>
+      <li>EL / JSTL 언어 사용 시 적용되는 디렉티브(추후 수업 진행 예정)</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="11-페이지-지시어">1.1. 페이지 지시어</h3>
+<p><code class="language-plaintext highlighter-rouge">&lt;%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%&gt;</code></p>
+<ul>
+  <li>language=”java” : 해당 JSP 페이지에서 사용되는 언어(java).</li>
+  <li>contentType : 문서의 타입. JSP 페이지의 내용을 어떤 형태로 출력할 지를 웹 브라우저에게 알려주는 역할.</li>
+  <li>charset : 문자(한글) 설정(UTF-8, EUC-KR)</li>
+  <li>import : 다른 패키지에 있는 클래스를 가져다 사용할 때 지정.</li>
+  <li>session : HttpSession 속성의 사용 여부를 지정.
+    <ul>
+      <li>형식) &lt;%@ page session=”true” %&gt;</li>
+    </ul>
+  </li>
+  <li>isErrorPage : 에러 페이지인지의 여부를 지정.</li>
+  <li>errorPage : 에러가 발생했을 때 보여 줄 에러 페이지를 지정.</li>
+  <li>pageEncoding=”UTF-8” : 현재 페이지의 문자(한글) 설정.</li>
+</ul>
+
+<h3 id="12-jsp-페이지의-구성-요소">1.2. JSP 페이지의 구성 요소</h3>
+<ol>
+  <li>스크립틀릿 : 가장 일반적으로 JSP 페이지에서 많이 쓰이는  스크립트 요소. 주로 프로그래밍의 로직을 기술할 때 많이 사용된다. JSP 페이지에서 자바 코드가 작성되는 공간.
+    <ul>
+      <li>형식) &lt;% 자바 코드; %&gt;</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;</span><span class="err">%</span> 
+	<span class="na">Calendar</span> <span class="na">cal = </span><span class="s">Calendar.getInstance();</span>
+	  	
+	<span class="na">int</span> <span class="na">year = </span><span class="s">cal.get(Calendar.YEAR);</span>
+	<span class="na">int</span> <span class="na">month = </span><span class="s">cal.get(Calendar.MONTH)+1;</span>
+	<span class="na">int</span> <span class="na">day = </span><span class="s">cal.get(Calendar.DAY_OF_MONTH);</span>
+<span class="err">%</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<ol>
+  <li>표현식 : 일반적으로 JSP 페이지에서 자바의 System.out.println()과 유사하게 사용된다. 데이터를 출력할 때 주로 사용.
+    <ul>
+      <li>형식) &lt;%=변수명, 수식 %&gt;</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;</span><span class="err">%=</span><span class="na">year</span><span class="err">%</span><span class="nt">&gt;</span>년  <span class="nt">&lt;</span><span class="err">%=</span><span class="na">month</span><span class="err">%</span><span class="nt">&gt;</span>월 <span class="nt">&lt;</span><span class="err">%=</span><span class="na">day</span> <span class="err">%</span><span class="nt">&gt;</span>일
+</code></pre></div></div>
+
+<ol>
+  <li>선언문 : 일반적으로 JSP 페이지에서 자바의 멤버변수 또는 멤버 메서드를 선언할 때 사용된다.
+    <ul>
+      <li>형식) &lt;%! 변수 선언 및 메서드 선언; %&gt;</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;</span><span class="err">%</span>
+	<span class="na">public</span> <span class="na">int</span> <span class="na">plus</span><span class="err">(</span><span class="na">int</span> <span class="na">a</span><span class="err">,</span> <span class="na">int</span> <span class="na">b</span><span class="err">){</span>
+		<span class="na">return</span> <span class="na">a</span> <span class="err">+</span> <span class="na">b</span><span class="err">;</span>
+	<span class="err">}</span>
+<span class="err">%</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;h3&gt;</span>7 + 5 = <span class="nt">&lt;</span><span class="err">%=</span><span class="na">plus</span><span class="err">(7,</span> <span class="err">5)</span> <span class="err">%</span><span class="nt">&gt;&lt;/h3&gt;</span>	// 웹 페이지에 출력
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-jsp가-등장하게-된-배경">2. JSP가 등장하게 된 배경</h2>
+<ol>
+  <li>Servlet의 문제점
+    <ul>
+      <li>웹 프로그램의 화면 기능이 복잡해지면서 서블릿의 자바 기반으로 화면 기능 구현 시 어려움이 발생한다.</li>
+      <li>디자이너 입장에서 화면 구현 시 자바 코드로 인해 작업이 어렵다. ==&gt; 자바에 대한 지식이 없는 경우</li>
+      <li>서블릿에 비니지스 로직과 화면 구현 기능이 같이 있다 보니 개발 후 유지관리가 어렵다.</li>
+    </ul>
+  </li>
+  <li>해결책
+    <ul>
+      <li>서블릿의 비지니스 로직과 결과를 보여주는 화면 기능을 분리한다.</li>
+      <li>비지니스 로직과 화면을 분리함으로써 개발자는 비지니스 로직 구현에 집중하고, 디자이너는 화면 기능 구현에 집중 하게 되었다.</li>
+      <li>개발 후 재사용성과 유지관리가 훨씬 수월해지게 되었다.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<hr />
+<h2 id="3-jsp-동작-방식의-구성-요소">3. JSP 동작 방식의 구성 요소</h2>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">&lt;% 자바코드  %&gt;</code> : 스크립트릿  ==&gt; 자바 코드를 작성하고 싶을 때 사용.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;%=    %&gt;</code> : JSP 표현식 ==&gt; 변수나 메서드의 결과값을 출력할 때 사용.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;%!    %&gt;</code> : JSP 선언부 ==&gt; 변수나 메서드를 선언할 때 사용.</li>
+</ol>
+
+<p><br /></p>
+
+<hr />
+<h2 id="4-브라우저-전송방식">4. 브라우저 전송방식</h2>
+<p>서블릿에서는 자바 코드와 함께 원하는 HTML 태그를 사용해서 브라우저로 전송을 하여 화면을 구현했다. 서블릿으로 화면을 구현하려면 화면에 해당하는 HTML 태그를 브라우저로 전송해 주기만 하면 브라우저가 받아서 실시간으로 구현을 해 주었다.
+하지만 JSP는 HTML, CSS, JavaScript는 물론이고 JSP에서 제공하는 여러가지 구성 요소가 화면을 구현하는데 사용된다. 그러다 보니 JSP 파일 자체를 브라우저로 전송을 하면 브라우저는 JSP 요소들을 인식을 하지 못하는 현상이 발생한다. 따라서 JSP는 톰켓 컨테이너에 의해 브라우저로 전송되기 전에 실행 단계를 거쳐야 한다.</p>
+
+<ul>
+  <li>톰켓 컨테이너에서 JSP 변환 과정
+    <ol>
+      <li>변환 단계 : 컨테이너는 JSP 파일을 자바 파일로 변환한다.</li>
+      <li>컴파일 단계 : 컨테이너는 변환된 자바 파일을 클래스 파일로 변환한다.</li>
+      <li>실행 단계 : 컨테이너는 클래스 파일을 실행하여 그 결과(HTML, CSS, JavaScript)를 브라우저로 전송한다.</li>
+    </ol>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h2 id="5-jsp-내장-객체">5. JSP 내장 객체</h2>
+<ul>
+  <li>객체를 생성하지 않고 사용할 수 있는 객체를 의미.</li>
+  <li>내장 객체는 JSP 페이지 내에서 제공하는 특수한 레퍼런스 타입의 변수이다.</li>
+  <li>JSP 페이지에서 사용하게 되는 특수한 레퍼런스 타입의 변수가 아무런 선언과 객체 생성 없이 사용할 수 있는 이유는 JSP 페이지가 Servlet으로 변환될 때 JSP 컨테이너가 자동적으로 제공을 해 주고 있기 때문이다.</li>
+</ul>
+
+<h3 id="51-jsp-내장-객체의-종류">5.1. JSP 내장 객체의 종류</h3>
+<ul>
+  <li>pageContext : JSP 페이지에 대한 정보를 저장하고 있는 객체.</li>
+  <li>request : 웹 브라우저의 요청 정보를 저장하고 있는 객체.</li>
+  <li>response : 웹 브라우저의 요청에 대한 응답 정보를 저장하고 있는 객체.</li>
+  <li>out : JSP 페이지에 출력할 내용을 저장하고 있는 객체.</li>
+  <li>session : 하나의 웹 브라우저의 정보를 유지하기 위한 세션 정보를 저장하고 있는 객체.</li>
+  <li>application : 웹 애플리케이션 Context의 정보를 저장하고 있는 객체.</li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%</span>	
+	<span class="c1">// 한글 깨짐 처리</span>
+	<span class="n">response</span><span class="o">.</span><span class="na">setCharacterEncoding</span><span class="o">(</span><span class="s">"UTF-8"</span><span class="o">);</span>
+	<span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/html; charset=UTF-8"</span><span class="o">);</span>
+	
+	<span class="nc">String</span> <span class="n">userId</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"id"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+	<span class="nc">String</span> <span class="n">userPwd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"pwd"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+<span class="nt">%&gt;</span>
+
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;th&gt;</span>아이디<span class="nt">&lt;/th&gt;</span>
+<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">userId</span> <span class="nt">%&gt;</span>
+				
+<span class="nt">&lt;th&gt;</span>비밀번호<span class="nt">&lt;/th&gt;</span>
+<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">userPwd</span> <span class="nt">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p>또는 아래와 같이 바로 <code class="language-plaintext highlighter-rouge">&lt;body&gt;</code>에 작성할 수도 있다.</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;th&gt;</span>아이디<span class="nt">&lt;/th&gt;</span>
+<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"id"</span><span class="o">).</span><span class="na">trim</span><span class="o">()</span> <span class="nt">%&gt;</span>
+				
+<span class="nt">&lt;th&gt;</span>비밀번호<span class="nt">&lt;/th&gt;</span>
+<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"pwd"</span><span class="o">).</span><span class="na">trim</span><span class="o">()</span> <span class="nt">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">trim()</code> : 맨 앞과 맨 뒤의 공백이 있으면 공백을 제거하는 메서드.
+    <ul>
+      <li>아이디나 비밀번호 입력시 공백이 들어가 DB에 저장되는 경우 추후 문제가 발생할 가능성이 크다. 앞뒤로 의미없는 공백을 잘라내어 유의미한 데이터만 저장되도록 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="52-내장내부-객체-사용-시-공통적으로-사용하는-메서드">5.2. 내장(내부) 객체 사용 시 공통적으로 사용하는 메서드</h3>
+<p>주어진 key 속성의 값을 value로 지정한다(리턴타입 : void).</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">getAttribute(String key)</code> : 주어진 key 속성의 값(value)을 얻어낸다(리턴타입 : Object).</li>
+  <li><code class="language-plaintext highlighter-rouge">removeAttribute(String key)</code> : 주어진 key 속성의 값(value)을 제거한다(리턴타입 : void).</li>
+  <li><code class="language-plaintext highlighter-rouge">getAttributeNames()</code> : 모든 속성의 이름을 구한다.</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h2 id="6-jsp-페이지-이동--forward-redirect">6. JSP 페이지 이동 : forward, redirect</h2>
+<ul>
+  <li>웹 애플리케이션은 여러 기능을 합쳐 하나의 프로그램을 실행하는 구조로 되어 있다. 회원관리 기능, 게시판 관리 기능, 주문 관리 등에 대해 각각의 서블릿이 기능을 수행하게 된다.</li>
+  <li>이 때 프로그램을 실행하다가 보면 서블릿끼리 또는 서블릿과 JSP를 연동해서 작업을 해야 하는 경우가 생길 수 밖에 없다. 예를 든다면 쇼핑몰의 경우 상품 관리 서블릿과 조회된 상품을 화면에 표시하는 JSP는 각각 따로 존재하게 되어 있다. 따라서 사용자가 상품 조회를 요청하면 상품 관리 서블릿은 데이터베이스에서 상품 정보를 조회한 후 다시 JSP에게 해당 상품 정보를 전달하여 상품 정보를 표시해야 한다. 이러한 페이지 이동이 필수적이라고 보면 된다.
+    <ul>
+      <li>요청에 대한 추가 작업을 다른 서블릿에게 수행하게 한다.</li>
+      <li>요청에 포함된 정보를 다른 서블릿이나 JSP 와 공유할 수 있다.</li>
+      <li>요청에 정보를 포함시켜 다른 서블릿에게 전달할 수 있다.</li>
+      <li>모델2 개발 시 서블릿에서 JSP 페이지로 데이터를 전달하는데 사용된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="61-forward-방식-중요">6.1. forward 방식 (중요!)</h3>
+<ul>
+  <li>request에 영역(scope)에 담긴 값이 유효하다.</li>
+  <li>이동된 화면이 url 창에 안 보인다(사용자는 이동했는지 알 수 없음)</li>
+  <li>서블릿이 직접 요청하는 방식.</li>
+  <li><strong>주로 키 값을 넘겨 줄 때 사용한다.</strong> (중요!)</li>
+  <li>RequestDispatcher 객체를 이용한다. ==&gt; <code class="language-plaintext highlighter-rouge">forward()</code> 메서드를 사용.</li>
+  <li>형식)</li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RequestDispatcher rd = request.getRequestDispatcher("이동위치");
+rd.forward(request, response);
+</code></pre></div></div>
+
+<h3 id="62-redirect-방식">6.2. redirect 방식</h3>
+<ul>
+  <li>클라이언트가 새로 페이지를 요청하는 것과 같은 방식으로 페이지가 이동된다.</li>
+  <li>웹 브라우저에 재요청하는 방식이다.</li>
+  <li><strong>일반적으로 변수 값을 넘겨 줄 때 사용한다.</strong> (중요!)</li>
+  <li>request, response 값이 유효하지 않다(새로 만들어짐).</li>
+  <li>이동된 url이 화면에 나타난다.</li>
+  <li>get방식으로 data를 넘길 때</li>
+  <li>형식) <code class="language-plaintext highlighter-rouge">response.sendRedirect("이동위치");</code></li>
+</ul>
+
+<p>*** name 과 value</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">name</code> : 서블릿이나 jsp 페이지로 데이터(<code class="language-plaintext highlighter-rouge">value</code>)를 전송하기 위한 속성. 서블릿이나 jsp 페이지에서 form 페이지의 name 속성의 ““(쌍따옴표) 안에 있는 이름을 getParameter() 메서드로 받아주면 value 값을 받아주게 된다. 폼창에서 넘어온 데이터를 받을 때 어떤 데이터를 어떻게 받아야 할지 모르기 때문에 name이라는 속성에 변수명을 작성해서 해당 변수명을 getParamenter(“변수명”) 메서드로 받으면 변수명에 들어 있는 값을 가져오게 된다.</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h2 id="7-error-page">7. error page</h2>
+<p>에러 발생시 처리하는 방법에는</p>
+<ol>
+  <li>페이지 지시어에서 <code class="language-plaintext highlighter-rouge">error page="에러발생시 연결되는 페이지 주소"</code> 작성</li>
+  <li>web.xml 파일에서 에러 페이지 설정</li>
+</ol>
+
+<h3 id="71-페이지-지시어에서-error-page-작성">7.1. 페이지 지시어에서 <code class="language-plaintext highlighter-rouge">error page</code> 작성</h3>
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%@ page </span><span class="na">language=</span><span class="s">"java"</span><span class="na"> contentType=</span><span class="s">"text/html; charset=UTF-8"</span><span class="na">
+    pageEncoding=</span><span class="s">"UTF-8"</span><span class="na"> errorPage=</span><span class="s">"error.jsp"</span><span class="nt">%&gt;</span>
+</code></pre></div></div>
+
+<h3 id="72-webxml-파일에서-에러-페이지-설정">7.2. web.xml 파일에서 에러 페이지 설정</h3>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- error 페이지 설정 --&gt;</span>
+<span class="nt">&lt;error-page&gt;</span>
+<span class="nt">&lt;error-code&gt;</span>404<span class="nt">&lt;/error-code&gt;</span> <span class="c">&lt;!-- 에러 코드 --&gt;</span>
+<span class="nt">&lt;location&gt;</span>/err/error_404.jsp<span class="nt">&lt;/location&gt;</span> <span class="c">&lt;!-- 에러발생시 연결되는 페이지 주소 --&gt;</span>
+<span class="nt">&lt;/error-page&gt;</span>
+</code></pre></div></div>
+
+:ET

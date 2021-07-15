@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] 검색 결과창 하단에 이동할 페이지 넣기"
 date:   2021-05-18 21:01:12 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.18.
-
-<br>
-
 # 검색 결과 하단에 페이지 넣기
  
 <p align="center"><img src="../assets/img/images/210518/00.png"></p>

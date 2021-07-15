@@ -1,0 +1,884 @@
+I"�F<h1 id="jsp와-db-연동">JSP와 DB 연동</h1>
+
+<p align="center"><img src="../assets/img/images/210506/00.gif" /></p>
+
+<hr />
+<h2 id="1-db의-emp테이블을-웹-페이지에-출력하기">1. DB의 emp테이블을 웹 페이지에 출력하기</h2>
+<ol>
+  <li>EmpDTO : DB emp테이블과 동일한 변수를 생성.</li>
+  <li>EmpDAO : DB 접속(연동) 객체 클래스. selectList() 메서드 포함.</li>
+  <li>index.jsp : 기본적인 화면을 구성.
+    <ul>
+      <li>[전체 레코드] 클릭시 select 서블릿으로 이동.</li>
+    </ul>
+  </li>
+  <li>select 서블릿
+    <ul>
+      <li>empDAO의 생성자 호출 → DB 연결.</li>
+      <li>empDAO의 selectList() 메서드 호출 → DB emp 테이블의 데이터를 EmpDTO 클래스에 저장(list).</li>
+      <li>저장된 데이터(list)를 키값과 함께 select.jsp 로 페이지 이동.</li>
+    </ul>
+  </li>
+  <li>select.jsp
+    <ul>
+      <li>저장된 데이터(list)를 키 값을 통해 넘겨 받아 웹 페이지에 출력.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="-empdtojava">* EmpDTO.java</h3>
+<ul>
+  <li>DTO(Data Transfer Object) : 데이터 전송 객체
+    <ul>
+      <li>기본적으로 DB 상의 테이블의 컬럼과 동일하게 멤버변수 구성.</li>
+    </ul>
+  </li>
+  <li>private로 변수를 선언하고, getter와 setter를 통해 접근하도록 한다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmpDTO</span> <span class="o">{</span>
+	
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">empno</span><span class="o">;</span>			<span class="c1">// 사원 번호</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">ename</span><span class="o">;</span>			<span class="c1">// 사원 이름</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">job</span><span class="o">;</span>			<span class="c1">// 담당 업무</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">mgr</span><span class="o">;</span>			<span class="c1">// 관리자 사원번호 </span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">hiredate</span><span class="o">;</span>		<span class="c1">// 입사 일자</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">sal</span><span class="o">;</span>			<span class="c1">// 사원 급여</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">comm</span><span class="o">;</span>			<span class="c1">// 사원 보너스</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">deptno</span><span class="o">;</span>			<span class="c1">// 사원 부서번호</span>
+	
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getEmpno</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">empno</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEmpno</span><span class="o">(</span><span class="kt">int</span> <span class="n">empno</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">empno</span> <span class="o">=</span> <span class="n">empno</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getEname</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">ename</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEname</span><span class="o">(</span><span class="nc">String</span> <span class="n">ename</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">ename</span> <span class="o">=</span> <span class="n">ename</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getJob</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">job</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setJob</span><span class="o">(</span><span class="nc">String</span> <span class="n">job</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">job</span> <span class="o">=</span> <span class="n">job</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getMgr</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">mgr</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setMgr</span><span class="o">(</span><span class="kt">int</span> <span class="n">mgr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">mgr</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getHiredate</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">hiredate</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setHiredate</span><span class="o">(</span><span class="nc">String</span> <span class="n">hiredate</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">hiredate</span> <span class="o">=</span> <span class="n">hiredate</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getSal</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">sal</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSal</span><span class="o">(</span><span class="kt">int</span> <span class="n">sal</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">sal</span> <span class="o">=</span> <span class="n">sal</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getComm</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">comm</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setComm</span><span class="o">(</span><span class="kt">int</span> <span class="n">comm</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">comm</span> <span class="o">=</span> <span class="n">comm</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getDeptno</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">deptno</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setDeptno</span><span class="o">(</span><span class="kt">int</span> <span class="n">deptno</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">deptno</span> <span class="o">=</span> <span class="n">deptno</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-indexjsp">* index.jsp</h3>
+<ul>
+  <li>기본 화면 설정</li>
+  <li>[전체 레코드] 클릭시 <code class="language-plaintext highlighter-rouge">/select</code> 를 통해 select 서블릿으로 이동한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">href="&lt;%=request.getContextPath() %&gt;/select"</code> = “현재 프로젝트명/select” 를 주소값으로 설정하는 것과 같다.
+    <ul>
+      <li>예) 현재 주소 : http://localhost:8080/example/test.jsp</li>
+      <li>예) <code class="language-plaintext highlighter-rouge">"&lt;%=request.getContextPath() %&gt;/select"</code> = http://localhost:8080/example/select</li>
+      <li><code class="language-plaintext highlighter-rouge">select.jsp</code>와 같이 확장자명이 붙지 않으면 서블릿으로 이해한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"blue"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;h3&gt;</span>EMP 테이블 메인 페이지<span class="nt">&lt;/h3&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"blue"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;br&gt;&lt;br&gt;</span>
+		
+		<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span> <span class="nt">%&gt;</span><span class="s">/select"</span><span class="nt">&gt;</span>[전체 레코드]<span class="nt">&lt;/a&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">request.getContextPath()</code> : 현재 프로젝트명을 반환하는 메서드.</li>
+</ul>
+
+<p align="center"><img src="../assets/img/images/210506/00.png" /></p>
+
+<p><br /></p>
+
+<h3 id="-select-서블릿">* select 서블릿</h3>
+<ul>
+  <li>service 메소드만 체크하여 서블릿을 생성하였다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebServlet</span><span class="o">(</span><span class="s">"/select"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SelectServlet</span> <span class="kd">extends</span> <span class="nc">HttpServlet</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+       
+    
+	<span class="kd">public</span> <span class="nf">SelectServlet</span><span class="o">()</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">();</span>
+    	<span class="o">}</span>
+
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">service</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ServletException</span><span class="o">,</span> <span class="nc">IOException</span> <span class="o">{</span>
+
+		<span class="c1">// DB에 접속을 해서 EMP 테이블의 전체 리스트를 가져오는 작업(비지니스 로직)</span>
+		<span class="c1">// 가져온 전체 리스트를 View page로 넘겨주는 작업</span>
+		<span class="c1">// EmpDAO 객체의 `dao` 라는 참조변수를 생성하여 `selectList()` 메서드를 호출한다.</span>
+		<span class="nc">EmpDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EmpDAO</span><span class="o">();</span>
+		
+		<span class="c1">// DB EMP 테이블에서 전체 리스트를 조회하는 작업</span>
+		<span class="c1">// `selectList()` 메서드 호출 결과 `list`의 주소값이 `allList`에 저장된다.</span>
+		<span class="c1">// 이 때, `dao.selectList()`로 리턴되는 값이 `List&lt;EmpDTO&gt;` 형태이므로 동일하게 지정한다.		</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="o">&gt;</span> <span class="n">allList</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">selectList</span><span class="o">();</span>
+		
+		<span class="c1">// call by reference로 호출되는 형태를 확인하기 위해 주소값을 출력해본다.</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"allList &gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">allList</span><span class="o">);</span>
+		
+		<span class="c1">// 페이지 이동 시 데이터를 같이 이동시키자.</span>
+		<span class="c1">// `allList`를 `request.setAttribute()`를 활용하여 `"List"`라는 키에 저장한다.</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"List"</span><span class="o">,</span> <span class="n">allList</span><span class="o">);</span>
+		
+		<span class="c1">// 페이지 이동</span>
+		<span class="c1">// 저장한 키&amp;데이터와 함께 `select.jsp`로 페이지 이동한다.</span>
+		<span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="s">"select.jsp"</span><span class="o">);</span>
+		<span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>	<span class="c1">// 실질적으로 페이지 이동				</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-empdaojava">* EmpDAO.java</h3>
+<ul>
+  <li>DAO(Data Access Object) : 데이터 접근 객체 ==&gt; DB에 접속(연동)하는 객체.
+    <ul>
+      <li>DAO란 데이터베이스에 접속해서 데이터 추가, 수정, 삭제, 조회 등의 작업을 수행하는 클래스.</li>
+      <li>일반적으로 JSP 또는 Servlet에서 위의 작업들을 같이 사용할 수 있지만 유지보수, 코드의 모듈화를 위해서 DAO 클래스를 따로 만들어서 사용한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmpDAO</span> <span class="o">{</span>
+	
+	<span class="nc">Connection</span> <span class="n">con</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>				<span class="c1">// DB와 연결하는 객체</span>
+	<span class="nc">PreparedStatement</span> <span class="n">pstmt</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> 		<span class="c1">// DB에 SQL문을 전송하는 객체</span>
+	<span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>				<span class="c1">// SQL문을 실행 후 결과값을 가지고 있는 객체</span>
+	<span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>				<span class="c1">// 쿼리문을 저장할 객체</span>
+	
+	<span class="c1">// 기본 생성자를 통해 오라클DB와 연결한다.</span>
+	<span class="kd">public</span> <span class="nf">EmpDAO</span><span class="o">()</span> <span class="o">{</span>	<span class="c1">// 기본 생성자</span>
+		
+		<span class="nc">String</span> <span class="n">driver</span> <span class="o">=</span> <span class="s">"oracle.jdbc.driver.OracleDriver"</span><span class="o">;</span>
+		<span class="nc">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"jdbc:oracle:thin:@localhost:1521:XE"</span><span class="o">;</span>
+		<span class="nc">String</span> <span class="n">user</span> <span class="o">=</span> <span class="s">"web"</span><span class="o">;</span>
+		<span class="nc">String</span> <span class="n">password</span> <span class="o">=</span> <span class="s">"1234"</span><span class="o">;</span>
+		
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="c1">// 1단계 : 오라클 드라이버 로딩</span>
+			<span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">driver</span><span class="o">);</span>
+			
+			<span class="c1">// 2단계 : DB(오라클)와 연결</span>
+			<span class="n">con</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">user</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>			
+			
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span> <span class="c1">// 기본 생성자 end</span>
+
+	<span class="c1">// DB EMP 테이블에서 전체 리스트를 조회하는 메서드</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="o">&gt;</span> <span class="nf">selectList</span><span class="o">()</span> <span class="o">{</span>
+	
+		<span class="c1">// 부모 객체를 활용하여 자식 객체를 생성한다.(다형성) </span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="o">&gt;();</span>	
+		
+		<span class="c1">// call by reference로 호출되는 형태를 확인하기 위해 주소값을 출력해본다.</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"selectList() 메서드에서 list &gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">list</span><span class="o">);</span>		
+					
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="c1">// empno를 기준으로 하여 내림차순으로 emp 목록을 전체 출력하는 sql문을 작성한다.</span>
+			<span class="n">sql</span> <span class="o">=</span> <span class="s">"select * from emp order by empno desc"</span><span class="o">;</span>
+			<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+			<span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+			
+			<span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+			
+				<span class="c1">// dto 참조변수를 만들어 db의 데이터를 EmpDTO에 저장한다.</span>
+				<span class="nc">EmpDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EmpDTO</span><span class="o">();</span>
+				
+				<span class="n">dto</span><span class="o">.</span><span class="na">setEmpno</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"empno"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setEname</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"ename"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setJob</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"job"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setMgr</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"mgr"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setHiredate</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"hiredate"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setSal</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"sal"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setComm</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"comm"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setDeptno</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"deptno"</span><span class="o">));</span>
+				
+				<span class="c1">// list에 dto의 주소값을 저장한다.</span>
+				<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">dto</span><span class="o">);</span>
+			<span class="o">}</span>
+			
+			<span class="c1">// open 객체 닫기</span>
+			<span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">con</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>	
+			
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"데이터  완료"</span><span class="o">);</span>
+		
+		<span class="c1">// call by reference로 호출되는 형태를 확인하기 위해 주소값을 출력해본다.</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"selectList() 메서드에서 list &gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">list</span><span class="o">);</span>
+		
+		<span class="c1">// list를 호출한 곳으로 반환한다. </span>
+		<span class="k">return</span> <span class="n">list</span><span class="o">;</span>		
+	<span class="o">}</span> <span class="c1">// selectList() 메서드 end	</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-selectjsp">* select.jsp</h3>
+<ul>
+  <li>EmpDAO의 list의 주소값<br />
+  = select 서블릿의 allList의 주소값<br />
+  = select.jsp의 emp의 주소값<br />
+  = select.jsp body태그 내 dto의 주소값</li>
+  <li>참조변수를 활용하여 주소값을 넘겨주었으므로 모두 같은 주소값을 공유한다.</li>
+  <li>따라서 하나의 데이터가 변경되어도 모든 데이터가 동일하게 변경된다.</li>
+</ul>
+
+<p>각각의 주소값을 출력했을 때 아래와 같이 출력된다.<br />
+길어서 생략했지만 동일한 주소값이 반복되어 출력됨을 알 수 있다.</p>
+<p align="center"><img src="../assets/img/images/210506/06.png" /></p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%</span>
+	<span class="c1">// select 서블릿에서 보낸 allList의 주소값를 List를 키값으로 하여 emp로 저장한다.</span>
+	<span class="c1">// allList에는 EmpDAO의 list의 주소값이 저장되어있으므로, </span>
+	<span class="c1">// EmpDAO의 list의 주소값을 emp에 저장하는 것과 같다.</span>
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="err">&gt;</span> <span class="n">emp</span> <span class="o">=</span> <span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="err">&gt;</span><span class="o">)</span> <span class="n">request</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">"List"</span><span class="o">);</span>
+	
+	<span class="c1">// call by reference로 호출되는 형태를 확인하기 위해 주소값을 출력해본다.</span>
+	<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="err">"</span><span class="n">emp</span> <span class="err">&gt;&gt;&gt;</span> <span class="err">"</span> <span class="o">+</span> <span class="n">emp</span><span class="o">);</span>
+<span class="nt">%&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;title&gt;</span>Insert title here<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"red"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;h3&gt;</span>EMP 테이블 전체 레코드 리스트<span class="nt">&lt;/h3&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"red"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;br&gt;</span> <span class="nt">&lt;br&gt;</span>
+
+		<span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">cellspacing=</span><span class="s">"0"</span> <span class="na">width=</span><span class="s">"650"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;tr&gt;</span>
+				<span class="nt">&lt;th&gt;</span>사  번<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>이  름<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span> 담당업무<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>관리자No.<span class="nt">&lt;/th&gt;</span>
+				<span class="nt">&lt;th&gt;</span>급  여<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>보너스<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>부서번호<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>입사일자<span class="nt">&lt;/th&gt;</span>				
+			<span class="nt">&lt;/tr&gt;</span>
+			<span class="nt">&lt;%</span>
+				<span class="k">if</span><span class="o">(</span><span class="n">emp</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>	<span class="c1">// 데이터가 있는 경우</span>
+					<span class="c1">// 데이터 수만큼 반복해서 출력</span>
+					<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">emp</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+						<span class="c1">// dto 참조변수에 emp 각각의 주소값 저장</span>
+						<span class="nc">EmpDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="n">emp</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+						
+						<span class="c1">// call by reference로 호출되는 형태를 확인하기 위해 주소값을 출력해본다.</span>
+						<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="err">"</span><span class="n">dto</span> <span class="err">&gt;&gt;&gt;</span> <span class="err">"</span> <span class="o">+</span> <span class="n">dto</span><span class="o">);</span>
+			<span class="nt">%&gt;</span>
+					
+			<span class="nt">&lt;tr&gt;</span>
+				<span class="c">&lt;%-- dto에 저장된 주소값을 통하여 데이터 호출 --%&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getEmpno</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getEname</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getJob</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getMgr</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getSal</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getComm</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getDeptno</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getHiredate</span><span class="o">().</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+			<span class="nt">&lt;/tr&gt;</span>
+	
+			<span class="nt">&lt;%</span> <span class="o">}</span> <span class="c1">// for문 end</span>
+				<span class="o">}</span><span class="k">else</span> <span class="o">{</span> <span class="c1">// 데이터가 없는 경우				</span>
+			<span class="nt">%&gt;</span>
+			<span class="nt">&lt;tr&gt;</span>
+				<span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"8 align="</span><span class="na">center</span><span class="err">"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;h3&gt;</span>검색된 레코드가 없습니다.<span class="nt">&lt;/h3&gt;</span>
+				<span class="nt">&lt;/td&gt;</span>
+			<span class="nt">&lt;/tr&gt;</span>
+			<span class="nt">&lt;%</span><span class="o">}</span><span class="nt">%&gt;</span>
+		<span class="nt">&lt;/table&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>DB의 emp 테이블</li>
+</ul>
+<p align="center"><img src="../assets/img/images/210506/07.png" /></p>
+
+<p><br /></p>
+
+<ul>
+  <li>JSP로 연동하여 웹 페이지로 출력한 emp 테이블</li>
+</ul>
+<p align="center"><img src="../assets/img/images/210506/01.png" /></p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-db의-emp테이블에-새로운-레코드-추가하기">2. DB의 emp테이블에 새로운 레코드 추가하기</h2>
+<ol>
+  <li>EmpDTO 클래스 : DB emp 테이블과 동일한 변수 생성.</li>
+  <li>deptDTO 클래스 : DB dept 테이블과 동일한 변수 생성.</li>
+  <li>EmpDAO 클래스 : DB 접속(연동) 객체 클래스. selectList() insertEmp() 메서드 포함.</li>
+  <li>index.jsp : 기본적인 화면을 구성.
+    <ul>
+      <li>[전체 레코드] 클릭시 select 서블릿으로 이동.</li>
+    </ul>
+  </li>
+  <li>select 서블릿
+    <ul>
+      <li>empDAO의 생성자 호출 → DB 연결.</li>
+      <li>empDAO의 selectList() 메서드 호출 → DB emp 테이블의 데이터를 EmpDTO 클래스에 저장(list).</li>
+      <li>저장된 데이터(list)를 키값과 함께 select.jsp 로 페이지 이동.</li>
+    </ul>
+  </li>
+  <li>select.jsp
+    <ul>
+      <li>저장된 데이터(list)를 키 값을 통해 넘겨 받아 웹 페이지에 출력.</li>
+      <li>[사원 추가] 클릭 시 insert 서블릿으로 이동.</li>
+    </ul>
+  </li>
+  <li>insert 서블릿
+    <ul>
+      <li>empDAO의 생성자 호출 → DB 연결.</li>
+      <li>empDAO의 insertEmp() 메서드 호출 → DB emp 테이블에 데이터를 추가한 후 empDTO 클래스에 저장(list).</li>
+      <li>저장된 데이터(list)를 키 값과 함께 insertForm.jsp 로 페이지 이동.</li>
+    </ul>
+  </li>
+  <li>insertForm.jsp
+    <ul>
+      <li>저장된 데이터(list)를 키 값과 함께 넘겨 받아 저장.</li>
+      <li>웹 페이지에서 데이터 입력 후 [사원 등록] 클릭 시 insertOK 서블릿으로 이동.</li>
+    </ul>
+  </li>
+  <li>insertOK 서블릿
+    <ul>
+      <li>insertForm 에서 넘어 온 데이터를 DB에 저장.</li>
+      <li>DB에 데이터 추가 성공 시 select 서블릿을 호출하여 데이터가 추가된 테이블 조회.</li>
+      <li>DB에 데이터 추가 실패 시 실패 메시지 출력 후 이전 페이지로 이동.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="-selectjsp-1">* select.jsp</h3>
+<ul>
+  <li>[사원 추가] 를 누르면 insert 서블릿으로 이동한다.</li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span> <span class="nt">%&gt;</span><span class="s">/insert"</span><span class="nt">&gt;</span>[사원 추가]<span class="nt">&lt;/a&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-insertservlet">* InsertServlet</h3>
+<ul>
+  <li>service 메서드로 서블릿을 생성하였다.</li>
+  <li>EmpDAO의 deptList() 메서드를 호출하여 리턴값으로 list의 주소값을 받고 insertForm.jsp 로 페이지 이동한다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebServlet</span><span class="o">(</span><span class="s">"/insert"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">InsertServlet</span> <span class="kd">extends</span> <span class="nc">HttpServlet</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>       
+    
+	<span class="kd">public</span> <span class="nf">InsertServlet</span><span class="o">()</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">();</span>	
+	
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">service</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ServletException</span><span class="o">,</span> <span class="nc">IOException</span> <span class="o">{</span>
+		<span class="c1">// 사원 추가폼으로 넘어가기 전에 관리자 리스트와 부서번호 리스트를 </span>
+		<span class="c1">// DB에서 조회하여 사원 추가폼으로 데이터를 넘겨준다.</span>
+		<span class="nc">EmpDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EmpDAO</span><span class="o">();</span>
+		
+		<span class="c1">// 부서 테이블 전체 리스트 메서드 호출</span>
+		<span class="c1">// EmpDAO의 deptList() 메서드를 호출하여 받은 리턴값(주소값)을 List 참조변수인 deptList에 저장한다.</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">DeptDTO</span><span class="o">&gt;</span> <span class="n">deptList</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">deptList</span><span class="o">();</span>
+		
+		<span class="c1">// 주소값을 "dept"라는 키와 함께 저장한다.</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"dept"</span><span class="o">,</span> <span class="n">deptList</span><span class="o">);</span>
+		
+		<span class="c1">// 페이지 이동</span>
+		<span class="c1">// 저장된 주소값을 키와 함께 insertForm.jsp 페이지로 이동한다.</span>
+		<span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="s">"insertForm.jsp"</span><span class="o">);</span>
+		<span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+		
+	<span class="o">}</span> <span class="c1">// service 메서드 end</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-empdaojava-1">* EmpDAO.java</h3>
+<ul>
+  <li>deptList() 메서드에서 DB dept 테이블의 데이터를 DeptDTO에 저장한다.</li>
+  <li>저장된 주소값을 list로  InsertServlet 로 반환한다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// dept 테이블의 전체 리스트를 조회하는 메서드</span>
+<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">DeptDTO</span><span class="o">&gt;</span> <span class="nf">deptList</span><span class="o">()</span> <span class="o">{</span>
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">DeptDTO</span><span class="o">&gt;</span> <span class="n">deptList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">DeptDTO</span><span class="o">&gt;();</span>
+			
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="c1">// dept 테이블을 deptno을 기준으로 내림차순으로 호출하는 sql문 작성</span>
+		<span class="n">sql</span> <span class="o">=</span> <span class="s">"select * from dept order by deptno"</span><span class="o">;</span>
+		<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>		
+		<span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+			
+		<span class="c1">// 다음 커서에 데이터가 있는 동안 반복 while문</span>
+		<span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+		
+			<span class="c1">// DeptDTO 객체의 참조변수 dto 생성 </span>
+			<span class="nc">DeptDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DeptDTO</span><span class="o">();</span>
+				
+			<span class="c1">// 참조변수 dto의 주소값에 DB dept 테이블의 데이터를 각각 저장</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setDeptno</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"deptno"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setDname</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"dname"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setLoc</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"loc"</span><span class="o">));</span>
+				
+			<span class="c1">// deptList에 dto 변수 추가하여 주소값을 넘겨준다.</span>
+			<span class="n">deptList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">dto</span><span class="o">);</span>				
+		<span class="o">}</span>
+			
+	<span class="c1">// open 객체 닫기</span>
+	<span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">con</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+	<span class="o">}</span>
+		
+	<span class="c1">// deptList의 주소값을 메서드를 호출한 곳(InsertServlet)으로 리턴한다.</span>
+	<span class="k">return</span> <span class="n">deptList</span><span class="o">;</span>
+<span class="o">}</span> <span class="c1">// deptList() 메서드 end</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-insertformjsp">* insertForm.jsp</h3>
+<ul>
+  <li>InsertServlet 에서 “dept”를 키로 하여 list의 주소값을 넘겨 받아 dept에 저장한다.</li>
+  <li>dept는 select 태그에서 선택목록으로 구현한다.</li>
+  <li>웹 페이지에서 dept를 포함하여 데이터를 입력 후 [사원등록]을 하면 insertOK 서블릿으로 이동한다.</li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%</span>
+	<span class="c1">// InsertServlet 에서 "dept"를 키로 하여 list의 주소값을 넘겨 받는다.</span>
+	<span class="c1">// 원래 Object 타입으로 받으므로 형변환</span>
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">DeptDTO</span><span class="err">&gt;</span> <span class="n">dept</span> <span class="o">=</span> <span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">DeptDTO</span><span class="err">&gt;</span><span class="o">)</span> <span class="n">request</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">"dept"</span><span class="o">);</span>
+<span class="nt">%&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;title&gt;</span>Insert title here<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"gray"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;h3&gt;</span>EMP 테이블 사원 등록 폼<span class="nt">&lt;/h3&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"gray"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;br&gt;</span> <span class="nt">&lt;br&gt;</span>
+
+		<span class="c">&lt;%-- 웹 페이지에서 데이터를 입력한 후 사원등록을 하면 insertOK 서블릿으로 이동 --%&gt;</span>
+		<span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span><span class="nt">%&gt;</span><span class="s">/insertOK"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">cellspacing=</span><span class="s">"0"</span> <span class="na">width=</span><span class="s">"300"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>사원번호<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"num"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>사원명<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"name"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>담당업무<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"job"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>관리자No.<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"mgr"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>급 여<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"sal"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>보너스<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"comm"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>부서번호<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;&lt;select</span> <span class="na">name=</span><span class="s">"deptno"</span><span class="nt">&gt;</span>
+							<span class="nt">&lt;%</span>
+								<span class="k">if</span> <span class="o">(</span><span class="n">dept</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 데이터가 없는 경우</span>
+							<span class="nt">%&gt;</span>
+							<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>::: 부서번호 없음 :::<span class="nt">&lt;/option&gt;</span>
+							<span class="nt">&lt;%</span>
+								<span class="o">}</span> <span class="k">else</span> <span class="o">{</span> <span class="c1">// 데이터가 있는 경우</span>
+									<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dept</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+										<span class="nc">DeptDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="n">dept</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+							<span class="nt">%&gt;</span>
+							<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getDeptno</span><span class="o">()</span><span class="nt">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+								<span class="nt">&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getDname</span><span class="o">()</span><span class="nt">%&gt;</span>[<span class="nt">&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getDeptno</span><span class="o">()</span><span class="nt">%&gt;</span>]
+							<span class="nt">&lt;/option&gt;</span>
+							<span class="nt">&lt;%</span>
+									<span class="o">}</span>
+								<span class="o">}</span>
+							<span class="nt">%&gt;</span>
+					<span class="nt">&lt;/select&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"2"</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"사원등록"</span><span class="nt">&gt;</span> 
+						<span class="ni">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span> 
+					<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"reset"</span> <span class="na">value=</span><span class="s">"다시작성"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+			<span class="nt">&lt;/table&gt;</span>
+		<span class="nt">&lt;/form&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-insertok-서블릿">* insertOK 서블릿</h3>
+<ul>
+  <li>insertForm 에서 넘어 온 데이터를 DB에 저장.</li>
+  <li>DB에 데이터 추가 성공 시 select 서블릿을 호출하여 데이터가 추가된 테이블 조회.</li>
+  <li>DB에 데이터 추가 실패 시 실패 메시지 출력 후 이전 페이지로 이동.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebServlet</span><span class="o">(</span><span class="s">"/insertOK"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">InsertOKServlet</span> <span class="kd">extends</span> <span class="nc">HttpServlet</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+       
+	    <span class="kd">public</span> <span class="nf">InsertOKServlet</span><span class="o">()</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">();</span>
+	    <span class="o">}</span>
+
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">service</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ServletException</span><span class="o">,</span> <span class="nc">IOException</span> <span class="o">{</span>
+		<span class="c1">// 사원등록 폼 페이지에서 넘어온 데이터를 DB에 저장하는 작업</span>
+		<span class="c1">// 1. 한글 인코딩 작업</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setCharacterEncoding</span><span class="o">(</span><span class="s">"UTF-8"</span><span class="o">);</span>
+		
+		<span class="c1">// 2. 사원등록 폼에서 넘어온 데이터들을 받아야 한다.</span>
+		<span class="kt">int</span> <span class="n">empno</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"num"</span><span class="o">).</span><span class="na">trim</span><span class="o">());</span>
+		<span class="nc">String</span> <span class="n">ename</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"name"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+		<span class="nc">String</span> <span class="n">job</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"job"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+		<span class="kt">int</span> <span class="n">mgr</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"mgr"</span><span class="o">).</span><span class="na">trim</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">sal</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"sal"</span><span class="o">).</span><span class="na">trim</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">comm</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"comm"</span><span class="o">).</span><span class="na">trim</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">deptno</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"deptno"</span><span class="o">));</span>
+		
+		<span class="nc">EmpDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EmpDTO</span><span class="o">();</span>
+		<span class="n">dto</span><span class="o">.</span><span class="na">setEmpno</span><span class="o">(</span><span class="n">empno</span><span class="o">);</span>
+		<span class="n">dto</span><span class="o">.</span><span class="na">setEname</span><span class="o">(</span><span class="n">ename</span><span class="o">);</span>
+		<span class="n">dto</span><span class="o">.</span><span class="na">setJob</span><span class="o">(</span><span class="n">job</span><span class="o">);</span>
+		<span class="n">dto</span><span class="o">.</span><span class="na">setMgr</span><span class="o">(</span><span class="n">mgr</span><span class="o">);</span>
+		<span class="n">dto</span><span class="o">.</span><span class="na">setSal</span><span class="o">(</span><span class="n">sal</span><span class="o">);</span>
+		<span class="n">dto</span><span class="o">.</span><span class="na">setComm</span><span class="o">(</span><span class="n">comm</span><span class="o">);</span>
+		<span class="n">dto</span><span class="o">.</span><span class="na">setDeptno</span><span class="o">(</span><span class="n">deptno</span><span class="o">);</span>
+		
+		<span class="nc">EmpDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EmpDAO</span><span class="o">();</span>
+		
+		<span class="c1">// EmpDAO의 insertEmp() 메서드를 호출하여 res 변수에 저장</span>
+		<span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">insertEmp</span><span class="o">(</span><span class="n">dto</span><span class="o">);</span>
+		
+		<span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/html; charset=UTF-8"</span><span class="o">);</span>
+		
+		<span class="nc">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">();</span>
+		
+		<span class="k">if</span><span class="o">(</span><span class="n">res</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 사원 추가가 성공한 경우</span>
+			<span class="c1">// select 서블릿 호출</span>
+			<span class="n">response</span><span class="o">.</span><span class="na">sendRedirect</span><span class="o">(</span><span class="s">"select"</span><span class="o">);</span>
+		<span class="o">}</span><span class="k">else</span> <span class="o">{</span>	<span class="c1">// 사원 추가가 실패한 경우</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;script&gt;"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"alert('사원 추가 실패!')"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"history.back()"</span><span class="o">);</span>	<span class="c1">// 이전 페이지로 이동하라는 명령어.</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/script&gt;"</span><span class="o">);</span>
+		<span class="o">}</span> <span class="c1">// if문 end	</span>
+	<span class="o">}</span> <span class="c1">// service문 end</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-empdao의-insertemp-메서드">* EmpDAO의 insertEmp() 메서드</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// EMP 테이블에 사원을 등록(추가)하는 메서드</span>
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">insertEmp</span><span class="o">(</span><span class="nc">EmpDTO</span> <span class="n">dto</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// 메서드 결과를 저장할 변수 선언</span>
+	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>				
+		
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="c1">// emp 테이블의 속성 순서대로 레코드를 삽입하는 sql문 작성</span>
+		<span class="n">sql</span> <span class="o">=</span> <span class="s">"insert into emp values(?, ?, ?, ?, sysdate, ?, ?, ?)"</span><span class="o">;</span>
+		
+		<span class="c1">// sql문을 DB에 연결</span>
+		<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+		
+		<span class="c1">// sql문의 ? 순서대로 웹 페이지에 입력된 데이터 저장</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getEmpno</span><span class="o">());</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getEname</span><span class="o">());</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getJob</span><span class="o">());</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getMgr</span><span class="o">());</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getSal</span><span class="o">());</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getComm</span><span class="o">());</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getDeptno</span><span class="o">());</span>
+			
+		<span class="n">result</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+			
+		<span class="c1">// open 객체 닫기</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">con</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+			
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+	<span class="o">}</span>
+	
+	<span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+<span class="o">}</span> <span class="c1">// insertEmp() 메서드 end</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210506/02.png" /></p>
+<p align="center"><img src="../assets/img/images/210506/03.png" /></p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="3-db의-emp테이블에서-레코드-삭제하기">3. DB의 emp테이블에서 레코드 삭제하기</h2>
+<ol>
+  <li>EmpDTO 클래스 : DB emp 테이블과 동일한 변수 생성.</li>
+  <li>deptDTO 클래스 : DB dept 테이블과 동일한 변수 생성.</li>
+  <li>EmpDAO 클래스 : DB 접속(연동) 객체 클래스. selectList() insertEmp() deleteEmp() 메서드 포함.</li>
+  <li>index.jsp : 기본적인 화면을 구성.
+    <ul>
+      <li>[전체 레코드] 클릭시 select 서블릿으로 이동.</li>
+    </ul>
+  </li>
+  <li>select 서블릿
+    <ul>
+      <li>empDAO의 생성자 호출 → DB 연결.</li>
+      <li>empDAO의 selectList() 메서드 호출 → DB emp 테이블의 데이터를 EmpDTO 클래스에 저장(list).</li>
+      <li>저장된 데이터(list)를 키값과 함께 select.jsp 로 페이지 이동.</li>
+    </ul>
+  </li>
+  <li>select.jsp
+    <ul>
+      <li>저장된 데이터(list)를 키 값을 통해 넘겨 받아 웹 페이지에 출력.</li>
+      <li>[삭 제] 클릭 시 delete 서블릿으로 이동.</li>
+    </ul>
+  </li>
+  <li>delete 서블릿
+    <ul>
+      <li>select.jsp 에서 삭제하기로 선택된 사번(empno)의 데이터를 넘겨 받는다.</li>
+      <li>empDAO의 생성자 호출 → DB 연결.</li>
+      <li>empDAO의 deleteEmp() 메서드 호출 → DB emp 테이블에 선택된 사번(empno)의 전체 레코드 삭제.</li>
+      <li>DB의 레코드 삭제 성공 시 elect 서블릿을 호출하여 데이터가 삭제된 테이블 조회.</li>
+      <li>DB의 레코드 삭제 실패 시 실패 메시지 출력 후 이전 페이지로 이동.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="-selectjsp-2">* select.jsp</h3>
+<ul>
+  <li>[삭 제] 클릭 시 delete 서블릿으로 이동.</li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"red"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;h3&gt;</span>EMP 테이블 전체 레코드 리스트<span class="nt">&lt;/h3&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"red"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;br&gt;</span> <span class="nt">&lt;br&gt;</span>
+
+		<span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">cellspacing=</span><span class="s">"0"</span> <span class="na">width=</span><span class="s">"650"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;tr&gt;</span>
+				<span class="nt">&lt;th&gt;</span>사  번<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>이  름<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span> 담당업무<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>관리자No.<span class="nt">&lt;/th&gt;</span> 
+				<span class="nt">&lt;th&gt;</span>급  여<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>보너스<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>부서번호<span class="nt">&lt;/th&gt;</span> <span class="nt">&lt;th&gt;</span>입사일자<span class="nt">&lt;/th&gt;</span>
+				<span class="nt">&lt;th&gt;</span>삭 제<span class="nt">&lt;/th&gt;</span>
+			<span class="nt">&lt;/tr&gt;</span>
+			<span class="nt">&lt;%</span>
+				<span class="k">if</span><span class="o">(</span><span class="n">emp</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>	<span class="c1">// 데이터가 있다면</span>
+					<span class="c1">// 데이터 수만큼 반복해서 출력</span>
+					<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">emp</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+						<span class="nc">EmpDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="n">emp</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+						<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="err">"</span><span class="n">dto</span> <span class="err">&gt;&gt;&gt;</span> <span class="err">"</span> <span class="o">+</span> <span class="n">dto</span><span class="o">);</span>
+					<span class="nt">%&gt;</span>
+					
+					<span class="nt">&lt;tr&gt;</span>
+						<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getEmpno</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+						<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getEname</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+						<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getJob</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+						<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getMgr</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+						<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getSal</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+						<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getComm</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+						<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getDeptno</span><span class="o">()</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+						<span class="nt">&lt;td&gt;&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getHiredate</span><span class="o">().</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span> <span class="nt">%&gt;&lt;/td&gt;</span>
+						<span class="nt">&lt;td&gt;</span>
+							<span class="c">&lt;%-- ? : get 방식 --%&gt;</span>
+							<span class="c">&lt;%-- /delete?no=&lt;%=dto.getEmpno()%&gt; : 해당 레코드의 사번(empno)의 delete 서블릿 실행 --%&gt;</span>
+							<span class="c">&lt;%-- 사번(empno)의 값을 get 방식으로 delete 서블릿으로 넘겨준다. --%&gt;</span>
+							<span class="c">&lt;%-- 이 때 no가 변수가 되므로, delete 서블릿에서 no 변수를 받으면 된다. --%&gt;</span>
+							<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span> <span class="nt">%&gt;</span><span class="s">/delete?no=</span><span class="nt">&lt;%=</span><span class="n">dto</span><span class="o">.</span><span class="na">getEmpno</span><span class="o">()</span><span class="nt">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>[삭 제]<span class="nt">&lt;/a&gt;</span>
+						<span class="nt">&lt;/td&gt;</span>
+					<span class="nt">&lt;/tr&gt;</span>
+	
+					<span class="nt">&lt;%</span> <span class="o">}</span> <span class="c1">// for문 end</span>
+				<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+					<span class="c1">// 데이터가 없는 경우</span>
+					<span class="nt">%&gt;</span>
+					<span class="nt">&lt;tr&gt;</span>
+						<span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"9"</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+							<span class="nt">&lt;h3&gt;</span>검색된 레코드가 없습니다.<span class="nt">&lt;/h3&gt;</span>
+						<span class="nt">&lt;/td&gt;</span>
+					<span class="nt">&lt;/tr&gt;</span>
+				<span class="nt">&lt;%</span><span class="o">}</span><span class="nt">%&gt;</span>
+			<span class="nt">&lt;/table&gt;</span>
+			<span class="nt">&lt;br&gt;</span>
+			<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"red"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;br&gt;</span>
+			<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span> <span class="nt">%&gt;</span><span class="s">/insert"</span><span class="nt">&gt;</span>[사원 추가]<span class="nt">&lt;/a&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-delete-서블릿">* delete 서블릿</h3>
+<ul>
+  <li>select.jsp 에서 삭제하기로 선택된 사번(empno)의 데이터를 넘겨 받는다.</li>
+  <li>empDAO의 생성자 호출 → DB 연결.</li>
+  <li>empDAO의 deleteEmp() 메서드 호출 → DB emp 테이블에 선택된 사번(empno)의 전체 레코드 삭제.</li>
+  <li>DB의 레코드 삭제 성공 시 elect 서블릿을 호출하여 데이터가 삭제된 테이블 조회.</li>
+  <li>DB의 레코드 삭제 실패 시 실패 메시지 출력 후 이전 페이지로 이동.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebServlet</span><span class="o">(</span><span class="s">"/delete"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DeleteServlet</span> <span class="kd">extends</span> <span class="nc">HttpServlet</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+       
+    <span class="kd">public</span> <span class="nf">DeleteServlet</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">();</span>
+    <span class="o">}</span>
+
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">service</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ServletException</span><span class="o">,</span> <span class="nc">IOException</span> <span class="o">{</span>
+		<span class="c1">// [삭 제]라는 글자 클릭 시 사원번호를 가져와 DB에서 </span>
+		<span class="c1">// 사원번호에 해당하는 사원정보를 삭제하는 작업.</span>
+		
+		<span class="c1">// select.jsp에서 get방식으로 넘겨받은 no변수를 empno 변수에 저장한다.</span>
+		<span class="kt">int</span> <span class="n">empno</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"no"</span><span class="o">));</span>
+		
+		<span class="nc">EmpDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EmpDAO</span><span class="o">();</span>
+		<span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">deleteEmp</span><span class="o">(</span><span class="n">empno</span><span class="o">);</span>
+		
+		<span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/html; charset=UTF-8"</span><span class="o">);</span>
+		<span class="nc">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">();</span>
+		
+		<span class="k">if</span><span class="o">(</span><span class="n">res</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 사원 삭제가 성공한 경우</span>
+			<span class="n">response</span><span class="o">.</span><span class="na">sendRedirect</span><span class="o">(</span><span class="s">"select"</span><span class="o">);</span>
+		<span class="o">}</span><span class="k">else</span> <span class="o">{</span> <span class="c1">// 사원 삭제가 실패한 경우</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;script&gt;"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"alert('사원 삭제 실패!')"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"history.back()"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/script&gt;"</span><span class="o">);</span>
+		<span class="o">}</span> <span class="c1">// if문 end</span>
+	<span class="o">}</span> <span class="c1">// service문 end</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-empdao의-deleteemp-메서드">* EmpDAO의 deleteEmp() 메서드</h3>
+<ul>
+  <li>EMP 테이블에서 사원번호에 해당하는 사원을 삭제하는 메서드</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">int</span> <span class="nf">deleteEmp</span><span class="o">(</span><span class="kt">int</span> <span class="n">empno</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>	
+		
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">sql</span> <span class="o">=</span> <span class="s">"delete from emp where empno = ?"</span><span class="o">;</span>
+			<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+			
+			<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">empno</span><span class="o">);</span>
+			
+			<span class="n">result</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+			
+			<span class="c1">// open 객체 닫기</span>
+			<span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">con</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// TODO Auto-generated catch block</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+		
+	<span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+<span class="o">}</span> <span class="c1">// deleteEmp() 메서드 end</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p align="center"><img src="../assets/img/images/210506/04.png" /></p>
+
+<p><br /></p>
+
+<p align="center"><img src="../assets/img/images/210506/05.png" /></p>
+:ET

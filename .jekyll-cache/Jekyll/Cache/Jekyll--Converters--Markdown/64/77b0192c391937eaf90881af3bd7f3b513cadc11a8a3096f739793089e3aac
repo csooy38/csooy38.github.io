@@ -1,0 +1,51 @@
+I"�<h1 id="spring">SPRING</h1>
+<hr />
+<h2 id="4-커넥션풀connection-pool">4. 커넥션풀(Connection Pool)</h2>
+<ul>
+  <li>스프링에서는 커넥션 풀을 직접적으로 제공해주고 있지 않다. <br />
+대신 <code class="language-plaintext highlighter-rouge">c3p0</code>와 같은 커넥션풀 라이브러리를 이용해서 커넥션풀을 지원하는 DataSource를 설정할 수 있다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="41-스프링-커넥션풀-설정-방법">4.1. 스프링 커넥션풀 설정 방법</h3>
+<p>1) pom.xml 파일에 <code class="language-plaintext highlighter-rouge">c3p0</code> 라이브러리를 추가한다. <a href="https://github.com/csooy38/github/blob/306369051009266cabac5ddeb038eeda9815ace3/Spring/Connection%20Pool.md">[라이브러리 추가 방법]</a></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- c3p0 라이브러리 --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.mchange<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>c3p0<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.9.5.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) 기존 dataSource에 ComboPooledDataSource 객체를 클래스로 설정한다.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- 1. c3p0 커넥션풀 DataSource 클래스 설정 --&gt;</span>
+<span class="nt">&lt;bean</span> <span class="na">name=</span><span class="s">"dataSource"</span> <span class="na">class=</span><span class="s">"com.mchange.v2.c3p0.ComboPooledDataSource"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"driverClass"</span> <span class="na">value=</span><span class="s">"oracle.jdbc.driver.OracleDriver"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jdbcUrl"</span> <span class="na">value=</span><span class="s">"jdbc:oracle:thin:@localhost:1521:XE"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"user"</span> <span class="na">value=</span><span class="s">"web"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">value=</span><span class="s">"1234"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+	
+<span class="c">&lt;!-- 2. Spring JDBCTemplate 클래스 설정 --&gt;</span>
+<span class="nt">&lt;bean</span> <span class="na">name=</span><span class="s">"template"</span> <span class="na">class=</span><span class="s">"org.springframework.jdbc.core.JdbcTemplate"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dataSource"</span> <span class="na">ref=</span><span class="s">"dataSource"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h3 id="42-combopooleddatasource-클래스의-주요-프로퍼티속성">4.2. ComboPooledDataSource 클래스의 주요 프로퍼티(속성)</h3>
+<ul>
+  <li>initialPoolSize : 초기 커넥션풀의 크기. 기본값 3.</li>
+  <li>maxPoolSize : 커넥션풀의 최대 크기. 기본값 15.</li>
+  <li>minPoolSize : 커넥션풀의 최소 크기. 기본값 3.</li>
+  <li>이외에도 많은 속성들이 있다.</li>
+</ul>
+
+:ET

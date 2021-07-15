@@ -3,12 +3,8 @@ layout: post
 title:  "[BootStrap] 부트스트랩"
 date:   2021-04-29 20:13:35 +0900
 categories: jekyll update
+tags: [bootstrap, responsibleweb]
 ---
-21.04.29.
-
-<br>
-
-
 # BootStrap 부트스트랩
 부트스트랩은 반응형이며 모바일 우선인 웹프로젝트 개발을 위한 가장 인기있는 HTML, CSS, JS 프레임워크.  
 http://bootstrapk.com/  

@@ -1,0 +1,82 @@
+I"�<h1 id="bootstrap-부트스트랩">BootStrap 부트스트랩</h1>
+<p>부트스트랩은 반응형이며 모바일 우선인 웹프로젝트 개발을 위한 가장 인기있는 HTML, CSS, JS 프레임워크.<br />
+http://bootstrapk.com/</p>
+
+<hr />
+<h2 id="1-부트스트랩-cdn">1. 부트스트랩 CDN</h2>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- 합쳐지고 최소화된 최신 CSS --&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"</span><span class="nt">&gt;</span>
+
+<span class="c">&lt;!-- 부가적인 테마 --&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"</span><span class="nt">&gt;</span>
+
+<span class="c">&lt;!-- 합쳐지고 최소화된 최신 자바스크립트 --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<h3 id="11-부트스트랩의-그리드-시스템">1.1. 부트스트랩의 그리드 시스템</h3>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">.col-xs-*</code> : 항상 가로로 배치</li>
+  <li><code class="language-plaintext highlighter-rouge">.col-sm-*</code> : 520 ~ 767px 에서는 화면에 세로로 배치된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">.col-md-*</code> : 768 ~ 991px 에서는 화면에 세로로 배치된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">.col-lg-*</code> : 992px ~ 화면 가로 너비에서는 화면에 세로로 배치된다.</li>
+</ol>
+
+<p align="center"><img src="../assets/img/images/210430/06.gif" /></p>
+
+<p><br /></p>
+
+<h3 id="-리스트와-관련된-예제">* 리스트와 관련된 예제</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">class="list-unstyled</code></li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ol</span> <span class="na">class=</span><span class="s">"list-unstyled"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;li&gt;</span>아메리카노<span class="nt">&lt;/li&gt;</span>
+	<span class="nt">&lt;li&gt;</span>카페라떼<span class="nt">&lt;/li&gt;</span>
+	<span class="nt">&lt;li&gt;</span>카페모카<span class="nt">&lt;/li&gt;</span>
+	<span class="nt">&lt;li&gt;</span>에스프레소<span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ol&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210430/03.png" /></p>
+
+<p><br /></p>
+
+<h3 id="-이미지와-관련된-예제">* 이미지와 관련된 예제</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">class="img-rounded"</code></li>
+  <li><code class="language-plaintext highlighter-rouge">class="img-circle"</code></li>
+  <li><code class="language-plaintext highlighter-rouge">class="thumbnail"</code></li>
+</ul>
+
+<p align="center"><img src="../assets/img/images/210430/02.png" /></p>
+
+<p><br /></p>
+
+<h3 id="-텍스트-색상과-관련된-예제">* 텍스트 색상과 관련된 예제</h3>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h3&gt;</span>텍스트 색상과 관련된 예제<span class="nt">&lt;/h3&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"text-muted"</span><span class="nt">&gt;&lt;b&gt;</span>text-muted<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"text-primary"</span><span class="nt">&gt;&lt;b&gt;</span>text-primary<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"text-success"</span><span class="nt">&gt;&lt;b&gt;</span>text-success<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"text-info"</span><span class="nt">&gt;&lt;b&gt;</span>text-info<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"text-warning"</span><span class="nt">&gt;&lt;b&gt;</span>text-warning<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"text-danger"</span><span class="nt">&gt;&lt;b&gt;</span>text-danger<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210430/00.png" /></p>
+
+<p><br /></p>
+
+<h3 id="-배경-색상과-관련된-예제">* 배경 색상과 관련된 예제</h3>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h3&gt;</span>배경 색상과 관련된 예제<span class="nt">&lt;/h3&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"bg-primary"</span><span class="nt">&gt;&lt;b&gt;</span>bg-primary<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"bg-success"</span><span class="nt">&gt;&lt;b&gt;</span>bg-success<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"bg-info"</span><span class="nt">&gt;&lt;b&gt;</span>bg-info<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"bg-warning"</span><span class="nt">&gt;&lt;b&gt;</span>bg-warning<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"bg-danger"</span><span class="nt">&gt;&lt;b&gt;</span>bg-danger<span class="nt">&lt;/b&gt;&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210430/01.png" /></p>
+
+:ET

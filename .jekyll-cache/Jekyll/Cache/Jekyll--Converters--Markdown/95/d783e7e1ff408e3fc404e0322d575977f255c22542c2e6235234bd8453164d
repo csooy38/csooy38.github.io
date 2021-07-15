@@ -1,0 +1,149 @@
+I"�<p><a href="https://docs.google.com/document/d/1c9ZEmq23fB88MOJkvFK4qOM26naMORbPAtUS193HAgY/edit#">java 정리</a></p>
+
+<p>클릭하면 java를 정리한 구글 문서로 넘어간다. <br />
+<strong>총 271페이지</strong>의 책 한 권 분량 뺨치는 정리문서.</p>
+
+<p>학원 수업을 들으면서 정리했다.<br />
+이 문서를 반복적으로 보면서 기초를 얼마나 열심히 다졌는지 모르겠다.</p>
+
+<p>목차는 다음과 같다.</p>
+
+<p><strong>Chapter1. JAVA</strong></p>
+<ol>
+  <li>JAVA : 객체지향 프로그램</li>
+  <li>프로그래밍 언어</li>
+  <li>JAVA의 특징</li>
+  <li>프로그램 작성법</li>
+</ol>
+
+<p><strong>Chapter2. Variable 변수</strong></p>
+<ol>
+  <li>변수?</li>
+  <li>변수 선언 방법</li>
+  <li>자바에서의 기본 자료형 8가지</li>
+  <li>변수 사용 절차</li>
+  <li>변수명(식별자) 작성 규칙</li>
+  <li>형변환(casting)</li>
+  <li>실수형</li>
+  <li>단일 문자형</li>
+  <li>논리 자료형</li>
+</ol>
+
+<p><strong>Chapter3. Operator 연산</strong></p>
+<ol>
+  <li>연산</li>
+  <li>산술연산자</li>
+  <li>관계연산자(비교연산자)</li>
+  <li>논리연산자</li>
+  <li>단항연산자 / 이항연산자 / 3항연산자</li>
+  <li>배정연산자 / 단축배정연산자</li>
+  <li>비트연산자</li>
+  <li>쉬프트 연산자</li>
+</ol>
+
+<p><strong>Chapter4. Control 제어문</strong></p>
+<ol>
+  <li>제어문</li>
+  <li>제어문의 종류</li>
+  <li>분기분(조건문) <br />
+ 2.1. if문 <br />
+ 2.2. if~else문 <br />
+ 2.3. 다중 if~else문 <br />
+ 2.4. switch~case문</li>
+  <li>반복문 <br />
+ 3.1. while문 <br />
+ 3.2. do~while문 <br />
+ 3.3. for 반복문 <br />
+ 3.4. 다중 for문</li>
+  <li>기타(보조제어문)
+ 4.1. break<br />
+ 4.2. continue</li>
+</ol>
+
+<p><strong>Chapter5. Array 배열</strong></p>
+<ol>
+  <li>배열(Array)?</li>
+  <li>배열 공유</li>
+  <li>다차원 배열</li>
+  <li>다차원 배열의 가변배열</li>
+</ol>
+
+<p><strong>Chapter6. Method 메서드</strong></p>
+<ol>
+  <li>메서드(method)?</li>
+  <li>매개변수가 있는 메서드 정의</li>
+  <li>메서드 호출방식 2가지<br />
+ 2.1. call by value<br />
+ 2.2. call by reference</li>
+  <li>메서드 다중정의 (method overloading)</li>
+</ol>
+
+<p><strong>Chapter7. 객체지향 프로그래밍</strong></p>
+<ol>
+  <li>객체(object)?</li>
+  <li>클래스(Class)?</li>
+  <li>클래스(class)와 객체(object)</li>
+  <li>클래스를 대상으로 객체 생성하는 과정</li>
+  <li>생성자(Constructor)?</li>
+  <li>생성자 다중정의(Constructor Overloading)</li>
+  <li>생성자의 역할</li>
+  <li>객체지향 프로그래밍 언어의 특징  <br />
+ 8.1. 객체지향 프로그래밍 언어 의 특징   <br />
+ 8.2. 상속(Inheritance)?<br />
+ 8.3. 추상클래스(abstract class)?</li>
+  <li>API(Application Programming Interface)</li>
+  <li>인터페이스(interface)?</li>
+  <li>패키지(package)?</li>
+</ol>
+
+<p><strong>Chapter8. Exception 예외처리</strong></p>
+<ol>
+  <li>예외(exception)</li>
+  <li>예외의 종류</li>
+  <li>예외 처리의 목적</li>
+  <li>예외 처리 <br />
+ 3.1. try ~ catch ~ finally 블럭 <br />
+ 3.2. throws 키워드</li>
+</ol>
+
+<p><strong>Chapter9. 여러가지 클래스</strong></p>
+<ol>
+  <li>Util 패키지의 주요 클래스</li>
+  <li>String 클래스의 특징</li>
+  <li>다양한 형태의 클래스 선언 방법</li>
+  <li>중첩 클래스(inner class)</li>
+  <li>Object 클래스</li>
+  <li>wrapper class</li>
+  <li>싱클턴(singleton) 방식?</li>
+</ol>
+
+<p><strong>Chapter10. generic 제네릭</strong></p>
+<ol>
+  <li>제네릭(generic)?</li>
+  <li>컬렉션 프레임워크 <br />
+ 1.1. List 계열 컬렉션 프레임워크의 특징 <br />
+ 1.2. LinkedList<br />
+ 1.3. Set 계열의 컬렉션 프레임워크 특징<br />
+ 1.4. Map 계열의 컬렉션 프레임워크 특징</li>
+</ol>
+
+<p><strong>Chapter11. I/O 입출력</strong></p>
+<ol>
+  <li>java에서의 입출력 방식</li>
+  <li>스레드(Thread)?</li>
+  <li>스레드 클래스 작성 방법 - 2가지</li>
+  <li>멀티 스레드와 스레드 이름 지정</li>
+</ol>
+
+<p><strong>Chapter13. GUI</strong></p>
+<ol>
+  <li>java GUI(Graphic User Interface)</li>
+  <li>AWT와 Swing</li>
+  <li>GUI에서 알아두어야 할 용어 - 3가지</li>
+  <li>Frame을 만드는 방법 - 2가지</li>
+  <li>배치관리자(Layout)?</li>
+  <li>Event Handler(이벤트 핸들러)?</li>
+  <li>다이얼로그 컴포넌트</li>
+</ol>
+
+:ET

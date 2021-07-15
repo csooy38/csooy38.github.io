@@ -3,11 +3,8 @@ layout: post
 title:  "[SPRING] JDBCTemplate"
 date:   2021-06-24 17:55:00 +0900
 categories: jekyll update
+tags: [spring, jdbc]
 ---
-21.06.24.
-
-<br>
-
 # SPRING
 ---
 ## 3. Spring JDBCTemplate

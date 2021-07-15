@@ -1,0 +1,402 @@
+I"�<h1 id="el-expression-language">EL (Expression Language)</h1>
+<ul>
+  <li>표현 언어라고 한다.</li>
+  <li>JSP 2.0 이후 버전부터 사용 가능.</li>
+  <li>자바 코드가 들어가는 표현식(&lt;%= %&gt; or &lt;%  %&gt;)을 좀 더 편리하게 사용하는 데이터 출력 기능.</li>
+  <li>자바 코드를 사용해야 했던 모든 곳에 표현언어를 사용할 수 있다.</li>
+  <li>라이브러리 없이 사용이 가능하다.</li>
+  <li>표현 언어의 특징
+    <ul>
+      <li>기존의 표현식보다 편리하게 값을 출력할 수 있다.</li>
+      <li>변수와 여러 가지 연산자를 포함할 수 있다.</li>
+      <li>JSP 내장 객체에 저장된 속성 및 자바의 빈(bean) 속성도 표현언어로 출력할 수 있다.</li>
+      <li>표현 언어 자체의 내장 객체도 지원이 된다.</li>
+    </ul>
+  </li>
+  <li>표현 언어 형식
+    <ul>
+      <li>예) <code class="language-plaintext highlighter-rouge">&lt;%=변수 %&gt;</code>  ===&gt; <code class="language-plaintext highlighter-rouge">${변수(수식) }</code></li>
+      <li>표현식을 그대로 출력하고 싶다면 앞에 <code class="language-plaintext highlighter-rouge">\</code>를 추가하면 된다.
+        <ul>
+          <li>예) <code class="language-plaintext highlighter-rouge">\${15+10 }</code> »&gt; <code class="language-plaintext highlighter-rouge">${15+10 }</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>표현 언어의 연산자 종류
+    <ul>
+      <li>산술연산자 : <code class="language-plaintext highlighter-rouge">+</code>, <code class="language-plaintext highlighter-rouge">-</code>, <code class="language-plaintext highlighter-rouge">*</code>, <code class="language-plaintext highlighter-rouge">/(div)</code>, <code class="language-plaintext highlighter-rouge">%(mod)</code>
+        <ul>
+          <li>EL언어에 결합은 존재하지 않는다. 문자열과 숫자가 더해질 때는 결합이 아니라 문자열을 우선 숫자로 변환한 뒤 덧셈이 수행된다. <code class="language-plaintext highlighter-rouge">${"10"+1 }</code> »&gt; <code class="language-plaintext highlighter-rouge">11</code> 101이 아니다.</li>
+        </ul>
+      </li>
+      <li>관계(비교)연산자 : 비교하여  <code class="language-plaintext highlighter-rouge">true</code> <code class="language-plaintext highlighter-rouge">false</code> 값을 반환한다.
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">==</code> or <code class="language-plaintext highlighter-rouge">eq</code> : 두 수의 값이 같은지 비교.</li>
+          <li><code class="language-plaintext highlighter-rouge">!=</code> or <code class="language-plaintext highlighter-rouge">ne</code> : 두 수의 값이 다른지 비교.</li>
+          <li><code class="language-plaintext highlighter-rouge">&gt;=</code> or <code class="language-plaintext highlighter-rouge">ge</code> : 값이 다른 값보다 크거가 같은지 비교.</li>
+          <li><code class="language-plaintext highlighter-rouge">&gt;</code> or <code class="language-plaintext highlighter-rouge">gt</code>  : 값이 다른 값보다 큰지 비교.</li>
+          <li><code class="language-plaintext highlighter-rouge">&lt;=</code> or <code class="language-plaintext highlighter-rouge">le</code> : 값이 다른 값보다 작거나 같은지 비교.</li>
+          <li><code class="language-plaintext highlighter-rouge">&lt;</code> or <code class="language-plaintext highlighter-rouge">lt</code>  : 값이 다른 값보디 작은지 비교.</li>
+        </ul>
+      </li>
+      <li>논리연산자
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">&amp;&amp;</code> or <code class="language-plaintext highlighter-rouge">and</code> : 논리곱 연산.</li>
+          <li><code class="language-plaintext highlighter-rouge">||</code> or <code class="language-plaintext highlighter-rouge">or</code> : 논리합 연산.</li>
+          <li><code class="language-plaintext highlighter-rouge">!</code> or <code class="language-plaintext highlighter-rouge">not</code> : 부정 연산.</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">empty</code> 연산자 : 값이 <code class="language-plaintext highlighter-rouge">null</code>이거나 빈 문자열이면 <code class="language-plaintext highlighter-rouge">true</code> 값을 반환.</li>
+    </ul>
+  </li>
+  <li>표현언어에서 제공하는 내장객체
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">pageScope</code> : 현재 페이지의 범위에만 한정됨. 페이지가 끝나면 유효하지 않게 된다.</li>
+      <li><code class="language-plaintext highlighter-rouge">requestScope</code> : request 생명 주기는 request 요청을 받고, 요청에 대한 처리를 완료하는 시점까지만 유효하다. 요청 처리 완료 후에는 사용할 수 없다.</li>
+      <li><code class="language-plaintext highlighter-rouge">sessionScope</code> : session의 생명 주기는 설정된 유효시간이 기준이 된다. 기본 30분.</li>
+      <li><code class="language-plaintext highlighter-rouge">applicationScope</code> : 웹 사이트가 실행되는 동안만 유효. 어플리케이션이 종료가 되면 유효하지 않게 된다.</li>
+      <li><code class="language-plaintext highlighter-rouge">param</code> : 파라미터 값을 얻어올 때 사용.</li>
+      <li><code class="language-plaintext highlighter-rouge">paramValues</code> : 파라미터 값을 배열로 얻어올 때 사용.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>※ 내장 객체를 사용할 때는 map 자료구조 형태로 <code class="language-plaintext highlighter-rouge">key, value</code>값을 저장.<br />
+	- <code class="language-plaintext highlighter-rouge">setAttribute(String key, Object value)</code>
+	- <code class="language-plaintext highlighter-rouge">getAttribute(String key)</code></p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%</span>
+	<span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">pageContext</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"K"</span><span class="o">,</span> <span class="n">k</span><span class="o">);</span>
+	<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"r"</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+	<span class="n">session</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"s"</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+	<span class="n">application</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"a"</span><span class="o">,</span> <span class="mi">30</span><span class="o">);</span>
+<span class="nt">%&gt;</span>
+
+page &gt;&gt;&gt; ${pageScope.K } == ${K }<span class="nt">&lt;br&gt;</span>	
+request &gt;&gt;&gt; ${requestScope.r } == ${r }<span class="nt">&lt;br&gt;</span>
+session &gt;&gt;&gt; ${sessionScope.s } == ${s }<span class="nt">&lt;br&gt;</span>
+application &gt;&gt;&gt; ${applicationScope.a } == ${a }<span class="nt">&lt;br&gt;</span>
+</code></pre></div></div>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 파라미터 값
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"id"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"name"</span><span class="nt">&gt;</span>
+
+// JSP 표현식을 이용하여 파라미터 값을 출력하는 방법
+request.getParameter("id").trim()
+request.getParameter("name").trim()
+
+// 표현언어(EL)로 파라미터 값을 출력하는 방법
+${param.id }
+${param.name }
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h1 id="jstljsp-standard-tag-library">JSTL(JSP Standard Tag Library)</h1>
+
+<ul>
+  <li>JSP 페이지에서 스크립트릿과 HTML 코드가 뒤섞이게 되는 현상이 발생한다. 이렇게 뒤섞인 코드는 알아보기가 쉽지 않다. 따라서 가독성이 낮아진다.</li>
+  <li>JSP 페이지에서 스크립트릿에 들어가는 자바 코드 중에 논리적인 판단, 반복 처리, 포맷 처리 등을  HTML 태그처럼 사용할 수 있도록 표준으로 만들어서 정의한 것이 JSTL 라이브러리이다.</li>
+  <li>JSTL을 사용하기 위해서는 라이브러리 파일이 필요하다.
+    <ul>
+      <li>jstl.jar, standard.jar</li>
+    </ul>
+  </li>
+  <li>JSTL 라이브러리 파일을 받는 사이트 주소
+    <ul>
+      <li>http://tomcat.apache.org/taglibs/standard/</li>
+      <li>압축을 푼 후 jstl.jar, standard.jar 2개의 파일을 현재 프로젝트 - WebContent - WEB-INF - lib 에 복사</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-사용-방법">1. 사용 방법</h2>
+<p>상단에 아래와 같이 선언한다.</p>
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%@ taglib </span><span class="na">prefix=</span><span class="s">"c"</span><span class="na"> uri=</span><span class="s">"http://java.sun.com/jsp/jstl/core"</span> <span class="nt">%&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="-기본적인-jstl-태그">* 기본적인 JSTL 태그</h4>
+<p>출력을 할 때는 EL 언어를 사용한다.</p>
+
+<p>1) 변수 태그 <code class="language-plaintext highlighter-rouge">set</code></p>
+<ul>
+  <li>형식) <code class="language-plaintext highlighter-rouge">&lt;c:set var="변수명" value="값"&gt; &lt;/c:set&gt;</code></li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"test"</span><span class="na"> value=</span><span class="s">"Hello JSTL!"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) 출력 태그 <code class="language-plaintext highlighter-rouge">out</code></p>
+<ul>
+  <li>형식) <code class="language-plaintext highlighter-rouge">&lt;c:out value="변수명"&gt; &lt;/c:out&gt;</code></li>
+  <li>EL 언어를 사용해야 변수의 값이 출력된다.</li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JSTL 값 출력 : <span class="nt">&lt;c:out </span><span class="na">value=</span><span class="s">"test"</span> <span class="nt">/&gt;&lt;br&gt;</span>
+JSTL 값 출력 : <span class="nt">&lt;c:out </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">test</span> <span class="si">}</span><span class="s">"</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210513/00.png" /></p>
+
+<p>3) 삭제 태그 <code class="language-plaintext highlighter-rouge">remove</code></p>
+<ul>
+  <li>형식) <code class="language-plaintext highlighter-rouge">&lt;c:remove var="변수명"&gt; &lt;/c:remove&gt;</code></li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;c:remove </span><span class="na">var=</span><span class="s">"test"</span><span class="nt">/&gt;</span>
+삭제 후 JSTL 값 출력 : <span class="nt">&lt;c:out </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">test</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>4) 조건 처리 태그 <code class="language-plaintext highlighter-rouge">if문</code> : else문이 존재하지 않으므로 각각의 조건식을 작성해야 한다.</p>
+<ul>
+  <li>형식) <code class="language-plaintext highlighter-rouge">&lt;c:if test="조건식" var="변수명"&gt; &lt;/c:if&gt;</code></li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="mi">10</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="si">}</span><span class="s">"</span><span class="na"> var=</span><span class="s">"k"</span><span class="nt">/&gt;</span> 
+조건식 결과 &gt;&gt;&gt; <span class="nt">&lt;c:out </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">k</span> <span class="si">}</span><span class="s">"</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>5) 조건 처리 태그 <code class="language-plaintext highlighter-rouge">choose문</code> : switch~case문과 유사하다.</p>
+<ul>
+  <li>형식)</li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;c:choose&gt;</span> 
+	<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"조건식1"</span><span class="nt">&gt;</span>조건식1이 참인 경우 실행문<span class="nt">&lt;/c:when&gt;</span>
+	<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"조건식2"</span><span class="nt">&gt;</span>조건식2이 참인 경우 실행문<span class="nt">&lt;/c:when&gt;</span>
+	<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"조건식3"</span><span class="nt">&gt;</span>조건식3이 참인 경우 실행문<span class="nt">&lt;/c:when&gt;</span>
+	<span class="nt">&lt;c:otherwise&gt;</span>상기 조건식 이외의 경우 실행문<span class="nt">&lt;/c:otherwise&gt;</span>
+<span class="nt">&lt;/c:choose&gt;</span>
+</code></pre></div></div>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;%-- 학점 처리 작업 --%&gt;</span>
+<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"grade"</span><span class="na"> value=</span><span class="s">"88"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;c:choose&gt;</span>
+	<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">grade</span> <span class="o">&gt;=</span><span class="mi">90</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>결과 : A학점<span class="nt">&lt;/c:when&gt;</span>
+	<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">grade</span> <span class="o">&gt;=</span><span class="mi">80</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>결과 : B학점<span class="nt">&lt;/c:when&gt;</span>
+	<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">grade</span> <span class="o">&gt;=</span><span class="mi">70</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>결과 : C학점<span class="nt">&lt;/c:when&gt;</span>
+	<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">grade</span> <span class="o">&gt;=</span><span class="mi">60</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>결과 : D학점<span class="nt">&lt;/c:when&gt;</span>
+<span class="nt">&lt;/c:choose&gt;</span>
+</code></pre></div></div>
+<p>grade의 값이 88이므로 결과 : B학점 이 출력된다.</p>
+
+<p><br /></p>
+
+<p>6) 반복문 태그 <code class="language-plaintext highlighter-rouge">forEach문</code> : for문과 유사하다.</p>
+<ul>
+  <li>형식1) <code class="language-plaintext highlighter-rouge">&lt;c:forEach begin="시작값" end="끝값" step="증감값" var="변수명"&gt;&lt;/c:forEach&gt;</code></li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;%-- 1부터 10까지 출력하는 반복문 --%&gt;</span>
+<span class="nt">&lt;c:forEach </span><span class="na">begin=</span><span class="s">"1"</span><span class="na"> end=</span><span class="s">"10"</span><span class="na"> step=</span><span class="s">"1"</span><span class="na"> var=</span><span class="s">"su"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;c:out </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">su</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;&lt;/c:out&gt;</span>
+<span class="nt">&lt;/c:forEach&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>형식2) <code class="language-plaintext highlighter-rouge">&lt;c:forEach items="객체명" var="변수명"&gt;</code></li>
+</ul>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%</span>
+	<span class="nc">String</span><span class="o">[]</span> <span class="n">str</span> <span class="o">={</span><span class="s">"홍길동"</span><span class="o">,</span> <span class="s">"이순신"</span><span class="o">,</span> <span class="s">"유관순"</span><span class="o">,</span> <span class="s">"김유신"</span><span class="o">,</span> <span class="s">"김연아"</span><span class="o">};</span>
+	<span class="n">pageContext</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"list"</span><span class="o">,</span> <span class="n">str</span><span class="o">);</span>
+<span class="nt">%&gt;</span>
+		
+<span class="c">&lt;%-- str 배열의 값을 차례로 출력 --%&gt;</span>		
+결과 &gt;&gt;&gt; <span class="nt">&lt;c:forEach </span><span class="na">items=</span><span class="s">"</span><span class="si">${</span><span class="n">list</span> <span class="si">}</span><span class="s">"</span><span class="na"> var=</span><span class="s">"i"</span><span class="nt">&gt;</span>
+			${i } <span class="ni">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+	   <span class="nt">&lt;/c:forEach&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210513/01.png" /></p>
+
+<h2 id="2-포맷팅-라이브러리-종류">2. 포맷팅 라이브러리 종류</h2>
+<p>포맷팅 라이브러리를 상단에 추가해서 사용한다.</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;%@ taglib </span><span class="na">prefix=</span><span class="s">"fmt"</span><span class="na"> uri=</span><span class="s">"http://java.sun.com/jsp/jstl/fmt"</span> <span class="nt">%&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <fmt:timeZone> : 지정한 국가의 시간을 지정하는 태그. 태그를 열고 닫는 영역에서만 적용된다. 
+</fmt:timeZone>
+  </li>
+  <li>
+    <fmt:setTimeZone> : 지정한 국가의 시간을 지정하는 태그.
+</fmt:setTimeZone>
+  </li>
+  <li>
+    <fmt:formatNumber> : 표시할 숫자의 형식을 지정하는 태그.
+</fmt:formatNumber>
+    <ul>
+      <li>value : 출력될 숫자의 형식 지정.</li>
+      <li>type : 출력될 타입 지정.
+        <ul>
+          <li>percent : %</li>
+          <li>number : 숫자 (default)</li>
+          <li>currency : 통화 형식</li>
+        </ul>
+      </li>
+      <li>currencyCode : 통화 코드 지정. 한국 원화는 KRW.</li>
+      <li>currencySymbol : 통화를 표시할 때 사용할 기호를 표시.</li>
+      <li>var : <fmt:formatNumber> 태그의 결과를 저장할 변수 이름 지정.</fmt:formatNumber></li>
+      <li>scope : 변수의 접근 범위 지정.</li>
+      <li>pattern : 숫자가 출력될 양식 지정.</li>
+    </ul>
+  </li>
+  <li>
+    <fmt:formatDate> : 지정한 형식의 날짜를 표시하는 태그.	
+</fmt:formatDate>
+    <ul>
+      <li>value : 포맷될 날짜를 지정하는 속성.</li>
+      <li>type : 포맷팅할 타입을 지정하는 속성.
+        <ul>
+          <li>date : 날짜 지정.</li>
+          <li>time : 시간 지정.</li>
+          <li>both : 날짜/시간 모두 지정.</li>
+        </ul>
+      </li>
+      <li>dateStyle : 날짜의 출력 양식을 지정하는 속성. 값(value)에는 full, long, medium, short 등이 지정되어 있다.</li>
+      <li>timeStyle : 시간 출력 형식을 지정하는 속성.</li>
+      <li>pattern : 직접 출력 형식을 지정하는 속성.</li>
+      <li>timeZone : 특정 나라 시간대로 시간을 설정하는 속성.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예-포맷팅-라이브러리">[예] 포맷팅 라이브러리</h4>
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h2&gt;</span>formatDate 예제<span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"now"</span><span class="na"> value=</span><span class="s">"&lt;%=new Date()%&gt;"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;fmt:formatDate </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">now</span> <span class="si">}</span><span class="s">"</span><span class="na"> type=</span><span class="s">"date"</span><span class="na"> dateStyle=</span><span class="s">"full"</span> <span class="nt">/&gt;&lt;br&gt;</span>
+<span class="nt">&lt;fmt:formatDate </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">now</span> <span class="si">}</span><span class="s">"</span><span class="na"> type=</span><span class="s">"date"</span><span class="na"> dateStyle=</span><span class="s">"long"</span> <span class="nt">/&gt;&lt;br&gt;</span>
+<span class="nt">&lt;fmt:formatDate </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">now</span> <span class="si">}</span><span class="s">"</span><span class="na"> type=</span><span class="s">"date"</span><span class="na"> dateStyle=</span><span class="s">"medium"</span> <span class="nt">/&gt;&lt;br&gt;</span>
+<span class="nt">&lt;fmt:formatDate </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">now</span> <span class="si">}</span><span class="s">"</span><span class="na"> type=</span><span class="s">"date"</span><span class="na"> dateStyle=</span><span class="s">"short"</span> <span class="nt">/&gt;&lt;br&gt;</span>
+
+한국 현재 시간 : 
+<span class="nt">&lt;fmt:formatDate </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">now</span> <span class="si">}</span><span class="s">"</span><span class="na"> type=</span><span class="s">"both"</span><span class="na"> dateStyle=</span><span class="s">"full"</span><span class="na"> timeStyle=</span><span class="s">"full"</span><span class="nt">/&gt;&lt;br&gt;</span>
+	
+	
+<span class="nt">&lt;fmt:timeZone </span><span class="na">value=</span><span class="s">"America/LA"</span><span class="nt">&gt;</span>
+	미국 LA 현재 시간 : <span class="nt">&lt;fmt:formatDate </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">now</span> <span class="si">}</span><span class="s">"</span><span class="na"> type=</span><span class="s">"both"</span><span class="na"> dateStyle=</span><span class="s">"full"</span><span class="na"> timeStyle=</span><span class="s">"full"</span><span class="nt">/&gt;&lt;br&gt;</span>
+<span class="nt">&lt;/fmt:timeZone&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210513/04.png" /></p>
+
+<h4 id="예-커피-주문">[예] 커피 주문</h4>
+<p>value로 값을 받아서 넘기면 JSTL로 받아서 포맷팅 라이브러리로 천단위로 쉼표(,)를 찍어서 웹 페이지에 출력.</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+	  	<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"blue"</span><span class="nt">&gt;</span>
+	  		<span class="nt">&lt;h3&gt;</span>커피 주문<span class="nt">&lt;/h3&gt;</span>
+	  	<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"blue"</span><span class="nt">&gt;</span>
+	  	<span class="nt">&lt;br&gt;&lt;br&gt;</span>
+	  	
+	  	<span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"Ex03.jsp"</span><span class="nt">&gt;</span>
+	 		 <span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">cellspacing=</span><span class="s">"0"</span> <span class="na">width=</span><span class="s">"300"</span><span class="nt">&gt;</span>
+	 		 	<span class="nt">&lt;tr&gt;</span>
+	 		 		<span class="nt">&lt;th&gt;</span>커피종류<span class="nt">&lt;/th&gt;</span>
+	 		 		<span class="nt">&lt;td&gt;</span>
+	 		 			<span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"coffee_str"</span><span class="nt">&gt;</span>
+	 		 				<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>아메리카노(3,000원)<span class="nt">&lt;/option&gt;</span>
+	 		 				<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"2"</span><span class="nt">&gt;</span>카페라떼(3,500원)<span class="nt">&lt;/option&gt;</span>
+	 		 				<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"3"</span><span class="nt">&gt;</span>카푸치노(4,500원)<span class="nt">&lt;/option&gt;</span>
+	 		 				<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"4"</span><span class="nt">&gt;</span>카라멜 마끼아또(4,000원)<span class="nt">&lt;/option&gt;</span>
+	 		 			<span class="nt">&lt;/select&gt;</span>
+	 		 		<span class="nt">&lt;/td&gt;</span>
+	 		 	<span class="nt">&lt;/tr&gt;</span>
+	 		 	
+	 		 	<span class="nt">&lt;tr&gt;</span>
+	 		 		<span class="nt">&lt;th&gt;</span>수 량<span class="nt">&lt;/th&gt;</span>
+	 		 		<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"number"</span> <span class="na">min=</span><span class="s">"1"</span> <span class="na">max=</span><span class="s">"20"</span> <span class="na">name=</span><span class="s">"su"</span><span class="nt">&gt;&lt;/td&gt;</span>
+	 		 	<span class="nt">&lt;/tr&gt;</span>
+	 		 	
+	 		 	<span class="nt">&lt;tr&gt;</span>
+	 		 		<span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"2"</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+	 		 			<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"계산"</span><span class="nt">&gt;</span>
+	 		 				<span class="ni">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+	 		 			<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"reset"</span> <span class="na">value=</span><span class="s">"취소"</span><span class="nt">&gt;</span>
+	 		 		<span class="nt">&lt;/td&gt;</span>
+	 		 	<span class="nt">&lt;/tr&gt;</span>
+	 		 <span class="nt">&lt;/table&gt;</span>
+	  	<span class="nt">&lt;/form&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"coffee"</span><span class="na"> value=</span><span class="s">"</span><span class="si">${</span><span class="n">param</span><span class="o">.</span><span class="na">coffee_str</span> <span class="si">}</span><span class="s">"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;c:choose&gt;</span>
+		<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">coffee</span> <span class="o">==</span> <span class="mi">1</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"coffee_str1"</span><span class="na"> value=</span><span class="s">"아메리카노"</span><span class="nt">/&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"price"</span><span class="na"> value=</span><span class="s">"3000"</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;/c:when&gt;</span>
+		
+		<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">coffee</span> <span class="o">==</span> <span class="mi">2</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"coffee_str1"</span><span class="na"> value=</span><span class="s">"카페라떼"</span><span class="nt">/&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"price"</span><span class="na"> value=</span><span class="s">"3500"</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;/c:when&gt;</span>
+		
+		<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">coffee</span> <span class="o">==</span> <span class="mi">3</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"coffee_str1"</span><span class="na"> value=</span><span class="s">"카푸치노"</span><span class="nt">/&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"price"</span><span class="na"> value=</span><span class="s">"4500"</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;/c:when&gt;</span>
+		
+		<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">coffee</span> <span class="o">==</span> <span class="mi">4</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"coffee_str1"</span><span class="na"> value=</span><span class="s">"카라멜 마끼아또"</span><span class="nt">/&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"price"</span><span class="na"> value=</span><span class="s">"4000"</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;/c:when&gt;</span>
+	<span class="nt">&lt;/c:choose&gt;</span>
+	
+	<span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">cellspacing=</span><span class="s">"0"</span> <span class="na">width=</span><span class="s">"300"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;tr&gt;</span>
+			<span class="nt">&lt;th&gt;</span>커피 종류<span class="nt">&lt;/th&gt;</span>
+			<span class="nt">&lt;td&gt;</span>${coffee_str1 }<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+		<span class="nt">&lt;tr&gt;</span>
+			<span class="nt">&lt;th&gt;</span>커피 단가<span class="nt">&lt;/th&gt;</span>
+			<span class="nt">&lt;td&gt;&lt;fmt:formatNumber </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">price</span> <span class="si">}</span><span class="s">"</span><span class="nt">/&gt;</span>원<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+		<span class="nt">&lt;tr&gt;</span>
+			<span class="nt">&lt;th&gt;</span>커피 수량<span class="nt">&lt;/th&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"amount"</span><span class="na"> value=</span><span class="s">"</span><span class="si">${</span><span class="n">param</span><span class="o">.</span><span class="na">su</span> <span class="si">}</span><span class="s">"</span> <span class="nt">/&gt;</span>
+			<span class="nt">&lt;td&gt;</span>${amount }<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+		<span class="nt">&lt;tr&gt;</span>	
+			<span class="nt">&lt;th&gt;</span>공급가액<span class="nt">&lt;/th&gt;</span>
+			<span class="nt">&lt;td&gt;&lt;fmt:formatNumber </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">amount</span> <span class="o">*</span> <span class="n">price</span> <span class="si">}</span><span class="s">"</span><span class="nt">/&gt;</span>원<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+		
+		<span class="nt">&lt;tr&gt;</span>
+			<span class="nt">&lt;th&gt;</span>부가세액<span class="nt">&lt;/th&gt;</span>
+			<span class="nt">&lt;td&gt;&lt;fmt:formatNumber </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="o">(</span><span class="n">amount</span> <span class="o">*</span> <span class="n">price</span><span class="o">)</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="si">}</span><span class="s">"</span> <span class="nt">/&gt;</span> 원<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+		
+		<span class="nt">&lt;tr&gt;</span>
+			<span class="nt">&lt;th&gt;</span>총 금 액<span class="nt">&lt;/th&gt;</span>
+			<span class="nt">&lt;td&gt;&lt;fmt:formatNumber </span><span class="na">value=</span><span class="s">"</span><span class="si">${</span><span class="n">amount</span> <span class="o">*</span> <span class="n">price</span> <span class="o">+</span> <span class="o">(</span><span class="n">amount</span> <span class="o">*</span> <span class="n">price</span><span class="o">)</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="si">}</span><span class="s">"</span><span class="nt">/&gt;</span> 원<span class="nt">&lt;/td&gt;</span>
+		<span class="nt">&lt;/tr&gt;</span>
+	<span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210513/02.png" /></p>
+<p align="center"><img src="../assets/img/images/210513/03.png" /></p>
+
+:ET

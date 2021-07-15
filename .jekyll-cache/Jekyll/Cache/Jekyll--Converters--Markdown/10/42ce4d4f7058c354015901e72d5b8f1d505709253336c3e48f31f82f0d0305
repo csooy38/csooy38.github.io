@@ -1,0 +1,196 @@
+I"�H<h1 id="댓글-기능">댓글 기능</h1>
+
+<p align="center"><img src="../assets/img/images/210518/02.png" /></p>
+
+<p>댓글 기능은 추후에 배운다고 하였지만,<br />
+프로젝트를 만지다보니 어느정도 할 수 있을 것 같아서 도전해봤다.<br />
+다음 수업을 듣고 비교하며 정리하는 것도 즐거울 듯하다.</p>
+
+<p>기본적인 틀은 이렇다.<br />
+댓글 기능을 구현하기 위해 우선 DB에 댓글 테이블을 하나 생성하고,<br />
+Board 테이블의 글 번호를 외래키로 두었다.<br />
+게시글을 작성하면 댓글 작성자, 내용과 함께 해당 board 테이블의 글 번호를 레코드 값으로 가진다.  따라서 게시글을 선택하면 해당 글 번호에 맞는 댓글이 select되어 출력된다.</p>
+
+<p><br /></p>
+
+<p align="center"><img src="../assets/img/images/210518/03.png" /></p>
+
+<p>글 목록에서 제목 옆에 보이는 댓글 수는 Board 테이블에 카운트 컬럼을 추가하여 구성하였다.<br />
+댓글을 작성하면 해당 글 번호의 카운트가 +1,<br />
+반대로 댓글을 삭제하면 해당 글 번호의 카운트가 -1 되는 식이다.</p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="1-db-테이블-생성--board_comment">1. DB 테이블 생성 : BOARD_COMMENT</h2>
+
+<p>board 테이블과의 연관성을 명시하기 위해  board_comment 라고 명명한 테이블을 생성하였다.<br />
+board_no를 외래키로 두어 게시글에 맞는 댓글을 가져올 수 있도록 하였다.</p>
+
+<p>수정 삭제 기능은 구현하지 않아서<br />
+현재 비밀번호는 댓글 작성할 때 저장될 뿐 쓰임새는 명확하지 않다.<br />
+추후 기능을 추가하며 모두 활용할 예정이다.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">table</span> <span class="n">board_comment</span> <span class="p">(</span>
+    <span class="n">comment_no</span> <span class="n">number</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>			<span class="c1">-- 댓글의 고유번호</span>
+    <span class="n">comment_board_no</span> <span class="n">number</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>		<span class="c1">-- 댓글 단 board 테이블의 글 번호</span>
+    <span class="n">comment_writer</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>	<span class="c1">-- 댓글 작성자</span>
+    <span class="n">comment_cont</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span>	<span class="c1">-- 댓글 내용</span>
+    <span class="n">comment_pwd</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>		<span class="c1">-- 댓글 비밀번호</span>
+    <span class="n">comment_sysdate</span> <span class="nb">date</span><span class="p">,</span>			<span class="c1">-- 댓글 작성일</span>
+    <span class="k">foreign</span> <span class="k">key</span><span class="p">(</span><span class="n">comment_board_no</span><span class="p">)</span> <span class="k">references</span> <span class="n">board</span><span class="p">(</span><span class="n">board_no</span><span class="p">)</span>	<span class="c1">-- board 테이블의 board_no를 외래키로 가진다.</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-db-board-테이블에-컬럼-추가--board_c_count">2. DB board 테이블에 컬럼 추가 : BOARD_C_COUNT</h2>
+<p>board 테이블에 댓글 개수를 셀 수 있도록 board_c_count 컬럼을 추가하였다.<br />
+default 값을 0으로 두어 댓글이 없는 상태도 고려하였다.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">alter</span> <span class="k">table</span> <span class="n">board</span> <span class="k">add</span> <span class="n">board_c_count</span> <span class="n">number</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">default</span> <span class="mi">0</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="3-댓글-작성-form">3. 댓글 작성 form</h2>
+<p>게시물의 상세 내역을 조회하는 board_con.jsp 하단에 댓글 작성 form을 넣었다.<br />
+댓글 작성자, 내용, 비밀번호를 입력하고 submit 하면 “프로젝트명/board_comment.do” 경로로 이동한다.</p>
+
+<p>경로로 이동할 때는 작성한 내용뿐만 아니라 <strong>게시글 번호</strong>와 <strong>현재 페이지</strong>도 함께 넘어간다.<br />
+작성한 댓글을 외래키인 게시글 번호와 함께 DB 테이블에 저장하고, 다시 현재 페이지를 조회하기 위함이다.</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span> <span class="nt">%&gt;</span><span class="s">/board_comment.do"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"no"</span> <span class="na">value=</span><span class="s">"${dto.getBoard_no() }"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"page"</span> <span class="na">value=</span><span class="s">"${page }"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;table&gt;</span>
+		
+			<span class="nt">&lt;tr&gt;</span>
+				<span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"2"</span> <span class="na">align=</span><span class="s">"left"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;b&gt;</span>댓글<span class="nt">&lt;/b&gt;</span>
+				<span class="nt">&lt;/td&gt;</span>
+			<span class="nt">&lt;/tr&gt;</span>
+			
+			<span class="nt">&lt;tr&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"c_writer"</span> <span class="na">placeholder=</span><span class="s">"닉네임"</span> <span class="na">size=</span><span class="s">"8"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"c_content"</span> <span class="na">placeholder=</span><span class="s">"댓글 내용"</span> <span class="na">size=</span><span class="s">"30"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"c_pwd"</span> <span class="na">placeholder=</span><span class="s">"비밀번호"</span> <span class="na">size=</span><span class="s">"8"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"등록"</span><span class="nt">&gt;&lt;/td&gt;</span>
+			<span class="nt">&lt;/tr&gt;</span>
+			
+		<span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="4-frontcontroller--중간-다리">4. FrontController : 중간 다리</h2>
+<p>경로가 “*.do”이므로 서블릿 설정에 의해 FrontController에서 작업이 시작된다.<br />
+BoardCommentAction이라는 클래스 객체가 생성되고, 해당 클래스의 실행 메서드가 실행된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="o">(</span><span class="n">command</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"board_comment.do"</span><span class="o">))</span> <span class="o">{</span>
+	<span class="n">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BoardCommentAction</span><span class="o">();</span>
+	<span class="n">action</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="5-boardcommentaction--댓글-작성-db-연동">5. BoardCommentAction : 댓글 작성 DB 연동</h2>
+<p>작성한 댓글 데이터를 모두 DB에 저장하는 작업을 하는 클래스이다.<br />
+댓글 DTO를 CommentDTO로 만들어두었고, 이를 활용하여 데이터를 저장하고 이동한다.<br />
+CommentDAO도 별도로 두면 좋았겠지만 우선 연습 삼아 기존에 있던 BoardDAO를 활용하였다.</p>
+
+<p>1) 넘어 온 파라미터를 변수에 저장한다.<br />
+지정한 name에 따라 저장된 값을을 모두 불러와 변수에 저장한다.<br />
+hidden으로 넘긴 게시글 번호(board_no)와 현재 페이지(page)도 잊지 않고 저장한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1) 넘어 온 변수 받기</span>
+<span class="nc">String</span> <span class="n">comment_writer</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"c_writer"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+<span class="nc">String</span> <span class="n">comment_cont</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"c_content"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+<span class="nc">String</span> <span class="n">comment_pwd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"c_pwd"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+<span class="kt">int</span> <span class="n">board_no</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"no"</span><span class="o">));</span>
+<span class="kt">int</span> <span class="n">page</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"page"</span><span class="o">));</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) 저장한 변수를 CommentDTO에 set한다.<br />
+한 번에 메서드로 넘겨주기 위하여 DTO 객체에 저장한 변수들을 set 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 2) DTO 객체에 저장</span>
+<span class="nc">CommentDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CommentDTO</span><span class="o">();</span>
+<span class="n">dto</span><span class="o">.</span><span class="na">setComment_writer</span><span class="o">(</span><span class="n">comment_writer</span><span class="o">);</span>
+<span class="n">dto</span><span class="o">.</span><span class="na">setComment_cont</span><span class="o">(</span><span class="n">comment_cont</span><span class="o">);</span>
+<span class="n">dto</span><span class="o">.</span><span class="na">setComment_pwd</span><span class="o">(</span><span class="n">comment_pwd</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>3) DB에 저장한다. <br />
+변수들이 저장된 DTO 객체의 주소값을 메서드로 넘겨 DB에 저장한다.<br />
+위에서 언급했든 BoardDAO 객체를 잠시 빌려 썼다.<br />
+쿼리문은 select문을 작성한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 3) DB 저장</span>
+<span class="nc">BoardDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="nc">BoardDAO</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+<span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">insertComment</span><span class="o">(</span><span class="n">dto</span><span class="o">,</span> <span class="n">board_no</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>4) 저장 결과에 따라 페이지를 이동하거나 이전 페이지로 돌아간다. <br />
+DB에 데이터 저장이 성공하면 새롭게 페이지를 로딩하고,<br />
+실패하면 다시 작성하던 페이지로 돌아간다.<br />
+중간 다리인 FrontController에서 한글 인코딩을 모두 했으므로 여기선 별도로 설정할 필요가 없다.</p>
+
+<p>이 때, 저장이 성공하여 DB에 반영되면 게시물의 댓글 개수가 증가한 것이므로 <br />
+board 테이블의 댓글 수를 체크하는 컬럼의 숫자가 +1 될 수 있도록 메서드를 호출한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">();</span>
+
+<span class="k">if</span><span class="o">(</span><span class="n">res</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;script&gt;"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"alert('댓글 작성 완료!')"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"location.href='board_cont.do?no="</span> <span class="o">+</span> <span class="n">board_no</span> <span class="o">+</span> <span class="s">"&amp;page="</span> <span class="o">+</span> <span class="n">page</span> <span class="o">+</span><span class="s">"'"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/script&gt;"</span><span class="o">);</span>
+			
+			<span class="c1">// 댓글 개수가 1 증가하는 메서드 호출</span>
+			<span class="n">dao</span><span class="o">.</span><span class="na">boardCountHit</span><span class="o">(</span><span class="n">board_no</span><span class="o">);</span>
+			
+		<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;script&gt;"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"alert('댓글 작성 실패!')"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"history.back()"</span><span class="o">);</span>
+			<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/script&gt;"</span><span class="o">);</span>
+		<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이하 메서드나 웹페이지에 출력하는 방법은 게시글 작성 방법과 동일하므로 생략한다.</p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="6-글-목록에서-댓글-수-확인하기">6. 글 목록에서 댓글 수 확인하기</h2>
+<p>board 테이블에 추가한 board_c_count 컬럼을 활용하여 글 목록에서 댓글 수를 확인할 수 있도록 하였다.  DB 자체에 컬럼을 추가했으므로 별도의 서블릿 과정은 필요 없었다.<br />
+대신 DB에서 DTO로 set 할 때 board_c_count 항목을 추가하였다.</p>
+
+<p>클릭하면 게시글 상세 내용으로 넘어가는 a태그가 걸려있는 제목 옆에 괄호()를 두고 if문을 작성하였다.  댓글이 0개라면 굳이 표시할 필요가 없으므로, if문으로 댓글 수가 0개가 아닐 때는 출력되지 않도록 막는다.</p>
+
+<p>알아보기 쉽게 행을 세분화하여 정리하면 다음과 같다.</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;td&gt;</span> 
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span> <span class="nt">%&gt;</span><span class="s">/board_cont.do?no=${dto.getBoard_no() }&amp;page=${page }"</span><span class="nt">&gt;</span>
+		${dto.getBoard_title() } 
+			<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">dto</span><span class="o">.</span><span class="na">getBoard_c_count</span><span class="o">()</span> <span class="n">ne</span> <span class="mi">0</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+				(${dto.getBoard_c_count() })
+			<span class="nt">&lt;/c:if&gt;</span>
+	<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/td&gt;</span>
+</code></pre></div></div>
+
+:ET

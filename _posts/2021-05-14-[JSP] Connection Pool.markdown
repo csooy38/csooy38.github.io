@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] Connection Pool"
 date:   2021-05-14 18:10:01 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.14
-
-<br>
-
 # JDBC와 DBCP의 차이점
 ---
 

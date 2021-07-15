@@ -1,0 +1,341 @@
+I"�<h1 id="검색-결과-하단에-페이지-넣기">검색 결과 하단에 페이지 넣기</h1>
+
+<p align="center"><img src="../assets/img/images/210518/00.png" /></p>
+
+<p>어제는 게시글에 이동할 페이지를 넣어보았다.<br />
+이번에는 검색 결과창 하단에 [1][2][3] … 과 같이 클릭하면 해당 페이지로 넘어가는 페이징을 해 보자.<br />
+기본적으로 게시글 페이징과 크게 다르지 않으므로 동일한 부분은 생략한다.<br />
+변수와 메서드만 잘 설정해주면 된다.</p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="0-board_listjsp--검색창-생성하기">0. board_list.jsp : 검색창 생성하기</h2>
+
+<p>전체(제목+내용+작성자), 제목, 내용, 제목+내용, 작성자 5가지로 분류를 두어 검색창을 만들었다.<br />
+select 태그에 name을 주고 option마다 value 값을 주면, submit 할 때 “name이 가진 값은 value” 와 같은 형태로 전송된다.<br />
+입력된 값은 form 태그의 action에 따라 “프로젝트명/board_searh.do”로 함께 이동된다.</p>
+
+<p>검색할 분류는 find_field, 검색할 내용은 find_text에 저장했다.</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span> <span class="nt">%&gt;</span><span class="s">/board_search.do"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;select</span> <span class="na">name=</span><span class="s">"find_field"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"all"</span><span class="nt">&gt;</span>전체<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"title"</span><span class="nt">&gt;</span>제목<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"content"</span><span class="nt">&gt;</span>내용<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"title_content"</span><span class="nt">&gt;</span>제목+내용<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"writer"</span><span class="nt">&gt;</span>작성자<span class="nt">&lt;/option&gt;</span>
+	<span class="nt">&lt;/select&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"find_text"</span> <span class="na">size=</span><span class="s">"15"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"검색"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="1-frontcontroller--중간다리">1. FrontController : 중간다리</h2>
+
+<p>경로를 “*.do”로 지정하였으므로, 지난번에 서블릿에 설정한 결과에 따라 중간 다리인 FrontController를 거친다.<br />
+파일명이 “board_search.do”와 일치하므로 액션 클래스가 새롭게 생성되고, 클래스의 메서드가 실행된다.<br />
+모든 과정이 끝나면 지정한 viewPage(view/board_search.jsp)로 자동으로 이동될 것이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="o">(</span><span class="n">command</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"board_search.do"</span><span class="o">))</span> <span class="o">{</span>
+	<span class="n">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BoardSearchAction</span><span class="o">();</span>
+	<span class="n">action</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+	<span class="n">viewPage</span> <span class="o">=</span> <span class="s">"view/board_search.jsp"</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-boardsearchaction--검색-함수--페이징">2. BoardSearchAction : 검색 함수 &amp; 페이징</h2>
+
+<p>이 클래스에선 크게 두 가지 작업이 이루어진다.<br />
+사실 두 작업이 번갈아 이루어지지만, 보기 편하게 둘로 나누어 정리해보려 한다.</p>
+
+<ol>
+  <li>검색 결과창에 반영될 페이징 밑작업하기</li>
+  <li>페이지에 맞는 검색 결과 데이터를 DB에서 가져오기</li>
+</ol>
+
+<h3 id="21-검색-결과창에-반영될-페이징-밑작업하기">2.1. 검색 결과창에 반영될 페이징 밑작업하기</h3>
+
+<p>1) 페이징 작업에 활용될 변수를 선언한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">rowsize</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span> <span class="c1">// 한 페이지당 보여질 게시물의 수</span>
+<span class="kt">int</span> <span class="n">block</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span> <span class="c1">// 아래에 보여질 페이지의 최대 수 예) [1][2][3] / [4][5][6]</span>
+<span class="kt">int</span> <span class="n">totalRecord</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span><span class="c1">// DB상의 게시물 전체 수</span>
+<span class="kt">int</span> <span class="n">allPage</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="c1">// 전체 페이지 수</span>
+<span class="kt">int</span> <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="c1">// 현재 페이지 변수</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"page"</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">page</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"page"</span><span class="o">));</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+	<span class="n">page</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// 처음으로 검색 결과가 생성된 경우</span>
+<span class="o">}</span>
+<span class="c1">// 해당 페이지에서 시작 번호</span>
+<span class="kt">int</span> <span class="n">startNo</span> <span class="o">=</span> <span class="o">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">rowsize</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="n">rowsize</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+
+<span class="c1">// 해당 페이지에서 마지막 번호</span>
+<span class="kt">int</span> <span class="n">endNo</span> <span class="o">=</span> <span class="o">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">rowsize</span><span class="o">);</span>
+
+<span class="c1">// 해당 페이지의 시작 블럭</span>
+<span class="kt">int</span> <span class="n">startBlock</span> <span class="o">=</span> <span class="o">(((</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">block</span><span class="o">)</span> <span class="o">*</span> <span class="n">block</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+
+<span class="c1">// 해당 페이지의 마지막 블럭</span>
+<span class="kt">int</span> <span class="n">endBlock</span> <span class="o">=</span> <span class="o">(((</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">block</span><span class="o">)</span> <span class="o">*</span> <span class="n">block</span><span class="o">)</span> <span class="o">+</span> <span class="n">block</span><span class="o">;</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>2) DB상 검색 결과 전체 게시물 수를 확인한다. <br />
+BoardDao 객체의 메서드 getSearchListCount()를 호출하여 전체 게시물 수를 저장한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 2) DB상 검색 결과 전체 게시물 수를 확인</span>
+<span class="kt">int</span> <span class="n">totalRecord</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">getSearchListCount</span><span class="o">(</span><span class="n">find_field</span><span class="o">,</span> <span class="n">find_text</span><span class="o">);</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>전체 게시물 수를 바탕으로 전체 페이지 수(블럭 수)를 구한다. <br />
+마지막 블럭 수가 허수로 존재할 경우를 대비하여 최대 전체 페이지 수까지 지정도 해둔다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Math.ceil() : 나머지가 있으면 무조건 올림하는 메서드</span>
+<span class="n">allPage</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">ceil</span><span class="o">(</span><span class="n">totalRecord</span> <span class="o">/</span> <span class="o">(</span><span class="kt">double</span><span class="o">)</span> <span class="n">rowsize</span><span class="o">));</span> 
+
+<span class="k">if</span> <span class="o">(</span><span class="n">endBlock</span> <span class="o">&gt;</span> <span class="n">allPage</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 마지막 블럭 수를 최대 전체 페이지 수까지로 지정.</span>
+	<span class="n">endBlock</span> <span class="o">=</span> <span class="n">allPage</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="22-겸색-결과-데이터를-db에서-가져오기">2.2. 겸색 결과 데이터를 DB에서 가져오기</h3>
+<p>1) 데이터를 가져오기 전, 우선 넘어 온 파라미터 값들을 저장한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1) 파라미터 저장</span>
+<span class="nc">String</span> <span class="n">find_field</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"find_field"</span><span class="o">);</span>
+<span class="nc">String</span> <span class="n">find_text</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"find_text"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) 검색결과에 해당하는 게시물을 DB에서 모두 가져온다.<br />
+find_field, find_text, page, rowsize 4가지를 인수로 두어 검색 게시물 리스트를 DB에서 불러온다.<br />
+네 가지 변수가 어떻게 활용되는 지는 아래에서 자세하게 설명할 것이다.</p>
+
+<p>보이는 페이지(page)에서 출력될 게시물의 수가 정해져 있으므로(rowsize),<br />
+해당 범위에 맞는 검색 결과(find_field, find_text)를 가져오기 위한 것으로 우선 알아 두자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 2) DB에서 검색 결과 가져오기</span>
+<span class="kt">int</span> <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"page"</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">page</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"page"</span><span class="o">));</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+	<span class="n">page</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// 처음으로 검색결과가 생성된 경우</span>
+<span class="o">}</span>
+		
+<span class="kt">int</span> <span class="n">rowsize</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">BoardDTO</span><span class="o">&gt;</span> <span class="n">pageList</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">getSearchBoardList</span><span class="o">(</span><span class="n">find_field</span><span class="o">,</span> <span class="n">find_text</span><span class="o">,</span> <span class="n">page</span><span class="o">,</span> <span class="n">rowsize</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>3) 작업한 값을 키로 저장해서 view page로 넘긴다.</p>
+
+<p>페이징 작업 결과과 DB에서 넘어온 데이터를 모두 키로 저장한다.</p>
+
+<p>DB에서 데이터를 가져왔다고 find_field, find_text의 역할이 끝나지 않는다.<br />
+view page에서 화면 출력하거나 페이지 이동시 쓰이므로 잊지 말고 반드시 Attribute에 저장하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">3</span><span class="o">)</span> <span class="n">작업한</span> <span class="n">값을</span> <span class="n">키로</span> <span class="n">저장하기</span> 
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"find_field"</span><span class="o">,</span> <span class="n">find_field</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"find_text"</span><span class="o">,</span> <span class="n">find_text</span><span class="o">);</span>
+
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"page"</span><span class="o">,</span> <span class="n">page</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"rowsize"</span><span class="o">,</span> <span class="n">rowsize</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"block"</span><span class="o">,</span> <span class="n">block</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"totalRecord"</span><span class="o">,</span> <span class="n">totalRecord</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"allPage"</span><span class="o">,</span> <span class="n">allPage</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"startNo"</span><span class="o">,</span> <span class="n">startNo</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"endNo"</span><span class="o">,</span> <span class="n">endNo</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"startBlock"</span><span class="o">,</span> <span class="n">startBlock</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"endBlock"</span><span class="o">,</span> <span class="n">endBlock</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"List"</span><span class="o">,</span> <span class="n">pageList</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+
+<h2 id="3-boarddao--db연동">3. BoardDAO : DB연동</h2>
+<h3 id="31-boarddao--getsearchlistcount">3.1. BoardDAO : getSearchListCount()</h3>
+<p>분류한 5가지 중 하나만 대표로 가져왔다. 조건에 들어가는 문자열과 pstmt가 받는 개수만 달라질 뿐 방식은 동일하다. <br />
+if문으로 분류의 종류를 확인하고 쿼리문을 작성하여 DB에서 검색된 게시글의 총 개수를 가져와 리턴한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">int</span> <span class="nf">getSearchListCount</span><span class="o">(</span><span class="nc">String</span> <span class="n">find_field</span><span class="o">,</span> <span class="nc">String</span> <span class="n">find_text</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	
+	<span class="n">openConn</span><span class="o">();</span>	<span class="c1">// 싱글톤&amp;커넥트풀 방식으로 DB에 연결</span>
+	
+	<span class="k">if</span> <span class="o">(</span><span class="n">find_field</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"all"</span><span class="o">))</span> <span class="o">{</span>
+		<span class="n">sql</span> <span class="o">=</span> <span class="s">"select count(*) from board where board_title like ? or board_cont like ? or board_writer like ?"</span><span class="o">;</span>
+
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+			<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"%"</span> <span class="o">+</span> <span class="n">find_text</span> <span class="o">+</span> <span class="s">"%"</span><span class="o">);</span>
+			<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"%"</span> <span class="o">+</span> <span class="n">find_text</span> <span class="o">+</span> <span class="s">"%"</span><span class="o">);</span>
+			<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"%"</span> <span class="o">+</span> <span class="n">find_text</span> <span class="o">+</span> <span class="s">"%"</span><span class="o">);</span>
+
+			<span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+
+			<span class="k">if</span> <span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+				<span class="n">count</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+			<span class="o">}</span>
+
+			<span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">con</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+				<span class="c1">// TODO Auto-generated catch block</span>
+				<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+
+		<span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+<span class="o">}</span> 
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="32-boarddao--getsearchboardlist">3.2. BoardDAO : getSearchBoardList()</h3>
+<p>page와 rowsize를 인수로 받아 해당 페이지에서의 시작 번호와 마지막 번호를 정한다.<br />
+정해진 시작 번호부터 마지막 번호까지의 검색 내용만을 DB에서 가져와 list로 저장해 리턴한다.<br />
+이 메서드가 한 번 실행될 때 리턴되는 게시글 수가 한 블록에서 출력되는 게시글 수가 된다.</p>
+
+<p>분류한 5가지 중 하나만 대표로 가져왔다. 조건에 들어가는 문자열과 pstmt가 받는 개수만 달라질 뿐 방식은 동일하다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">BoardDTO</span><span class="o">&gt;</span> <span class="nf">getSearchBoardList</span><span class="o">(</span><span class="nc">String</span> <span class="n">find_field</span><span class="o">,</span> <span class="nc">String</span> <span class="n">find_text</span><span class="o">,</span> <span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rowsize</span><span class="o">)</span> <span class="o">{</span>
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">BoardDTO</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">BoardDTO</span><span class="o">&gt;();</span>
+
+	<span class="c1">// 해당 페이지에서 시작 번호</span>
+	<span class="kt">int</span> <span class="n">startNo</span> <span class="o">=</span> <span class="o">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">rowsize</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="n">rowsize</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+
+	<span class="c1">// 해당 페이지에서 마지막 번호</span>
+	<span class="kt">int</span> <span class="n">endNo</span> <span class="o">=</span> <span class="o">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">rowsize</span><span class="o">);</span>
+
+	<span class="n">openConn</span><span class="o">();</span>
+
+	<span class="k">if</span> <span class="o">(</span><span class="n">find_field</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"all"</span><span class="o">))</span> <span class="o">{</span>
+	<span class="n">sql</span> <span class="o">=</span> <span class="s">"select * from (select row_number() over(order by board_no desc) rnum, b.* from board b where board_title like ? or board_cont like ? or board_writer like ?) where rnum &gt;= ? and rnum &lt;= ?"</span><span class="o">;</span>
+		
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+				
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"%"</span> <span class="o">+</span> <span class="n">find_text</span> <span class="o">+</span> <span class="s">"%"</span><span class="o">);</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"%"</span> <span class="o">+</span> <span class="n">find_text</span> <span class="o">+</span> <span class="s">"%"</span><span class="o">);</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"%"</span> <span class="o">+</span> <span class="n">find_text</span> <span class="o">+</span> <span class="s">"%"</span><span class="o">);</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">startNo</span><span class="o">);</span>
+		<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">endNo</span><span class="o">);</span>
+
+		<span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+
+		<span class="k">while</span> <span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+			<span class="nc">BoardDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BoardDTO</span><span class="o">();</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_no</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"board_no"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_writer</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_writer"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_title</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_title"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_cont</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_cont"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_pwd</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_pwd"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_hit</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"board_hit"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_regdate</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"board_regdate"</span><span class="o">));</span>
+			<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_c_count</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"board_c_count"</span><span class="o">));</span>
+
+			<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">dto</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">con</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+
+		<span class="k">return</span> <span class="n">list</span><span class="o">;</span>
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// TODO Auto-generated catch block</span>
+		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>두어번 정리하니 쿼리문이 정상 작동했다.<br />
+수업 때 보니 작성된 쿼리문과 동일하게 진행되어 내심 뿌듯했다.<br />
+row_number()와 over()의 사용법을 어느 정도 파악했다.<br />
+역시 자꾸 해봐야 는다.</p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="4-board_searchjsp--검색-결과가-출력">4. board_search.jsp : 검색 결과가 출력</h2>
+<p>페이지에 데이터를 가져와 출력하는 것 자체는 게시판 작성과 동일하여 하단에 페이징 작업하는 부분만 들고 왔다.</p>
+
+<p>게시판 페이징과의 차이점은 클릭시 넘어가는 변수가 늘었다는 점이다.<br />
+페이지 변수만으로 원하는 웹 페이지를 조회할 수 있었던 게시판과는 달리, 검색 결과창은 당연하게도 검색 분류(find_field)와 검색 내용(find_text)도 필요로 한다.<br />
+따라서 page 변수와 함께 find_field, find_text 변수도 url로 작성하여 넘긴다.</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">page</span> <span class="o">&gt;</span> <span class="n">block</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"board_search.do?page=1&amp;find_field=${find_field }&amp;find_text=${find_text }"</span><span class="nt">&gt;</span>[처음]<span class="nt">&lt;/a&gt;</span>
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"board_search.do?page=${startBlock - 1 }&amp;find_field=${find_field }&amp;find_text=${find_text }"</span><span class="nt">&gt;</span>◀<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/c:if&gt;</span>
+		
+<span class="nt">&lt;c:forEach </span><span class="na">begin=</span><span class="s">"</span><span class="si">${</span><span class="n">startBlock</span> <span class="si">}</span><span class="s">"</span><span class="na"> end=</span><span class="s">"</span><span class="si">${</span><span class="n">endBlock</span> <span class="si">}</span><span class="s">"</span><span class="na"> var=</span><span class="s">"i"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">i</span> <span class="o">==</span> <span class="n">page</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;b&gt;&lt;a</span> <span class="na">href=</span><span class="s">"board_search.do?page=${i }&amp;find_field=${find_field }&amp;find_text=${find_text }"</span><span class="nt">&gt;</span>[${i }]<span class="nt">&lt;/a&gt;&lt;/b&gt;</span>
+	<span class="nt">&lt;/c:if&gt;</span>
+			
+	<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">i</span> <span class="o">!=</span> <span class="n">page</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"board_search.do?page=${i }&amp;find_field=${find_field }&amp;find_text=${find_text }"</span><span class="nt">&gt;</span>[${i }]<span class="nt">&lt;/a&gt;</span>
+	<span class="nt">&lt;/c:if&gt;</span>
+<span class="nt">&lt;/c:forEach&gt;</span>
+		
+<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">endBlock</span> <span class="o">&lt;</span> <span class="n">allPage</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"board_search.do?page=${endBlock + 1 }&amp;find_field=${find_field }&amp;find_text=${find_text }"</span><span class="nt">&gt;</span>▶<span class="nt">&lt;/a&gt;</span>
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"board_search.do?page=${allPage }&amp;find_field=${find_field }&amp;find_text=${find_text }"</span><span class="nt">&gt;</span>[마지막]<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/c:if&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>하나 더 신경썼던 부분은 상단 출력문.</p>
+
+<p align="center"><img src="../assets/img/images/210518/01.png" /></p>
+
+<p>선택한 검색 분류나 작성한 검색 내용에 따라 출력되는 문구가 달라진다.<br />
+기초적인 코드지만 아직 EL코드가 익숙하지 않아 정상출력되는 것을 보니 무척 뿌듯했다.</p>
+
+<p>검색 결과 수는 페이징 작업 전의 게시판 검색 결과 수와 동일하게 작성했었는데(${list.size() }),<br />
+페이징 처리 후에는 한 페이지에 담기는 게시물 수만 저장되다보니 totalRecord 변수를 가져오게 되었다.<br />
+오히려 더 명쾌해졌다!</p>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"yellowgreen"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;h3&gt;</span>검색결과(${totalRecord }) | 
+			
+		<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">find_field</span> <span class="o">==</span> <span class="l">'all'</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"field"</span><span class="na"> value=</span><span class="s">"전체"</span><span class="nt">&gt;&lt;/c:set&gt;</span>
+		<span class="nt">&lt;/c:if&gt;</span>
+		
+		<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">find_field</span> <span class="o">==</span> <span class="l">'title'</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"field"</span><span class="na"> value=</span><span class="s">"제목"</span><span class="nt">&gt;&lt;/c:set&gt;</span>
+		<span class="nt">&lt;/c:if&gt;</span>
+				
+		<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">find_field</span> <span class="o">==</span> <span class="l">'content'</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"field"</span><span class="na"> value=</span><span class="s">"내용"</span><span class="nt">&gt;&lt;/c:set&gt;</span>
+		<span class="nt">&lt;/c:if&gt;</span>
+		
+		<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">find_field</span> <span class="o">==</span> <span class="l">'title_content'</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"field"</span><span class="na"> value=</span><span class="s">"제목+내용"</span><span class="nt">&gt;&lt;/c:set&gt;</span>
+		<span class="nt">&lt;/c:if&gt;</span>
+		
+		<span class="nt">&lt;c:if </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span><span class="n">find_field</span> <span class="o">==</span> <span class="l">'writer'</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;c:set </span><span class="na">var=</span><span class="s">"field"</span><span class="na"> value=</span><span class="s">"작성자"</span><span class="nt">&gt;&lt;/c:set&gt;</span>
+		<span class="nt">&lt;/c:if&gt;</span>
+				
+	${field } : <span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">"color:tomato"</span><span class="nt">&gt;</span>${find_text }<span class="nt">&lt;/span&gt;&lt;/h3&gt;</span>
+<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"yellowgreen"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+:ET

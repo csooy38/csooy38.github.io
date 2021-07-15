@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] mapping.properties 파일 방식을 이용하여 게시판 구현하기"
 date:   2021-05-21 19:32:11 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.21.
-
-<br>
-
 # mapping.properties 파일 이용
 
 14_Board_Reply 구현 내용이다.  

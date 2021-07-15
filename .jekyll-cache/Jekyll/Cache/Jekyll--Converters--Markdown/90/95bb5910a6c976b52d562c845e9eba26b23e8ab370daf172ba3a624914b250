@@ -1,0 +1,26 @@
+I"�<dl>
+  <dt>1) 웹 편집기 다운로드</dt>
+  <dd><a href="http://eclipse.org">eclipse.org</a> - Download - Download Packages - More Downloads - Older Versions - Photon - R Packages - Eclipse IDE for Java EE Developers x86_64(사양에 맞는 파일 선택하여 다운로드)</dd>
+  <dt>2) 서버 다운로드</dt>
+  <dd><a href="http://tomcat.apache.org">tomcat.apache.org</a> - Download - Tomcat9 - 9.0.45 - core - 64-bit <a href="http://windows.zip">windows.zip</a> (사양에 맞는 파일 선택하여 다운로드)</dd>
+</dl>
+
+<p>3) 각각 압축을 풀고, 이클립스를 실행하여 workspace 경로 지정</p>
+
+<p>4) Project Explorer - new project - Other… - Server - server - Tomcat v9.0 server</p>
+
+<p>5) Servers의 server.xml 파일을 열어 코드 수정</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- 63번 라인을 아래와 같이 port="8585"로 수정 --&gt;</span>
+<span class="nt">&lt;Connector</span> <span class="na">connectionTimeout=</span><span class="s">"20000"</span> <span class="na">port=</span><span class="s">"8585"</span> <span class="na">protocol=</span><span class="s">"HTTP/1.1"</span> <span class="na">redirectPort=</span><span class="s">"8443"</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p>6) 한글 설정 : Window - Preference - enc 검색 - Workspace/CSS Files/HTML Files/JSP Files/XML Files 모두 UTF-8로 설정</p>
+
+<p align="center"><img src="../assets/img/images/210419/06.png" /></p>
+
+<p>7) Window - Web Browser - Chrome 으로 설정</p>
+
+<p align="center"><img src="../assets/img/images/210419/07.png" /></p>
+
+:ET

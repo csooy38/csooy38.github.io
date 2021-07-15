@@ -1,17 +1,28 @@
-# Build settings
+title:              공부하는 개발자
+email:              csooy38@example.com
+description:        공부하는 개발자, 최수연의 블로그
+author:             csooy38
+baseurl:            "/startbootstrap-clean-blog-jekyll"
+url:                "http://www.csooy38.com/"
 
-port: 4000
-markdown: kramdown
+# Social Profiles
+twitter_username:  
+github_username:    csooy38
+facebook_username: 
+instagram_username:  
+linkedin_username:
+
+# Add your google-analytics ID here to activate google analytics
+google_analytics:   UA-XXXXXXXXX-X # out your google-analytics code
+
+# Build settings
+markdown:           kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
-highlighter: rouge
-permalink: /:title
-url: http://www.csooy38.com/
-plugins:   [jekyll-sitemap, jekyll-feed,  jekyll-seo-tag]
-
-# Customise atom feed settings (this is where Jekyll-Feed gets configuration information)
-
-title:		   "csooy38"
-description: "Powered by Jekyll and GitHub Pages"
-author:      "최수연"
+paginate:           10
+paginate_path:      "/posts/page:num/"
+plugins:
+  - jekyll-feed
+  - jekyll-paginate
+  - jekyll-sitemap ## Uncomment this line to silently generate a sitemaps.org compliant sitemap for your Jekyll site

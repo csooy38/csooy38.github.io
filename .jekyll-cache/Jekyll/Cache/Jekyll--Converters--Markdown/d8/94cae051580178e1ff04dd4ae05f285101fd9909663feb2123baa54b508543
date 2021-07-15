@@ -1,0 +1,389 @@
+I"�u<h1 id="spring">SPRING</h1>
+<hr />
+
+<h2 id="5-aopaspect-oriented-programming">5. AOP(Aspect Oriented Programming)</h2>
+
+<blockquote>
+  <p>| Aspect Oriented Programming : 관점 지향 프로그래밍</p>
+</blockquote>
+
+<p>기존의 OOP(Object Oriented Programming : 객체 지향 프로그래밍)를 보완한 개념.</p>
+
+<ul>
+  <li>핵심사항과 공통관심사항을 분리하여 구현.</li>
+  <li>문제를 바라보는 관점을 기준으로 프로그래밍을 하는 기법.</li>
+  <li>AOP는 문제를 해결하기 위한 핵심 사항과 코드 전체에 적용되는 공통 관심 사항을 기준으로 프로그래밍 함으로써 공통 모듈을 여러 코드에 쉽게 적용할 수 있도록 돕는다.</li>
+  <li>AOP는 핵심사항(primary(core) concern)과 공통관심사항(cross-cutting concern)을 별도의 코드로 구현하고 최종적으로 이를 조합해서 완성하는 것을 말한다.</li>
+  <li>기존의 코드를 보완한 개념(핵심사항과 공통관심사항을 분리하여 구현).</li>
+</ul>
+
+<h3 id="51-aop의-장점">5.1. AOP의 장점</h3>
+<ul>
+  <li>전체 코드에 흩어져 있는 공통관심사항이 하나의 장소에 집중(응집)된다.</li>
+  <li>서브스 모듈이 자신의 주요관심사항(핵심사항)에 대한 코드만 집중하고, 그외의 공통관심사항은 모두 빠지므로 코드가 깔끔해진다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="52-aop의-주요-용어---중요">5.2. <strong>AOP의 주요 용어</strong> - 중요!</h3>
+<ul>
+  <li>핵심 관심 사항 : 비지니스 로직(주된 업무)</li>
+  <li>공통 관심 사항 : 부가적인 업무(보조 업무) - 횡단 관심 사항   <br />
+  공통 관심 사항은 누군가에게 맡겨 버리는 게 좋다.</li>
+  <li>code : 핵심 관심 사항을 구현한 내용.</li>
+  <li>Advice : 공통 관심 사항을 구현한 코드.    <br />
+  공통 관심 사항 내용을 정의하고 언제 그 작업을 수행할지를 정의하는 것.
+  즉, 언제 공통 관심 기능을 핵심 로직에 적용할 지를 정의하고 있다.</li>
+  <li>Aspect : 무엇을 언제 어디서 할지 등 필요한 정보가 정의되어 있다.    <br />
+      즉, 여러 객체에 공통으로 적용되고 있는 공통 관심 사항을 말한다. 트랜잭션이나 보안, 로그 등이 좋은 예.</li>
+  <li>JoinPoint : Advice가 적용될 위치.(메서드 호출) Code와 Advice를 연결해 주는 설정 정보를 말한다.</li>
+  <li>PointCut : JoinPoint의 부분집합으로써 실제 Advice가 적용되는 JoinPoint를 말한다.   <br />
+  스프링에서는 정규 표현식이나 AspectJ 문법을 이용하여 정의한다.</li>
+  <li>
+    <p>Weaving : Code, Advice, PointCut 등을 조합해서 애플리케이션을 만들어가는 과정.</p>
+  </li>
+  <li>스프링은 자체적인 프록시(대행) 기반의 AOP를 지원   <br />
+스프링은 공통 관심 사항(Aspect)의 적용 대상이 되는 객체에 프록시를 만들어서 제공하며, 대상 객체를 사용하는 코드는 대상 객체에 직접 접근하기 보다는 프록시를 통해서 간접적으로 접근한다.</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h3 id="53-스프링에서-aop-구현하는-방법">5.3. 스프링에서 AOP 구현하는 방법</h3>
+<ol>
+  <li>설정 파일을 이용하는 방법(XML 기반의 구현 방법)</li>
+  <li>애노테이션을 이용하는 방법(<code class="language-plaintext highlighter-rouge">@AspectJ</code> 애노테이션 기반의 AOP 구현)
+    <ul>
+      <li>스프링 AOP 사용시 라이브러리 등록(pom.xml)</li>
+    </ul>
+    <ul>
+      <li>artifactId가<code class="language-plaintext highlighter-rouge"> aspectjweaver</code> 인 라이브러리를 등록해야 한다.
+    - 스프링 AOP 프록시 사용 시 라이브러리 등록(pom.xml)</li>
+      <li>artifactId가 <code class="language-plaintext highlighter-rouge">cglib</code> 인 라이브러리를 등록해야 한다.</li>
+    </ul>
+  </li>
+  <li>공통 기능 클래스 제작 - Advice 역할을 하는 클래스.</li>
+</ol>
+
+<p><br /></p>
+
+<hr />
+<h3 id="54-xml설정-파일을-이용하는-방법-파일에서-advice-종류">5.4. XML(설정 파일을 이용하는 방법) 파일에서 Advice 종류</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;aop:before&gt;</code> : 핵심 기능이 실행되기 전에 Advice(공통 관심 사항)를 실행.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;aop:after-returning&gt;</code> : 정상적으로 핵심 기능이 실행된 이후에 Advice(공통 관심 사항)를 실행.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;aop:after-throwing&gt;</code> : 핵심 기능 실행 중에 Exception이 발생 시 Advice(공통 관심 사항)을 실행.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;aop:after&gt;</code> : Exception이 발생하더라도  핵심 기능 실행 후에 Advice(공통 관심 사항)을 실행.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;aop:around&gt;</code> : 핵심 기능 실행 전/후 및 Exception 발생 시 Advice(공통 관심 사항)을 실행. =&gt; 가장 많이 사용.</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h3 id="55-aspect-pointcut-표현식">5.5. Aspect PointCut 표현식</h3>
+<ul>
+  <li>pointCut 을 지정할 때 사용하는 표현식으로 AspectJ 문법 사용.  <br />
+pointCut으로 표현할 수 있는 명시자에는 여러 종류가 있지만 일반적으로 가장 많이 사용하는 명시자는 execution 명시자이다. 그 외에도 within, bean 명시자가 있다.
+    <ul>
+      <li>
+        <ul>
+          <li>: 모든</li>
+        </ul>
+      </li>
+      <li>. : 현재</li>
+      <li>.. : 0개 이상</li>
+    </ul>
+  </li>
+  <li>execution 명시자 : Advice를 적용할 메서드를 명시할 때 사용.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">execution(public void get*(..))</code>
+  =&gt; public void 이고 메서드 이름이 get으로 시작하고 인자가 있는 경우.</li>
+      <li><code class="language-plaintext highlighter-rouge">execution(*.com.test.aop.*.*())</code>   <br />
+  =&gt; com.test.aop 패키지의 모든 클래스에 파라미터(인자)가 없는 모든 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">execution(* com.test.aop..*.*())</code>  <br />
+  =&gt; com.test.aop 패키지 및 com.test.aop 하위 패키지의 모든 클래스에 파라미터(인자)가 없는 모든 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">execution(* com.test.aop.Staff.*())</code>  <br />
+  =&gt; com.test.aop 패키지 안의 Staff 클래스 안에 인자가 없는 모든 메서드.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h4 id="예-스프링에서-aop-구현하는-방법">[예] 스프링에서 AOP 구현하는 방법</h4>
+
+<p>자바에서 작성시 핵심 사항, 핵심 기능 이후, 예외 사항, 예외 발생하더라도 실행되는 사항들을 구분하여 작성하려면 아래와 같이 작성해야 한다.  <br />
+이를 좀 더 명료하게 작성하는 방법 3가지를 살펴볼 것이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * 여자(청소년) 
+ * - 수업 끝나고 집에 와서 문을 열고 집에 들어갑니다.	=&gt; 공통 관심 사항(before)
+ * - TV로 드라마를 봅니다.					=&gt; 핵심 사항
+ * - 잠을 잡니다.							=&gt; 공통 관심 사항(after-returning)
+ * - 화재 발생 : 119에 신고					=&gt; 공통 관심 사항(after-throwing)
+ * - 아침에 일어나서 문을 열고 집을 나섭니다.		=&gt; 공통 관심 사항(after)
+ */</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Girl</span> <span class="kd">implements</span> <span class="nc">Person</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>	<span class="c1">// 핵심 사항</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"TV로 드라마를 봅니다."</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/*
+ * 남자(청소년) 
+ * - 수업 끝나고 집에 와서 문을 열고 집에 들어갑니다.	=&gt; 공통 관심 사항(before)
+ * - 컴퓨터로 게임을 합니다.					=&gt; 핵심 사항
+ * - 잠을 잡니다.							=&gt; 공통 관심 사항(after-returning)
+ * - 화재 발생 : 119에 신고					=&gt; 공통 관심 사항(after-throwing)
+ * - 아침에 일어나서 문을 열고 집을 나섭니다.		=&gt; 공통 관심 사항(after)
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Boy</span> <span class="kd">implements</span> <span class="nc">Person</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>	<span class="c1">// 핵심 사항</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"컴퓨터로 게임을 합니다."</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersonAdvice</span> <span class="kd">implements</span> <span class="nc">Person</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+	
+		<span class="c1">// 핵심 기능 이전(before)</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"수업 끝나고 집에 와서 문을 열고 집에 들어갑니다."</span><span class="o">);</span>
+			
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">person</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span> 					<span class="c1">// 핵심 사항</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"잠을 잡니다."</span><span class="o">);</span>			<span class="c1">// 핵심 기능 이후(after-returning)</span>
+		<span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"화재 발생 : 119에 신고"</span><span class="o">);</span>	<span class="c1">// 예외 사항(after-throwing)</span>
+		<span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
+			<span class="c1">// 예외가 발생하더라도 실행되는 사항(after)</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"아침에 일어나서 문을 열고 집을 나섭니다."</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		
+		<span class="nc">Person</span> <span class="n">boy</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Boy</span><span class="o">();</span>
+		<span class="nc">Person</span> <span class="n">girl</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Girl</span><span class="o">();</span>
+		<span class="nc">PersonAdvice</span> <span class="n">advice</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PersonAdvice</span><span class="o">();</span>
+		
+		<span class="n">advice</span><span class="o">.</span><span class="na">setPerson</span><span class="o">(</span><span class="n">boy</span><span class="o">);</span>
+		<span class="n">advice</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span>
+		
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"==================="</span><span class="o">);</span>
+		
+		<span class="n">advice</span><span class="o">.</span><span class="na">setPerson</span><span class="o">(</span><span class="n">girl</span><span class="o">);</span>
+		<span class="n">advice</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+
+<h4 id="예-스프링에서-aop-구현하는-방법-1-설정-파일을-이용하는-방법xml-기반의-구현-방법">[예] 스프링에서 AOP 구현하는 방법 1. 설정 파일을 이용하는 방법(XML 기반의 구현 방법)</h4>
+
+<ul>
+  <li><strong>MyAspect 클래스</strong>
+공통 관심 사항이 있는 코드들을 묶은 클래스를 만든다.</li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 스프링 AOP에서 공통 관심 사항이 있는 코드들의 묶음 ==&gt; Advice
+public class MyAspect {
+	private double time;
+	
+	public void before() {
+		time = System.nanoTime();
+		System.out.println("수업 끝나고 집에 와서 문을 열고 집에 들어갑니다.");
+	}
+	
+	public void af() {
+		time = System.nanoTime() - time;
+		System.out.println("아침에 일어나서 문을 열고 집을 나섭니다.");
+	}
+	
+	public void after_returning() {
+		System.out.println("잠을 잡니다.");	
+	}
+	
+	public void after_throwing() {
+		System.out.println("화재 발생 : 119에 신고");	
+	}
+}
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>aop02.xml</strong></li>
+</ul>
+
+<p>Namespaces 에서 <code class="language-plaintext highlighter-rouge">aop</code> 체크.  <br />
+<code class="language-plaintext highlighter-rouge">aop:aspect</code> 태그 안에 <code class="language-plaintext highlighter-rouge">pointcut</code>(핵심 기능)을 중심으로 공통 관심 사항을 설정한다.<br />
+MyAspect 클래스에서 설정한 메서드명을 각각의 공통 관심 사항의 method로 설정한다.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"boy"</span> <span class="na">class=</span><span class="s">"com.sist.aop02.Boy"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"girl"</span> <span class="na">class=</span><span class="s">"com.sist.aop02.Girl"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"myaspect"</span> <span class="na">class=</span><span class="s">"com.sist.aop02.MyAspect"</span> <span class="nt">/&gt;</span>
+	
+<span class="nt">&lt;aop:config&gt;</span>
+	<span class="c">&lt;!-- &lt;aop:aspect&gt; : 공통 관심 사항이 있는 클래스 설정 --&gt;</span>
+	<span class="nt">&lt;aop:aspect</span> <span class="na">ref=</span><span class="s">"myaspect"</span><span class="nt">&gt;</span>
+		<span class="c">&lt;!-- 클래스 이름과 상관없이 doSomething()메서드가 pointCut(핵심 기능 갖는)이 된다는 의미 --&gt;</span>
+		<span class="nt">&lt;aop:pointcut</span> <span class="na">expression=</span><span class="s">"execution(* doSomething())"</span> <span class="na">id=</span><span class="s">"myPointcut"</span><span class="nt">/&gt;</span>
+		<span class="nt">&lt;aop:before</span> <span class="na">method=</span><span class="s">"before"</span> <span class="na">pointcut-ref=</span><span class="s">"myPointcut"</span><span class="nt">/&gt;</span>
+		<span class="nt">&lt;aop:after</span> <span class="na">method=</span><span class="s">"af"</span> <span class="na">pointcut-ref=</span><span class="s">"myPointcut"</span><span class="nt">/&gt;</span>
+		<span class="nt">&lt;aop:after-returning</span> <span class="na">method=</span><span class="s">"after_returning"</span> <span class="na">pointcut-ref=</span><span class="s">"myPointcut"</span><span class="nt">/&gt;</span>
+		<span class="nt">&lt;aop:after-throwing</span> <span class="na">method=</span><span class="s">"after_throwing"</span> <span class="na">pointcut-ref=</span><span class="s">"myPointcut"</span><span class="nt">/&gt;</span>
+	<span class="nt">&lt;/aop:aspect&gt;</span>
+<span class="nt">&lt;/aop:config&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>그리고 메인에서 호출하여 출력한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AbstractApplicationContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GenericXmlApplicationContext</span><span class="o">(</span><span class="s">"classpath:aop02.xml"</span><span class="o">);</span>
+		
+<span class="nc">Person</span> <span class="n">boy</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Person</span><span class="o">)</span><span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"boy"</span><span class="o">);</span>
+<span class="n">boy</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span>
+
+<span class="nc">Person</span> <span class="n">girl</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Person</span><span class="o">)</span><span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"boy"</span><span class="o">);</span>
+<span class="n">girl</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span>
+		
+<span class="n">ctx</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+
+<h4 id="예-스프링에서-aop-구현하는-방법-2-애노테이션을-이용하는-방법aspectj-애노테이션-기반의-aop-구현">[예] 스프링에서 AOP 구현하는 방법 2. 애노테이션을 이용하는 방법(<code class="language-plaintext highlighter-rouge">@AspectJ</code> 애노테이션 기반의 AOP 구현)</h4>
+
+<ul>
+  <li><strong>MyAspect 클래스</strong> 
+공통 관심 사항이 있는 코드들을 묶어서 클래스로 선언한다.  <br />
+이때 공통 관심 사항에 따라 애노테이션을 지정하고 괄호 안에 <code class="language-plaintext highlighter-rouge">execution( 핵심 사항 )</code>을 지정하여  <code class="language-plaintext highlighter-rouge">pointcut</code>으로 잡아준다. <br />
+이 <code class="language-plaintext highlighter-rouge">pointcut</code>이 기준이 된다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 스프링 AOP에서 공통 관심 사항이 있는 코드들의 묶음 ==&gt; Advice</span>
+<span class="nd">@Component</span>
+<span class="nd">@Aspect</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyAspect</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kt">double</span> <span class="n">time</span><span class="o">;</span>
+	
+	<span class="nd">@Pointcut</span><span class="o">(</span><span class="s">"execution(* doSomething())"</span><span class="o">)</span>	<span class="c1">// 어느 클래스든 doSomething() 이 pointcut이 된다</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">myPointcut</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+	
+	<span class="nd">@Before</span><span class="o">(</span><span class="s">"myPointcut()"</span><span class="o">)</span>	<span class="c1">// myPointcut() 메서드 이전에 실행</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">before</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">time</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">nanoTime</span><span class="o">();</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"수업 끝나고 집에 와서 문을 열고 집에 들어갑니다."</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@After</span><span class="o">(</span><span class="s">"myPointcut()"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">af</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">time</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">nanoTime</span><span class="o">()</span> <span class="o">-</span> <span class="n">time</span><span class="o">;</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"아침에 일어나서 문을 열고 집을 나섭니다."</span><span class="o">);</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"걸린 시간 : "</span> <span class="o">+</span> <span class="n">time</span> <span class="o">+</span> <span class="s">"ns"</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@AfterReturning</span><span class="o">(</span><span class="s">"myPointcut()"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">after_returning</span><span class="o">()</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"잠을 잡니다."</span><span class="o">);</span>	
+	<span class="o">}</span>
+	
+	<span class="nd">@AfterThrowing</span><span class="o">(</span><span class="s">"myPointcut()"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">after_throwing</span><span class="o">()</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"화재 발생 : 119에 신고"</span><span class="o">);</span>	
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>aop3.xml</strong>
+Namespaces 에서 <code class="language-plaintext highlighter-rouge">aop</code> 체크.<br />
+<code class="language-plaintext highlighter-rouge">@AspectJ</code>가 붙어있는 빈이 자동으로 Aspect가 될 수 있도록 태그를 생성한다.</li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">"com.sist.aop03"</span> <span class="nt">/&gt;</span>
+	
+<span class="c">&lt;!-- @AspectJ가 붙어 있는 빈을 자동으로 Aspect가 될 수 있게 해 주는 태그 --&gt;</span>
+<span class="nt">&lt;aop:aspectj-autoproxy</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p>앞의 방법과 동일하게 main에서 호출하고 출력한다.  <br />
+xml 파일에 태그 한 줄을 작성하고, 공통 관심 사항 메서드에 각각의 애노테이션을 지정함으로써 간단하게 aop 구현이 가능하다.</p>
+
+<p><br /></p>
+
+<hr />
+<h4 id="예-스프링에서-aop-구현하는-방법-3-공통-기능-클래스-제작---advice-역할을-하는-클래스">[예] 스프링에서 AOP 구현하는 방법 3. 공통 기능 클래스 제작 - Advice 역할을 하는 클래스.</h4>
+
+<ul>
+  <li><strong>AdviceLog 클래스</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AdviceLog</span> <span class="o">{</span>
+	
+	<span class="c1">// ProceedingJoinPoint 객체는 원래 실행되어야 할 대상 메서드(핵심 기능) 대행(프록시) 객체</span>
+	<span class="kd">public</span> <span class="nc">Object</span> <span class="nf">profile</span><span class="o">(</span><span class="nc">ProceedingJoinPoint</span> <span class="n">jp</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Throwable</span> <span class="o">{</span>
+		
+		<span class="c1">// getSignature() : 호출되는 메서드에 대한 정보를 알려주는 메서드.</span>
+		<span class="nc">String</span> <span class="n">signStr</span> <span class="o">=</span> <span class="n">jp</span><span class="o">.</span><span class="na">getSignature</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">signStr</span> <span class="o">+</span> <span class="s">"is start."</span><span class="o">);</span>
+		
+		<span class="kt">long</span> <span class="n">startTime</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">nanoTime</span><span class="o">();</span>
+		
+		<span class="nc">Object</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">jp</span><span class="o">.</span><span class="na">proceed</span><span class="o">();</span>	<span class="c1">// 핵심 기능을 실행시키는 메서드.</span>
+		
+		<span class="kt">long</span> <span class="n">endTime</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">nanoTime</span><span class="o">();</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">signStr</span> <span class="o">+</span> <span class="s">"is end."</span><span class="o">);</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"경과 시간 : "</span> <span class="o">+</span> <span class="o">(</span><span class="n">endTime</span><span class="o">-</span><span class="n">startTime</span><span class="o">));</span>
+		
+		<span class="k">return</span> <span class="n">obj</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>aop04.xml</strong></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">before</code>, <code class="language-plaintext highlighter-rouge">after</code> 등 공통 관심 사항을 하나의 태그 <code class="language-plaintext highlighter-rouge">&lt;aop:pointcut&gt;</code>으로 묶어서 설정한다.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- xml 파일로 DI할 설정들 작성 후 아래 코드 작성 --&gt;</span>
+
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"advice"</span> <span class="na">class=</span><span class="s">"com.sist.aop04.AdviceLog"</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;aop:config&gt;</span>
+	<span class="nt">&lt;aop:aspect</span> <span class="na">ref=</span><span class="s">"advice"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;aop:pointcut</span> <span class="na">expression=</span><span class="s">"within(com.sist.aop04.*)"</span> <span class="na">id=</span><span class="s">"mypointcut"</span><span class="nt">/&gt;</span>
+		<span class="c">&lt;!-- aop:around : before, after 등 전부 적용 --&gt;</span>
+		<span class="nt">&lt;aop:around</span> <span class="na">method=</span><span class="s">"profile"</span> <span class="na">pointcut-ref=</span><span class="s">"mypointcut"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;/aop:aspect&gt;</span>
+<span class="nt">&lt;/aop:config&gt;</span>
+</code></pre></div></div>
+
+<p>앞의 방법과 동일하게 main에서 호출하고 출력한다.  <br />
+반복적으로 작성하지 않아도 <code class="language-plaintext highlighter-rouge">&lt;aop:pointcut&gt;</code> 하나로 깔끔하게 정리가 가능하다.</p>
+
+:ET

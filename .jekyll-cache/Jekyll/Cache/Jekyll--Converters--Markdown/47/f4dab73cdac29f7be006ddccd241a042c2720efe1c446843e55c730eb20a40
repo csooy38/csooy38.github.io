@@ -1,0 +1,11 @@
+I"�<h1 id="tostring-과-stringvalueof">toString() 과 String.valueOf()</h1>
+
+<p>둘의 차이는 명확하다.</p>
+
+<p><br /></p>
+
+<p>들어오는 값이 없을 때
+<code class="language-plaintext highlighter-rouge">toString()</code>은 NullPointerException을 발생시키는 반면, <br />
+<code class="language-plaintext highlighter-rouge">String.valueOf()</code>은 null 이라는 문자열을 생성하여 저장한다.</p>
+
+:ET

@@ -1,0 +1,78 @@
+I"�<h1 id="jdbc와-dbcp의-차이점">JDBC와 DBCP의 차이점</h1>
+<hr />
+
+<h3 id="1-jdbcjava-database-connectivity">1. JDBC(Java DataBase Connectivity)</h3>
+<ul>
+  <li>자바와 데이터베이스 간의 연결.</li>
+  <li>데이터베이스에 연결하려면 드라이버(Driver)를 연결하고, 커넥션(Connection)\객체를 받아와야 한다.</li>
+  <li>JDBC 방식을 사용하면 사용자가 요청할 때마다 매번 드라이버를 로딩하고, 데이터베이스에서 커넥션 객체를 생성하여 연결하고 종료하기 때문에 매우 비효율적이고 데이터베이스에 부하가 많이 발생하는 단점이 있다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="2-dbcpdatabase-connection-pool">2. DBCP(DataBase Connection Pool)</h3>
+<ul>
+  <li>데이터베이스와 Connection을 맺고 있는 객체를 관리하기 위한 커넥션 풀.</li>
+  <li>JDBC의 단점을 극복하기 위해서 사용된다.</li>
+  <li>웹 컨테이너(톰캣 서버)가 실행되면서 커넥션(Connection) 객체를 미리 풀(Pool)에 만들어 놓는다.</li>
+  <li>데이터베이스와 연결된 커넥션(Connection)을 미리 생성해서 풀(Pool) 속에 저장해 두고 있다가 필요할 때마다 가져다가 사용하고 반납한다.</li>
+  <li>미리 생성해 두기 때문에 데이터베이스의 부하를 줄여주고, 유동적으로 연결을 관리할 수 있다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="3-jndijava-naming-directory-interface">3. JNDI(Java Naming Directory Interface)</h3>
+<ul>
+  <li>커넥션 풀에 접근하려면 JNDI 서비스를 이용해야 함. JNDI는 서버에서 관리하고 있는 리소스에 대한 정보를 알고 있는 특정할 리소스를 찾아서 사용할 수 있도록 객체를 반환해 주는 역할을 한다.</li>
+  <li>디렉토리 서비스에 접근하는데 필요한 API이며, 이 API를 이용해서 서버의 자원을 찾을 수 있다.</li>
+  <li>자원이라 함은 데이터베이스 서버 등을 의미하는데 이런 다른 시스템과 연결을 제공하는 객체이다.</li>
+  <li>자원을 서버에 등록할 때에는 고유한 JDNI 이름을 붙여서 사용한다.</li>
+  <li>톰캣 서버에서 이 자원을 관리하는 가상의 디렉토리는 “java:comp/env” 라는 디렉토리. 해당 디렉토리에 고유한 JNDI 이름을 뒤에 붙여서 해당 자원을 찾게 된다. 찾을 때는 lookup() 이라는 메서드를 이용하여 자원을 찾게 되고, 찾은 객체의 타입은 Object 타입이 된다. 따라서 원래의 리소스 타입으로 형변환을 해 주면 된다.</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h2 id="커넥션-풀connection-pool-연결-방법">커넥션 풀(Connection Pool) 연결 방법</h2>
+<p>1) Context 객체를 생성한다.</p>
+<ul>
+  <li>name : 현재 리소스를 등록할 이름을 지정.</li>
+  <li>auth : DBCP를 관리할 관리자 지정(보통 Container or Application)</li>
+  <li>type : 리소스의 타입을 지정. 커넥션 풀을 사용할 수 있도록 하는 객체의 반환 타입을 의미.</li>
+  <li>url : 접속할 DB 서버의 url을 지정.</li>
+  <li>driverClassName : DB 작업을 로딩할 드라이버. JDBC 방식에서 Class.forName()의 인자값을 의미.</li>
+  <li>username : DB 서버에 로그인할 계정을 지정.</li>
+  <li>password : DB 서버에 로그인할 계정의 비밀번호를 지정.</li>
+  <li>maxActive : 생성할 Connection의 개수를 지정. 동시에 최대로 데이터베이스에 연결할 수 있는 Connection 수를 의미.</li>
+  <li>maxIdle : 커넥션 풀에 여분으로 남겨질 최대 Connection 개수를 지정.</li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Server 폴더의 Context.xml Source 하단에 작성 --&gt;</span>
+
+<span class="nt">&lt;Resource</span> 
+	<span class="na">name=</span><span class="s">"jdbc/myoracle"</span>
+	<span class="na">auth=</span><span class="s">"Container"</span>
+	<span class="na">type=</span><span class="s">"javax.sql.DataSource"</span>
+	<span class="na">url=</span><span class="s">"jdbc:oracle:thin:@localhost:1521:XE"</span>
+	<span class="na">driverClassName=</span><span class="s">"oracle.jdbc.driver.OracleDriver"</span>
+	<span class="na">username=</span><span class="s">"web"</span>
+	<span class="na">password=</span><span class="s">"1234"</span>
+	<span class="na">maxActive=</span><span class="s">"200"</span>
+	<span class="na">maxIdle=</span><span class="s">"100"</span>
+<span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) lookup() 메서드를 이용하여 매칭되는 커넥션을 찾는다.  <br />
+3) DataSource.getConnection() 메서드를 이용하여 커넥션을 확보한다.</p>
+
+<hr />
+<h2 id="-커넥션-풀을-사용하기-위해서-필요한-라이브러리">* 커넥션 풀을 사용하기 위해서 필요한 라이브러리</h2>
+<ul>
+  <li>commons-connection-3.2.1.jar</li>
+  <li>commons-dbcp-1.4.jar</li>
+  <li>commons-pool-1.6.jar</li>
+</ul>
+
+:ET

@@ -1,0 +1,189 @@
+I"F<h1 id="게시판-파일-업로드">게시판 파일 업로드</h1>
+
+<p>이전과 마찬가지로 mapping.properties 파일을 두어 서블릿을 관리하며 게시판을 작성하였다.</p>
+
+<p><br /></p>
+
+<hr />
+
+<h2 id="0-필요-파일-다운로드">0. 필요 파일 다운로드</h2>
+
+<p>우선 첨부파일을 업로드하기 위해서는 하나의 파일을 다운로드해야 한다.</p>
+
+<ol>
+  <li>servlets.com 사이트 접속</li>
+  <li>COS File Upload Library 메뉴 클릭 - 하단에서 cos-20.08.zip 다운로드</li>
+  <li>압축을 푼 후 lib 폴더의 “cos” 파일을 복사</li>
+  <li>프로젝트의 WebContent/WEB-INF/lib 에 붙여넣기</li>
+</ol>
+
+<p><br /></p>
+
+<hr />
+<h2 id="1-upload_writejsp--파일-업로드-폼">1. upload_write.jsp : 파일 업로드 폼</h2>
+
+<p align="center"><img src="../assets/img/images/210521/06.png" /></p>
+
+<p>게시글 작성 jsp 파일에서 파일 업로드할 때에는 input type을 “file”로 설정한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="n">파일첨부</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">input</span> <span class="n">type</span><span class="o">=</span><span class="s">"file"</span> <span class="n">name</span><span class="o">=</span><span class="s">"upload_file"</span><span class="o">&gt;&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>폼 태그에서 enctype을 설정한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;%--</span> <span class="n">enctype</span> <span class="o">:</span> <span class="n">이진</span> <span class="n">파일을</span> <span class="n">업로드하기</span> <span class="n">위한</span> <span class="n">속성</span> <span class="o">--%&gt;</span>
+<span class="o">&lt;</span><span class="n">form</span> <span class="n">method</span><span class="o">=</span><span class="s">"post"</span> <span class="n">enctype</span><span class="o">=</span><span class="s">"multipart/form-data"</span> <span class="n">action</span><span class="o">=</span><span class="s">"&lt;%=request.getContextPath()%&gt;/upload_write_ok.do"</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-uploadwriteaction">2. UploadWriteAction</h2>
+
+<ul>
+  <li>게시글 작성 폼에서 작성한 파일 데이터 받기</li>
+</ul>
+
+<p>자료실 폼 페이지에서 넘어온 데이터들을 DB에 저장하는 클래스.
+편의상 첨부파일의 여부로 두 가지로 나누었지만 모든 경우를 아울러야하므로 둘 다 작성해야 한다.</p>
+
+<h3 id="2-1-첨부-파일이-존재하는-경우">2-1. 첨부 파일이 존재하는 경우</h3>
+<p>첨부된 파일이 있다면 파일을 서버에 저장하는 작업이 필요하다.</p>
+
+<p>1) 첨부파일을 서버에 저장하기 위한 변수 및 객체를 선언한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">UploadDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">UploadDTO</span><span class="o">();</span>
+		
+<span class="c1">// 첨부파일이 저장된 경로(위치) 설정</span>
+<span class="nc">String</span> <span class="n">saveFolder</span> <span class="o">=</span> <span class="s">"첨부파일이 저장된 경로(위치)"</span><span class="o">;</span>
+		
+<span class="c1">// 첨부파일의 최대 크기</span>
+<span class="kt">int</span> <span class="n">fileSize</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">;</span> <span class="c1">// 10MB</span>
+		
+<span class="c1">// 파일 업로드를 진행 시 이진 파일 업로드를 위한 객체 생성</span>
+<span class="nc">MultipartRequest</span> <span class="n">multi</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MultipartRequest</span><span class="o">(</span>
+				<span class="n">request</span><span class="o">,</span>						<span class="c1">// 일반적인 request 객체 </span>
+				<span class="n">saveFolder</span><span class="o">,</span>						<span class="c1">// 업로드 파일 저장 위치 </span>
+				<span class="n">fileSize</span><span class="o">,</span>						<span class="c1">// 업로드할 파일의 최대 크기 </span>
+				<span class="s">"UTF-8"</span><span class="o">,</span>						<span class="c1">// 문자 인코딩 방식</span>
+				<span class="k">new</span> <span class="nf">DefaultFileRenamePolicy</span><span class="o">());</span>	<span class="c1">// 파일 이름이 중복이 안 되도록 설정</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) MultipartRequest 객체를 사용하여 넘어온 데이터를 저장한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 자료실 폼에서 넘어온 데이터들을 받아야 한다. </span>
+<span class="nc">String</span> <span class="n">upload_writer</span> <span class="o">=</span> <span class="n">multi</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"upload_writer"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+<span class="nc">String</span> <span class="n">upload_title</span> <span class="o">=</span> <span class="n">multi</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"upload_title"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+<span class="nc">String</span> <span class="n">upload_cont</span> <span class="o">=</span> <span class="n">multi</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"upload_content"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+<span class="nc">String</span> <span class="n">upload_pwd</span> <span class="o">=</span> <span class="n">multi</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"upload_pwd"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>3) input type=”file”인 데이터는 getFile() 메서드로 받는다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 자료실 폼에서 type="file"로 되어 있으면 getFile() 메서드로 받아야 한다.</span>
+<span class="nc">File</span> <span class="n">upload_file</span> <span class="o">=</span> <span class="n">multi</span><span class="o">.</span><span class="na">getFile</span><span class="o">(</span><span class="s">"upload_file"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>4) 첨부파일이 존재하는 경우 서버 저장을 위한 폴더를 생성한다.<br />
+“…./assets/img/upload/2021-05-21/홍길동_파일명” 형식으로 폴더를 생성하기 위하여 날짜 객체를 생성하였다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="o">(</span><span class="n">upload_file</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span> 	<span class="c1">// 첨부파일이 존재하는 경우</span>
+			
+	<span class="c1">// getName() : 첨부파일의 이름을 문자열로 반환하는 메서드.</span>
+	<span class="nc">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">upload_file</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+	
+			
+	<span class="c1">// 날짜 객체 생성 : 첨부파일을 날짜별로 저장하기 위하여.</span>
+	<span class="nc">Calendar</span> <span class="n">cal</span> <span class="o">=</span> <span class="nc">Calendar</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+	<span class="kt">int</span> <span class="n">year</span> <span class="o">=</span> <span class="n">cal</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="nc">Calendar</span><span class="o">.</span><span class="na">YEAR</span><span class="o">);</span>
+	<span class="kt">int</span> <span class="n">month</span> <span class="o">=</span> <span class="n">cal</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="nc">Calendar</span><span class="o">.</span><span class="na">MONTH</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+	<span class="kt">int</span> <span class="n">day</span> <span class="o">=</span> <span class="n">cal</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="nc">Calendar</span><span class="o">.</span><span class="na">DAY_OF_MONTH</span><span class="o">);</span>
+			
+	<span class="c1">// "..../assets/img/upload/2021-05-21" 형태로 폴더를 만든다.</span>
+	<span class="nc">String</span> <span class="n">homedir</span> <span class="o">=</span> <span class="n">saveFolder</span><span class="o">+</span><span class="s">"/"</span><span class="o">+</span><span class="n">year</span><span class="o">+</span><span class="s">"-"</span><span class="o">+</span><span class="n">month</span><span class="o">+</span><span class="s">"-"</span><span class="o">+</span><span class="n">day</span><span class="o">;</span>
+			
+	<span class="c1">// 날짜 폴더를 만들어 보자.</span>
+	<span class="nc">File</span> <span class="n">path1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">homedir</span><span class="o">);</span>
+	<span class="k">if</span><span class="o">(!</span><span class="n">path1</span><span class="o">.</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>	<span class="c1">// 해당 폴더가 존재하지 않는 경우</span>
+		<span class="n">path1</span><span class="o">.</span><span class="na">mkdir</span><span class="o">();</span>	<span class="c1">// make directory : 실제 폴더를 만드는 메서드</span>
+	<span class="o">}</span>
+			
+	<span class="c1">// 파일 폴더를 만들어 보자. ==&gt; 예) 작성자_파일명</span>
+	<span class="c1">// "..../assets/img/upload/2021-05-21/홍길동_파일명"</span>
+	<span class="nc">String</span> <span class="n">reFileName</span> <span class="o">=</span> <span class="n">upload_writer</span><span class="o">+</span><span class="s">"_"</span><span class="o">+</span><span class="n">fileName</span><span class="o">;</span>
+			
+	<span class="n">upload_file</span><span class="o">.</span><span class="na">renameTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">homedir</span><span class="o">+</span><span class="s">"/"</span><span class="o">+</span><span class="n">reFileName</span><span class="o">));</span>
+			
+	<span class="nc">String</span> <span class="n">fileDBName</span> <span class="o">=</span> <span class="s">"/"</span><span class="o">+</span><span class="n">year</span><span class="o">+</span><span class="s">"-"</span><span class="o">+</span><span class="n">month</span><span class="o">+</span><span class="s">"-"</span><span class="o">+</span><span class="n">day</span><span class="o">+</span><span class="s">"/"</span><span class="o">+</span><span class="n">reFileName</span><span class="o">;</span>
+			
+	<span class="n">dto</span><span class="o">.</span><span class="na">setUpload_file</span><span class="o">(</span><span class="n">fileDBName</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>첨부파일을 넣어 게시물을 저장하면<br />
+지정한 경로를 따라 폴더가 생성되고 그 아래 지정한 파일명으로 저장된다.</p>
+
+<p align="center"><img src="../assets/img/images/210521/05.png" /></p>
+
+<p><br /></p>
+
+<h3 id="2-2-첨부파일이-존재하지-않는-경우">2-2. 첨부파일이 존재하지 않는 경우</h3>
+<p>첨부파일이 존재하지 않는다면 기존과 같이 parameter로 데이터를 받아 저장한다.  <br />
+첨부파일이 없다면 넘어갈 파일 데이터도 존재하지 않으므로 “upload_file”은 parameter로 받을 필요가 없다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dto</span><span class="o">.</span><span class="na">setUpload_writer</span><span class="o">(</span><span class="n">upload_writer</span><span class="o">);</span>
+<span class="n">dto</span><span class="o">.</span><span class="na">setUpload_title</span><span class="o">(</span><span class="n">upload_title</span><span class="o">);</span>
+<span class="n">dto</span><span class="o">.</span><span class="na">setUpload_cont</span><span class="o">(</span><span class="n">upload_cont</span><span class="o">);</span>
+<span class="n">dto</span><span class="o">.</span><span class="na">setUpload_pwd</span><span class="o">(</span><span class="n">upload_pwd</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="2-3-insertupload-메서드를-호출하여-db에-저장한다">2-3. insertUpload() 메서드를 호출하여 DB에 저장한다.</h3>
+<p>DB 저장에 성공하면 다시 서블릿을 실행하여 upload_list 페이지로 넘어갈 것이기 때문에 redirect 는 true로 설정한다. forward를 반환하면 자동으로 “upload_list.do”에 따른 서블릿이 실행된다.<br />
+실패하면 이전화면으로 돌아가도록 스크립트를 작성한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">UploadDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="nc">UploadDAO</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+<span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">insertUpload</span><span class="o">(</span><span class="n">dto</span><span class="o">);</span>
+		
+<span class="nc">ActionForward</span> <span class="n">forward</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ActionForward</span><span class="o">();</span>
+<span class="nc">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">();</span>
+		
+<span class="k">if</span><span class="o">(</span><span class="n">res</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">forward</span><span class="o">.</span><span class="na">setRedirect</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+	<span class="n">forward</span><span class="o">.</span><span class="na">setPath</span><span class="o">(</span><span class="s">"upload_list.do"</span><span class="o">);</span>
+<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+	<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;script&gt;"</span><span class="o">);</span>
+	<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"alert('자료실 업로드 실패')"</span><span class="o">);</span>
+	<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"history.back()"</span><span class="o">);</span>
+	<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/script&gt;"</span><span class="o">);</span>
+<span class="o">}</span>				
+	<span class="k">return</span> <span class="n">forward</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="3-파일-삭제">3. 파일 삭제</h2>
+<p>file.delete() 메서드를 이용하여 게시물 삭제 시 파일도 함께 삭제되도록 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// upload된 파일까지 삭제</span>
+<span class="nc">String</span> <span class="n">up</span> <span class="o">=</span> <span class="s">"C:\\NCS\\transfer\\15_Board_FileUpload\\WebContent\\upload"</span><span class="o">;</span>
+		
+<span class="c1">// 업로드된 파일명 : /년-월-일/파일명</span>
+<span class="nc">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="na">getUpload_file</span><span class="o">();</span>
+			
+<span class="nc">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">up</span><span class="o">+</span><span class="n">fileName</span><span class="o">);</span>
+<span class="n">file</span><span class="o">.</span><span class="na">delete</span><span class="o">();</span>	<span class="c1">// 기존 이진 파일을 삭제하는 메서드</span>
+</code></pre></div></div>
+
+:ET

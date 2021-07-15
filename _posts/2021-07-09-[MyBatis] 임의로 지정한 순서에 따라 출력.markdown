@@ -3,11 +3,8 @@ layout: post
 title:  "[MyBatis] 임의로 지정한 순서에 따라 출력"
 date:   2021-07-10 21:56:03 +0900
 categories: jekyll update
+tags: [mybatis]
 ---
-21.07.09.
-
-<br>
-
 ## 문제
 
 CART에 담은 순서대로 PRODUCT 정보 조회를 하려고 했으나,   

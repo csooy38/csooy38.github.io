@@ -3,11 +3,8 @@ layout: post
 title:  "[SPRING] AOP"
 date:   2021-06-25 19:15:13 +0900
 categories: jekyll update
+tags: [spring, aop]
 ---
-21.06.25.
-
-<br>
-
 # SPRING
 ---
 

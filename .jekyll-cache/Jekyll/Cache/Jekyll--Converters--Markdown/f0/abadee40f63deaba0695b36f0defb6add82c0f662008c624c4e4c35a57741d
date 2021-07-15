@@ -1,0 +1,25 @@
+I"�<p><br /></p>
+
+<h2 id="문제">문제</h2>
+
+<p>상품 상세 페이지에서 수량을 조절하는 버튼을 클릭하니 <br />
+폼이 전송되어 페이지가 리셋을 반복하였다.</p>
+
+<h2 id="해결">해결</h2>
+
+<p>수량을 조절하는 버튼의 타입을 button으로 지정한다.</p>
+
+<p>buttom의 type이 기본적으로 submit으로 설정되어 있기 때문에 발생하는 문제. <br />
+type=”buttom”으로 지정하니 바로 해결되었다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;form&gt;</span>
+	<span class="nt">&lt;buttom</span> <span class="na">type=</span><span class="s">"buttom"</span><span class="nt">&gt;&lt;/buttom&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<p>참고 | <a href="https://ssungkang.tistory.com/entry/html-form-%EC%95%88%EC%97%90-button%EC%9D%B4-%EC%9E%88%EC%9C%BC%EB%A9%B4">[html] form 안에 button이 있으면?</a></p>
+
+:ET

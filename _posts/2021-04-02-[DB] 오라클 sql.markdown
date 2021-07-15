@@ -3,10 +3,8 @@ layout: post
 title:  "[DB] Oracle SQL developer 활용"
 date:   2021-04-02 18:55:02 +0900
 categories: jekyll update
+tags: [db, oracle]
 ---
-21.04.02.
-<br>
-
 [DB-Oracle SQL developer]     
 
 클릭하면 Oracle SQL developer를 정리한 구글 문서로 넘어간다.  

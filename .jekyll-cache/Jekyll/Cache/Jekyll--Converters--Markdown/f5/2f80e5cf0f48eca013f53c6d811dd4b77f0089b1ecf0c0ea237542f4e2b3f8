@@ -1,0 +1,218 @@
+I"y5<h1 id="spring">SPRING</h1>
+<hr />
+<h2 id="3-spring-jdbctemplate">3. Spring JDBCTemplate</h2>
+<h3 id="31-jdbcjava-database-connectivity">3.1. JDBC(Java DataBase Connectivity)</h3>
+<ul>
+  <li>JDBC는 DB에 접근할 수 있도록 JAVA에서 제공하는 API.</li>
+  <li>JDBC는 데이터베이스에서 자료를 쿼리하거나 업데이트 하는 방법을 제공.</li>
+  <li>JDBC API 문제점
+    <ol>
+      <li>쿼리를 실행하기 전과 후에 많은 양의 코드를 작성해야 한다.
+ 예) 오라클 데이터베이스 로딩, DB와 연결 생성, 명령문(쿼리문), <code class="language-plaintext highlighter-rouge">ResultSet</code> 연결, 연결 객체 닫기 등</li>
+      <li>데이터베이스 로직에서 예외 처리 코드를 수행해야 한다.</li>
+      <li>1과 2의 코들르 메서드 호출시마다 반복적으로 작성해야 한다.</li>
+    </ol>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h3 id="32-spring-jdbctemplate">3.2. Spring JDBCTemplate</h3>
+<ul>
+  <li>JDBCTemplate은 Spring JDBC 접근 방법 중 하나.</li>
+  <li>내부적으로 JDBC API를 사용하지만 위의 내용과 같은 문제점을 제거한 형태로 Spring에서 제공하는 class.</li>
+  <li>Spring JDBC에서 개발자가 핵심적으로 해야 할 작업만 하면 나머지는 Spring Framework에서 알아서 처리한다.</li>
+</ul>
+
+<p>※ Spring JDBC가 하는 일</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Connection</code> 열기와 닫기</li>
+  <li><code class="language-plaintext highlighter-rouge">PrepareStatement</code> 준비와 닫기</li>
+  <li><code class="language-plaintext highlighter-rouge">PrepareStatement</code> 실행</li>
+  <li><code class="language-plaintext highlighter-rouge">ResultSet</code> Loop 처리</li>
+  <li><code class="language-plaintext highlighter-rouge">Exception</code> 처리</li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Transaction</code> 처리</p>
+  </li>
+  <li>
+    <p>Spring JDBCTemplate 클래스를 사용하기 위해서는 pom.xml 파일에 아래와 같은 라이브러리를 등록해야 한다.   <br />
+<a href="https://github.com/csooy38/github/blob/main/Annotation.md">[spring-jdbc 라이브러리 설정]</a></p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c">&lt;!-- spring-jdbc 라이브러리 --&gt;</span>
+  <span class="nt">&lt;dependency&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>spring-jdbc<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>${org.springframework-version}<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h3 id="33-datasource">3.3. DataSource</h3>
+<p>JDBC 명세서의 일부분이면서 일반적으로 DB 연결 공장.  <br />
+즉, DB와 관련된 connection(DBCP 방식) 정보를 담고 있다.  <br />
+	* DB 종류(oracle.jdbc.driver.OracleDriver)
+	* url 정보(jdbc:oracle:this:@localhost:1521:XE)
+	* 계정 정보(web)	
+	* 계정 비밀번호 정보(1234)</p>
+
+<p><br /></p>
+
+<hr />
+<h3 id="34-web-infspringroot-contextxml">3.4. /WEB-INF/spring/root-context.xml</h3>
+<p>스프링과 관련된 설정 파일을 설정하는 공간.</p>
+
+<p align="center"><img src="../assets/img/images/210623/05.png" /></p>
+
+<ol>
+  <li>
+    <dl>
+      <dt>DataSource 정보 설정</dt>
+      <dd>DB와 관계된 connection(연결방식) 정보를 담고 있는 객체</dd>
+    </dl>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;bean</span> <span class="na">name=</span><span class="s">"dataSource"</span> <span class="na">class=</span><span class="s">"org.springframework.jdbc.datasource.DriverManagerDataSource"</span><span class="nt">&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"driverClassName"</span> <span class="na">value=</span><span class="s">"oracle.jdbc.driver.OracleDriver"</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"url"</span> <span class="na">value=</span><span class="s">"jdbc:oracle:thin:@localhost:1521:XE"</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"username"</span> <span class="na">value=</span><span class="s">"web"</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">value=</span><span class="s">"1234"</span> <span class="nt">/&gt;</span>
+ <span class="nt">&lt;/bean&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Spring JDBCTemplate 클래스 설정</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;bean</span> <span class="na">name=</span><span class="s">"template"</span> <span class="na">class=</span><span class="s">"org.springframework.jdbc.core.JdbcTemplate"</span><span class="nt">&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dataSource"</span> <span class="na">ref=</span><span class="s">"dataSource"</span> <span class="nt">/&gt;</span>
+ <span class="nt">&lt;/bean&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h4 id="예-spring-jdbctemplate를-통한-db-연결">[예] Spring JDBCTemplate를 통한 DB 연결</h4>
+<p>Oracle SQL Developer에서 제공하는 기본 테이블 EMP을 이용하여 DB 연동을 시도하였다.<br />
+주소창에 “/emp_list.do”를 입력하면 EMP 테이블의 정보를 가져와 화면에 출력되게 한다.</p>
+
+<ol>
+  <li>controller 패키지
+    <ul>
+      <li>EmpController.java</li>
+    </ul>
+  </li>
+  <li>model 패키지
+    <ul>
+      <li>EmpDAO 인터페이스 : 호출하는 클래스와 실제 DB에 접근하는 구현 클래스와의  직접적인 의존관계를 느슨하게 하기 위해 인터페이스 사용.</li>
+      <li>EmpDAOImpl 클래스 : EmpDAO 인터페이스를 상속바다 추상메서드를 구현.</li>
+    </ul>
+  </li>
+  <li>views
+    <ul>
+      <li>emp_list.jsp</li>
+    </ul>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<ul>
+  <li>
+    <p><strong>EmpDAO</strong> 인터페이스  <br />
+일반적으로 DAO에서 선언되는 메서드를 추상메서드로 선언.</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Repository</span>
+  <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">EmpDAO</span> <span class="o">{</span>
+
+      <span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="o">&gt;</span> <span class="nf">getEmpList</span><span class="o">();</span>	 	<span class="c1">// 전체 목록 관련 추상메서드</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>EmpDAOImpl</strong> 클래스  <br />
+RowMapper<EmpDTO>를 오버라이딩하여 DB의 값을 DTO객체로 받아온다.  
+기존의 JSP의 방식에 있던 ResultSet Loop 와 try-catch문은 대체되어 생략된다.
+</EmpDTO>    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@Autowired</code> : 자동으로 의존관계가 설정되는 애노테이션. 무조건 객체에 대한 의존을 주입하는 애노테이션.</li>
+      <li><code class="language-plaintext highlighter-rouge">template</code> : root-context.xml 의 name=”template”인 bean.
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">template.query(sql, rowMapper)</code> : select 결과값이 여러 개일 때</li>
+          <li><code class="language-plaintext highlighter-rouge">template.queryForObject(sql, requiredType, args)</code> : select 결과값이 하나일 때. <br />
+  args에는 sql문에서 ?에 해당하는 값을 넣는다.</li>
+          <li><code class="language-plaintext highlighter-rouge">template.update(sql, pss)</code> : insert, update, delete 쿼리문일 때 사용</li>
+          <li><code class="language-plaintext highlighter-rouge">template.queryForInt(sql)</code> : sql문의 결과가  int 타입으로 반환.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Autowired</span>	<span class="c1">// 자동으로 의존관계가 설정되는 애노테이션. 무조건 객체에 대한 의존을 주입.</span>
+  <span class="kd">private</span> <span class="nc">JdbcTemplate</span> <span class="n">template</span><span class="o">;</span>
+  <span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+  <span class="nd">@Override</span> 	<span class="c1">// EmpDAO 인터페이스를 상속받았으므로, 추상메서드 구현</span>
+  <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="o">&gt;</span> <span class="nf">getEmpList</span><span class="o">()</span> <span class="o">{</span>
+
+      <span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+      <span class="n">sql</span> <span class="o">=</span> <span class="s">"select * from emp order by empno"</span><span class="o">;</span>
+
+      <span class="c1">// query : select 결과값이 여러개일 때 </span>
+      <span class="k">return</span> <span class="n">list</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">sql</span><span class="o">,</span> <span class="k">new</span> <span class="nc">RowMapper</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="o">&gt;()</span> <span class="o">{</span>
+
+          <span class="nd">@Override</span>
+          <span class="kd">public</span> <span class="nc">EmpDTO</span> <span class="nf">mapRow</span><span class="o">(</span><span class="nc">ResultSet</span> <span class="n">rs</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rowNum</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">SQLException</span> <span class="o">{</span>
+              <span class="nc">EmpDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EmpDTO</span><span class="o">();</span>
+              <span class="n">dto</span><span class="o">.</span><span class="na">setEmpno</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"empno"</span><span class="o">));</span>
+              <span class="n">dto</span><span class="o">.</span><span class="na">setEname</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"ename"</span><span class="o">));</span>
+
+              <span class="k">return</span> <span class="n">dto</span><span class="o">;</span>
+          <span class="o">}</span>
+
+      <span class="o">});</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>EmpController</strong>  <br />
+“/emp_list.do” 매핑주소로 들어오면 list 메서드가 실행된다.</li>
+</ul>
+
+<p>EmpDAOImpl 클래스의 getEmpList() 메서드를 호출하여 연결 값을 list에 저장한다.<br />
+저장한 값은 model 객체에 저장하여 “views/emp_list.jsp”로 넘긴다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Autowired</span>
+<span class="kd">private</span> <span class="nc">EmpDAO</span> <span class="n">dao</span><span class="o">;</span>
+
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/emp_list.do"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">list</span><span class="o">(</span><span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmpDTO</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">dao</span><span class="o">.</span><span class="na">getEmpList</span><span class="o">();</span>
+	<span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"List"</span><span class="o">,</span> <span class="n">list</span><span class="o">);</span>
+
+	<span class="k">return</span> <span class="s">"emp_list"</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>emp_list.jsp</strong>  <br />
+view 페이지에서는 EL언어로 넘어온 값을 받아 출력한다.<br />
+주소창에서 “/emp_list.do” 매핑주소로 들어온 것을 확인할 수 있다.</li>
+</ul>
+
+<p align="center"><img src="../assets/img/images/210624/01.png" /></p>
+
+:ET

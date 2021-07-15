@@ -1,0 +1,913 @@
+I"�\<h1 id="자바스크립트javascript">자바스크립트(JavaScript)</h1>
+
+<hr />
+
+<h1 id="8-bom">8. BOM</h1>
+<p>BOM(Browser Object Model : 브라우저 객체 모델)은 브라우저 내에 내장된 객체를 의미한다.<br />
+BOM 객체의 최상위 내장 객체는 <code class="language-plaintext highlighter-rouge">window</code> 객체로, 생략가능하다.</p>
+
+<h2 id="81-window-객체">8.1. window 객체</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">window</code> 객체의 주요 메서드
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">open()</code> : 새로운 창을 띄우고자 할 때 사용하는 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">alert()</code> : 경고 창을 띄울 때 사용하는 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">prompt()</code> : 질의/응답 창을 띄울 때 사용하는 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">confirm()</code> : 확인/취소 창을 띄울 때 사용하는 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">moveTo()</code> : 창의 위치를 이동시킬 때 사용하는 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">resizeTo()</code> : 창의 크기를 변경시킬 때 사용하는 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">setInterval()</code> : 일정 간격으로 지속적으로 실행문을 실행시킬 때 사용하는 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">setTimeout()</code> : 일정 간격으로 한번만 실행문을 실행시킬 때 사용하는 메서드.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="82-screen-객체">8.2. screen 객체</h2>
+<p>사용자의 모니터 정보(속성)를 제공해 주는 객체.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">screen</code> 객체의 주요 속성
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">screen.width</code> : 화면의 너비값을 반환하는 속성.</li>
+      <li><code class="language-plaintext highlighter-rouge">screen.height</code> : 화면의 높이값을 반환하는 속성.</li>
+      <li><code class="language-plaintext highlighter-rouge">screen.availWidth</code> : 작업표시줄을 제외한 화면의 너비값을 반환하는 속성.</li>
+      <li><code class="language-plaintext highlighter-rouge">screen.availHeight</code> : 작업표시줄을 제외한 화면의 높이값을 반환하는 속성.</li>
+      <li><code class="language-plaintext highlighter-rouge">screen.colorDepth</code> : 사용자 모니터가 표현 가능한 컬러 bit를 반환하는 속성.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">화면 너비 &gt;&gt;&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">width</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;br&gt;</span><span class="dl">"</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">화면 높이 &gt;&gt;&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">height</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;br&gt;</span><span class="dl">"</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">작업표시줄을 제외한 화면 너비 &gt;&gt;&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">availWidth</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;br&gt;</span><span class="dl">"</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">작업표시줄을 제외한 화면 높이 &gt;&gt;&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">availHeight</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;br&gt;</span><span class="dl">"</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">표현가능한 컬러 bit &gt;&gt;&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">colorDepth</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;br&gt;</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>실제 컴퓨터 해상도와 일치하는 가로너비와 세로높이가 출력된다.</p>
+<p align="center"><img src="../assets/img/images/210426/17.png" /></p>
+
+<p>화면 높이와 작업표시줄을 제외한 화면 높이를 비교해보면 작업표시줄의 높이는 40px임을 짐작해볼 수 있다.</p>
+<p align="center"><img src="../assets/img/images/210426/18.png" /></p>
+
+<h2 id="83-location-객체">8.3. location 객체</h2>
+<p><code class="language-plaintext highlighter-rouge">location</code> 객체는 자바스크립트가 실행되고 있는 현재 브라우저의 주소창에 표시된 주소 값에 관련된 내용을 다룬다. 사용자 브라우저의 주소 창의 url에 대한 정보(속성)와 새로고침 기능을 제공하는 객체.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">location</code> 객체의 주요 속성 및 메서드
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">location.href</code> : 브라우저 창의 url 값을 반환하는 속성.</li>
+      <li><code class="language-plaintext highlighter-rouge">location.reload()</code> : 브라우저 창의 새로고침이 일어나게 하는 메서드.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">url 정보 &gt;&gt;&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>현재 브라우저의 url 값이 그대로 출력되었다.</p>
+<p align="center"><img src="../assets/img/images/210426/19.png" /></p>
+
+<h2 id="84-history-객체">8.4. history 객체</h2>
+<p><code class="language-plaintext highlighter-rouge">history</code> 객체는 브라우저가 페이지를 변경한 이력이 클라이언트에 저장되어 있는 객체이다. 사용자가 방문한 사이트 중 이전에 방문한 사이트와 다음 방문한 사이트로 다시 돌아갈 수 있는 속성과 메서드를 제공한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">history</code> 객체의 속성과 메서드
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">length</code> : 방문 기록에 저장된 목록의 개수를 반환하는 속성.</li>
+      <li><code class="language-plaintext highlighter-rouge">history.back()</code> : 이전에 방문한 웹 페이지로 이동하는 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">history.forward()</code> : 다음에 방문한 웹 페이지로 이동하는 메서드.</li>
+      <li><code class="language-plaintext highlighter-rouge">history.go(숫자)</code> : 이동 숫자만큼 페이지로 이동하는 메서드.
+        <ul>
+          <li>숫자가 해당 수만큼 양수이면 앞으로, 음수이면 해당 수만큼 뒤로 이동한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>다음과 같은 페이지 3개를 만들어 <code class="language-plaintext highlighter-rouge">history</code> 객체의 메서드를 살펴 보자. <br />
+첫번째 페이지)</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;h1&gt;</span>첫번째 페이지<span class="nt">&lt;/h1&gt;</span>
+	
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"Exam_02.html"</span><span class="nt">&gt;</span>두번째 페이지<span class="nt">&lt;/a&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"history.back()"</span><span class="nt">&gt;</span>이전 페이지<span class="nt">&lt;/button&gt;</span>
+	<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"history.forward()"</span><span class="nt">&gt;</span>다음 페이지<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/20.png" /></p>
+
+<p>두번째 페이지)</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;h1&gt;</span>두번째 페이지<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"Exam_03.html"</span><span class="nt">&gt;</span>세번째 페이지<span class="nt">&lt;/a&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"history.back()"</span><span class="nt">&gt;</span>이전 페이지<span class="nt">&lt;/button&gt;</span>
+	<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"history.forward()"</span><span class="nt">&gt;</span>다음 페이지<span class="nt">&lt;/button&gt;</span>	
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/21.png" /></p>
+
+<p>세번째 페이지)
+세번째 페이지는 <code class="language-plaintext highlighter-rouge">history.go()</code>메서드를 이용하여 만들었다.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">history.go(-1)</code> : 1번 뒤로 가기</li>
+  <li><code class="language-plaintext highlighter-rouge">history.go(-2)</code> : 2번 뒤로 가기 (= 앞으로)</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;h1&gt;</span>세번째 페이지<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"Exam_01.html"</span><span class="nt">&gt;</span>첫번째 페이지<span class="nt">&lt;/a&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+
+	<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"history.go(-1)"</span><span class="nt">&gt;</span>이전 페이지<span class="nt">&lt;/button&gt;</span>
+	<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"history.go(-2)"</span><span class="nt">&gt;</span>다음 페이지<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/22.png" /></p>
+
+<p>다음과 같이 실행된다.</p>
+<p align="center"><img src="../assets/img/images/210426/00.gif" /></p>
+
+<hr />
+<h1 id="9-dom">9. DOM</h1>
+<p>DOM(Document Object Model : 문서 객체 모델)은 웹 화면에 보이는 요소를 조작하기 위한 기능으로 가득 찬 라이브러리 덩어리로, 웹 브라우저가 HTML 페이지에 접근하는 방법을 정의한 API이다.</p>
+
+<p>DOM에서 제공하는 일반적인 기능은 여러 개의 DOM 객체로 나눠 구성되어 있다. DOM은 정의부분(명세서)와 구현부분으로 나누어져 있다.<br />
+정의부분인 명세서에는  웹 페이지 문서를 조작할 때 지켜야 할 약속(규칙, 규약)이 명시되어 있는 문서일 뿐 실제 동작하는 구현 소스코드는 전혀 존재하지 않는다. 텅 빈 상자와도 같다. 이 명세서를 만드는 곳이 바로 웹 관련 표준을 정의하는 협회인 W3C이다. 구현부분은 바로 브라우저 내부에 존재한다.</p>
+
+<p>브라우저 제작사(IE, Chrome, Firefox, Safari)는 DOM에 명시되어 있는 인터페이스에 맞춰 자신들만의 특화된 고유 기술을 이용해 독자적으로 기능을 구현한다.</p>
+<ul>
+  <li>IDL(Interface Definition Language) : DOM의 정의부분을 만들 때 사용하는
+  인터페이스 정의 전용 언어이다. 프로그래밍 언어 중 하나이며, 고유의 문법이 있다. (참고 : http://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-22445964) 그렇다고 IDL을 배우는 것은 아니고, 그냥 DOM 문서는 인터페이스 정의 문서로 되어 있다는 정도만 알고 있으면 된다.</li>
+</ul>
+
+<p>눈에 보이진 않지만 사실 브라우저에 출력된 웹 페이지는 온통 DOM 객체로 구성되어 있다. DOM 객체는 텍스트와 이미지, 하이퍼링크, 폼 엘리먼트 등의 각 문서 엘리먼트를 나타낸다. 자바스크립트 코드에서는 동적인 HTML을 만들어내기 위해 DOM 객체에 접근하여 조작할 수 있다.</p>
+<ul>
+  <li>
+    <p>문서 객체 : 자바스크립트에서 이용할 수 있는 객체.</p>
+  </li>
+  <li>노드 : HTML 웹 페이지 구성 요소의 가장 작은 단위.
+    <ul>
+      <li>문서를 이루는 모든 요소를 통합해서 부르는 용어. 즉, HTML 페이지의 각 요소(태그)들. 주석도 노드에 속한다.</li>
+      <li>브라우저는 이런 노드로 가득찬 웹 페이지를 읽어들여 해석한 후, 각 노드에 접근해 제어할 수 있는 DOM 객체를 생성한다.</li>
+    </ul>
+  </li>
+  <li>요소(element) : <code class="language-plaintext highlighter-rouge">&lt;시작태그&gt;텍스트&lt;/끝태그&gt;</code></li>
+  <li>텍스트 노드 : 요소 안에 있는 글자. <code class="language-plaintext highlighter-rouge">innerHTM</code>L과 관계가 있다.
+    <ul>
+      <li>노드, 스타일, 속성, 이벤트, 위치 및 크기들을 다룰 수 있는 다양한 기능이 포함되어 있다.</li>
+      <li>DOM 객체가 생성되는 순서를 자세히 살펴 보면, 웹브라우저는 가정 먼저 최상위에 해당하는 <code class="language-plaintext highlighter-rouge">HTMLDocument</code> 클래스의 객체를 생성한다. 이후에 생성되는 모든 DOM 객체는 <code class="language-plaintext highlighter-rouge">HTMLDocument</code> 객체의 자식 객체로 만들어진다.</li>
+      <li>보통 DOM 방식은 트리 구조이다. 브라우저가 웹 페이지를 처리하는 과정을 살펴보면 먼저 브라우저는 문서 정보에 쉽게 접근하고 조작하고자 HTML 웹 페이지를 읽은 후 파싱 단계를 거친다. 이 후 DOM 객체로 변환(트리구조) 후 화면에 출력을 한다.</li>
+      <li>예) 웹 페이지에 <code class="language-plaintext highlighter-rouge">&lt;img src="test.jpg"&gt;</code> 태그 노드가 있다면 브라우저에 의해 <code class="language-plaintext highlighter-rouge">HTMLImageElement</code>라는 DOM 객체가 생성된다. 이 객체는 다른 DOM 객체와는 다르게 이미지를 읽어들이는 특별한 기능이 있어서 실행 시에 “test.jpg” 라는 외부 이미지 파일을 읽어 들이게 된다. 즉, 문서 상의 노드는 “브라우저이군. 이 노드를 보고 알맞은 DOM 객체를 생성해 주세요.” 라는 의미일 뿐, 모든 작업은 이제 브라우저에서 만들어낸 DOM 객체로 처리하게 된다.</li>
+    </ul>
+  </li>
+  <li>브라우저가 웹 페이지를 처리하는 과정
+    <ol>
+      <li>웹 페이지 읽기 : 먼저 브라우저는 HTML 페이지를 읽는다.</li>
+      <li>파싱 단계 : 이어서 파싱(parsing) 단계를 거쳐서 웹 페이지 내용을 해석한다.
+        <ul>
+          <li>이 때 작성한 마크업 태그와 1:1 매칭이 되는 DOM 클래스 객체를 생성한다. 이렇게 생성된 객체는 저마다 고유한 기능을 하게 된다.</li>
+          <li>좀 더 자세하게 설명을 한다면 웹 브라우저가 HTML 페이지를 읽은 후 파싱 단계에서 <code class="language-plaintext highlighter-rouge">div</code> 태그를 만나게 되면 <code class="language-plaintext highlighter-rouge">HTMLDivElement</code> 라는 클래스의 인스턴스(객체)를 생성하게 되고, <code class="language-plaintext highlighter-rouge">img</code> 태그를 만나면 <code class="language-plaintext highlighter-rouge">HTMLImageElement</code> 라는  클래스의 인스턴스를 생성하게 된다는 의미이다.</li>
+          <li>정리를 한다면 HTML 페이지에 작성하는 마크업은 웹브라우저에게 알려주는 일종의 DOM 클래스의 메타 정보이다. 브라우저는 이 마크업 태그와 1:1로 매칭되는 DOM 클래스의 객체를 생성해서 보관을 하고 있게 된다.</li>
+        </ul>
+      </li>
+      <li>출력 : 마지막으로 웹 브라우저는 생성한 DOM 객체를 가지고 우리가 보고 있는 웹 페이지 화면을 만든다.</li>
+    </ol>
+  </li>
+  <li>Node 객체 : Node 객체는 노드를 조작하기 위한 가장 기본적인 프로퍼티와 메서드가 정의되어 있는 Node 인터페이스를 구현한 객체이다.
+    <ul>
+      <li>Node 객체에서 제공하는 기능을 이용하면 노드 타입을 파악하거나 부모, 형제 그리고 자식 노드를 알아내서 접근하거나, 또는 자식 노드를 추가, 삭제, 교체를 할 수 있다.</li>
+      <li>좀 더 자세히 설명을 한다면 Node 객체는 DOM 객체 가운데 가장 최상위 객체이자 모든 하위 노드 객체들이 상속을 받는 객체이다.</li>
+    </ul>
+  </li>
+  <li>Element 객체 : Element는 노드 중 주석 노드와 텍스트 노드를 제외한 나머지 노드를 통합해서 부르는 용어이다.
+    <ul>
+      <li>Element 객체 역시 노드의 한 종류이며 Element 인터페이스를 구현한 객체임. 또한 Element 객체는 Node 객체의 자식이므로 Node 객체가 가지고 있는 기능을 모두 사용할 수 있다.</li>
+      <li>Element 객체의 주요 기능으로는 태그 이름이 담긴 프로퍼티와 속성(Attribute)을 알아내고 설정하는 기능과 이벤트를 추가하거나 삭제하거나 발생시키는 기능이 있다.</li>
+    </ul>
+  </li>
+  <li>HTMLElement 객체 : HTMLElement는 오직 HTML 문서에만 있는 노드를 통합해서 부르는 말이다.
+    <ul>
+      <li>HTMLElement 객체에는 Element 객체의 기능 외에도 오직 HTML 페이지의 <code class="language-plaintext highlighter-rouge">p</code>, <code class="language-plaintext highlighter-rouge">div</code> 태그와 같은 HTML 태그에서만 쓸 수 있는 공통적인 속성과 기능이 포함이 되어 있다.</li>
+      <li>HTMLElement 객체는 <code class="language-plaintext highlighter-rouge">HTMLDivElement</code>, <code class="language-plaintext highlighter-rouge">HTMLImageElement</code>, <code class="language-plaintext highlighter-rouge">HTMLBodyElement</code>와 같은 객체의 부모 객체이기도 하다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Document 객체 :  Document 객체 역시 Node 객체의 하위 객체이며 HTML 문서와 xml 문서의 루트 객체로 엘리먼트 노드와 이벤트, 속성 노드, 텍스트 노드, 주석 등의 노드를 생성하는 기능, 그리고 많이 사용하게 될 <code class="language-plaintext highlighter-rouge">id</code>, <code class="language-plaintext highlighter-rouge">className</code>, <code class="language-plaintext highlighter-rouge">tagName</code>으로 특정 노드를 찾는 기능 그리고 여기에 이벤트를 발생시키고 등록시키는 이벤트 기능까지 갖춘 아주 중요한 객체이다.</p>
+  </li>
+  <li>HTMLDocument 객체 : HTMLDocument 객체는 HTML 문서 전용 Document 객체이다.
+    <ul>
+      <li>body와 같은 HTML 문서 전용 프로퍼티와 메서드가 포함되어 있다. HTML 페이지 로딩 후 파싱 단계에서 만들어진 <code class="language-plaintext highlighter-rouge">html</code>, <code class="language-plaintext highlighter-rouge">head</code>, <code class="language-plaintext highlighter-rouge">body</code> 객체를 비롯해서 페이지에 작성된 태그와 일대일로 매칭되는 모든 Node 객체를 가지고 있는 객체이기도 함.</li>
+    </ul>
+  </li>
+  <li>DOM을 공부하면서 알아야 할 내용
+    <ol>
+      <li>노드 다루기</li>
+    </ol>
+    <ul>
+      <li>문서에서 특정 태그 이름을 지닌 노드 찾기</li>
+      <li>특정 노드의 자식 노드에서 특정 태그 이름을 지닌 노드 찾기</li>
+      <li>문서에서 특정 클래스가 적용된 노드 찾기</li>
+      <li>
+        <p>문서에서 특정 id를 가진 노드 찾기</p>
+      </li>
+      <li>자식 노드 찾기</li>
+      <li>부모 노드 찾기</li>
+      <li>
+        <p>형제 노드 찾기</p>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">document.createElement()</code> 메서드를 사용해서 노드 생성 및 추가하기</li>
+      <li><code class="language-plaintext highlighter-rouge">HTMLElement.innerHTML</code> 프로퍼티를 사용해서 노드 생성 및 추가하기</li>
+      <li><code class="language-plaintext highlighter-rouge">Node.cloneNode()</code> 메서드를 사용해서 노트 생성 및 추가하기</li>
+      <li>노드 삭제하기</li>
+      <li>
+        <p>노드 이동시키기</p>
+      </li>
+      <li>텍스트 노드 생성 및 추가하기</li>
+      <li>텍스트 노드 내용 변경하기</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>스타일 다루기
+    <ul>
+      <li>스타일 속성값 구하기</li>
+      <li>스타일 속성값 설정하기</li>
+      <li>스타일 속성 제거하기</li>
+    </ul>
+  </li>
+  <li>속성 다루기
+    <ul>
+      <li>속성값 구하기</li>
+      <li>속성값 설정하기</li>
+      <li>속성 제거하기</li>
+    </ul>
+  </li>
+  <li>이벤트 다루기
+    <ul>
+      <li>이벤트 리스너 추가하기</li>
+      <li>이벤트 리스너 삭제하기</li>
+      <li>이벤트 발생시키기</li>
+      <li>사용자 정의 이벤트 만들기</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="예-documentcreateelement-메서드를-사용해서-노드-생성-및-추가하기-1">[예] <code class="language-plaintext highlighter-rouge">document.createElement()</code> 메서드를 사용해서 노드 생성 및 추가하기 1</h4>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 현재 문서의 body 태그를 읽고 난 후에 자바 스크립트를 실행하라는 의미.</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	
+	<span class="c1">// 요소(태그)를 생성하는 방법</span>
+	<span class="c1">// 형식) createElement(tagName);</span>
+	<span class="c1">// 형식) createTextNode(text); : 텍스트 노드를 생성하는 메서드</span>
+	<span class="kd">let</span> <span class="nx">h1_element</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">h1</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="kd">let</span> <span class="nx">textNode</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello, DOM!</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="c1">// 텍스트 노드를 h1태그에 자식으로 추가</span>
+	<span class="nx">h1_element</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">textNode</span><span class="p">);</span>
+	
+	<span class="c1">// 이제 실제로 문서의 body에 h1 요소를 추가하면 된다.</span>
+	<span class="nb">window</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">h1_element</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;script&gt;</code> 영역에 트리 구조로 요소를 쌓았다.<br />
+<code class="language-plaintext highlighter-rouge">&lt;body&gt;</code> 태그에는 아무것도 작성하지 않았음에도 텍스트 노드에 작성한 내용이 <code class="language-plaintext highlighter-rouge">&lt;h1&gt;</code>태그로 작성되어 출력된다.</p>
+<p align="center"><img src="../assets/img/images/210426/23.png" /></p>
+
+<p>개발자 모드로 확인하면 <code class="language-plaintext highlighter-rouge">&lt;body&gt;</code> 태그에 작성한 것과 동일하게 나온다.</p>
+<p align="center"><img src="../assets/img/images/210426/24.png" /></p>
+
+<h4 id="예-documentcreateelement-메서드를-사용해서-노드-생성-및-추가하기-2--이미지-출력하기">[예] <code class="language-plaintext highlighter-rouge">document.createElement()</code> 메서드를 사용해서 노드 생성 및 추가하기 2 : 이미지 출력하기</h4>
+<p><code class="language-plaintext highlighter-rouge">window</code>는 생략 가능하므로 생략하였다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	
+	<span class="c1">// 이미지 태그를 만들어 보자.</span>
+	<span class="kd">let</span> <span class="nx">imgNode</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">img</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="c1">// 이미지 태그에 이미지를 넣으려면 src 속성이 지정되어야 한다.</span>
+	<span class="nx">imgNode</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">.../assets/img/images/mango.jpg</span><span class="dl">"</span><span class="p">;</span>
+	<span class="nx">imgNode</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">200</span><span class="dl">"</span><span class="p">;</span>
+	<span class="nx">imgNode</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">200</span><span class="dl">"</span><span class="p">;</span>
+	
+	<span class="c1">// 해당 이미지 노드를 문서의 본문에 추가하자.</span>
+	<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">imgNode</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>src 속성 지정을 아래와 같이 작성해도 동일한 결과가 나온다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">imgNode</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="dl">"</span><span class="s2">src</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">.../assets/img/images/mango.jpg</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">imgNode</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="dl">"</span><span class="s2">width</span><span class="dl">"</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+<span class="nx">imgNode</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="dl">"</span><span class="s2">height</span><span class="dl">"</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>지정한 사이즈인 200*200 크기의 망고 이미지가 출력되었다.</p>
+<p align="center"><img src="../assets/img/images/210426/25.png" /></p>
+
+<p><br /></p>
+
+<h2 id="91-문서의-요소를-가져오는-방법">9.1. 문서의 요소를 가져오는 방법</h2>
+<h3 id="911-문서의-요소를-가져오는-방법--getelementbyidid-를-이용하는-방법">9.1.1. 문서의 요소를 가져오는 방법 : getElementById(id) 를 이용하는 방법</h3>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+
+	<span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="kd">let</span> <span class="nx">header1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">header_1</span><span class="dl">"</span><span class="p">);</span>
+		
+		<span class="c1">// 문서 객체의 속성을 변경해 보자.</span>
+		<span class="nx">header1</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">header_1 id를 가진 요소</span><span class="dl">"</span><span class="p">;</span>
+		<span class="nx">header2</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">header_2 id를 가진 요소</span><span class="dl">"</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;h1</span> <span class="na">id=</span><span class="s">"header_1"</span><span class="nt">&gt;</span>Header 1<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;h1</span> <span class="na">id=</span><span class="s">"header_1"</span><span class="nt">&gt;</span>Header 2<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">innerHTML</code> : 해당 텍스트 요소를 변경해준다.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;body&gt;</code> 태그에서 ‘Header 1’, ‘Header 2’라고 설정하였으나,<br />
+각각 ‘header_1 id를 가진 요소’, ‘header_2 id를 가진 요소’로 내용이 변경되었다.</p>
+<p align="center"><img src="../assets/img/images/210426/26.png" /></p>
+
+<h3 id="912-문서의-요소를-가져오는-방법--getelementsbytagnametagname을-이용하는-방법">9.1.2. 문서의 요소를 가져오는 방법 : getElementsByTagName(tagName)을 이용하는 방법</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">getElementsByTagName(tagName)</code> : tagName과 일치하는 요소를 배열로 가져오는 메서드. 즉 tagName이 여러개 있을 경우 사용.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+	<span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+		<span class="c1">// header 변수는 h1과 일치하는 요소가 여러 개이므로 배열이 된다.</span>
+		<span class="kd">let</span> <span class="nx">headers</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="dl">"</span><span class="s2">h1</span><span class="dl">"</span><span class="p">);</span>
+		
+		<span class="nx">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">innerHtml</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">getElementsByTagName() 0</span><span class="dl">"</span><span class="p">;</span>
+		<span class="nx">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">innerHtml</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">getElementsByTagName() 1</span><span class="dl">"</span><span class="p">;</span>		
+	<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;h1&gt;</span>Header1<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;p&gt;</span>header1 내용<span class="nt">&lt;/p&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;h1&gt;</span>Header2<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;p&gt;</span>header2 내용<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p>아래와 같이 for문을 이용해서 출력할 수도 있다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">headers</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+	<span class="nx">headers</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">getElementsByTagName() 2</span><span class="dl">"</span><span class="o">+</span><span class="nx">i</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>기존 출력문)</p>
+<p align="center"><img src="../assets/img/images/210426/31.png" /></p>
+
+<p>DOM 적용 후)</p>
+<p align="center"><img src="../assets/img/images/210426/28.png" /></p>
+
+<h3 id="913-문서의-요소를-가져오는-방법--queryselector선택자를-이용하는-방법">9.1.3. 문서의 요소를 가져오는 방법 : querySelector(선택자)를 이용하는 방법</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">querySelector(선택자)</code> : 선택자로 가장 처음 선택되는 문서의 요소를 가져오는 메서드.</li>
+  <li><code class="language-plaintext highlighter-rouge">querySelectorAll(선택자)</code> : 선택자로 선택된 문서의 요소 전체를 배열로 가져오는 메서드.</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">let</span> <span class="nx">header1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#header_1</span><span class="dl">"</span><span class="p">);</span>
+	<span class="kd">let</span> <span class="nx">header1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">#header_2</span><span class="dl">"</span><span class="p">);</span>
+		
+	<span class="nx">header1</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">header_1 id를 가진 요소</span><span class="dl">"</span><span class="p">;</span>
+	<span class="nx">header1</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">header_2 id를 가진 요소</span><span class="dl">"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/27.png" /></p>
+
+<h2 id="92-글자의-스타일-바꾸기">9.2. 글자의 스타일 바꾸기</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">let</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">header</span><span class="dl">"</span><span class="p">);</span>
+		
+	<span class="c1">// h1 태그의 문서의 요소를 바꾸어 보자.</span>
+	<span class="nx">header</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">1px solid red</span><span class="dl">"</span><span class="p">;</span>
+	<span class="nx">header</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">blue</span><span class="dl">"</span><span class="p">;</span>
+	<span class="nx">header</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">fontStyle</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Italic</span><span class="dl">"</span><span class="p">;</span>
+	<span class="nx">header</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">반갑습니다.</span><span class="dl">"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/29.png" /></p>
+
+<h2 id="93-특정-요소를-제거하는-방법">9.3. 특정 요소를 제거하는 방법</h2>
+<p>아래와 같이 작성시 id가 “header_2”인 태그는 제거되어 출력되지 않는다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">let</span> <span class="nx">header2</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">header_2</span><span class="dl">"</span><span class="p">);</span>		
+		
+	<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">header2</span><span class="p">);</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="94-이벤트-처리-작업">9.4. 이벤트 처리 작업</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">header</span><span class="dl">"</span><span class="p">);</span>
+			
+	<span class="nx">header</span><span class="p">.</span><span class="nx">onclick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">글자를 클릭하셨습니다!</span><span class="dl">"</span><span class="p">);</span>		<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/01.gif" /></p>
+
+<h4 id="예-버튼을-클릭했을-때-이벤트-처리">[예] 버튼을 클릭했을 때 이벤트 처리</h4>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+
+	<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">btnChannel1</span><span class="dl">"</span><span class="p">).</span><span class="nx">onclick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="kd">let</span> <span class="nx">myDiv</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">myDiv</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">myDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">yellow</span><span class="dl">"</span><span class="p">;</span>
+		<span class="nx">myDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">100px</span><span class="dl">"</span><span class="p">;</span>
+			
+		<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">str</span><span class="dl">"</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	
+	<span class="kd">function</span> <span class="nx">go_change</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">이벤트 예제입니다.</span><span class="dl">"</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"myDiv"</span> <span class="na">style=</span><span class="s">"height: 100px;"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"str"</span><span class="nt">&gt;</span>안녕<span class="nt">&lt;/span&gt;</span>하세요!
+	<span class="nt">&lt;/div&gt;</span>
+	
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">id=</span><span class="s">"btnChannel1"</span> <span class="na">value=</span><span class="s">"스타일변경1"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">id=</span><span class="s">"btnChannel2"</span> <span class="na">value=</span><span class="s">"스타일변경2"</span> <span class="na">onclick=</span><span class="s">"go_change()"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/02.gif" /></p>
+
+<h4 id="예-복사하기">[예] 복사하기</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+
+	<span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="kd">let</span> <span class="nx">button</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">btn</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">button</span><span class="p">.</span><span class="nx">onclick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+			<span class="kd">let</span> <span class="nx">text</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">text1</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span> <span class="c1">// text1 에 입력된 값</span>
+			
+			<span class="k">if</span><span class="p">(</span><span class="nx">text</span> <span class="o">==</span> <span class="dl">""</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// text1에 입력된 값이 없다면</span>
+				<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">내용을 입력하세요.</span><span class="dl">"</span><span class="p">);</span>
+			<span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+				<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">text2</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">text</span><span class="p">;</span> <span class="c1">// text2 에 text를 넣어라.</span>
+			<span class="p">}</span>		
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;h2&gt;</span>[문제] 버튼을 클릭하면 첫번째 테스트 창에 입력된 내용을 
+			두번째 텍스트 창으로 복사해 보자.<span class="nt">&lt;/h2&gt;</span>
+			
+		<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"text1"</span><span class="nt">&gt;&lt;br&gt;</span>
+		<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"text2"</span><span class="nt">&gt;&lt;br&gt;</span>
+		<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">id=</span><span class="s">"btn"</span> <span class="na">value=</span><span class="s">"복사"</span><span class="nt">&gt;&lt;br&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/03.gif" /></p>
+
+<h2 id="95-자바스크립트-내장-함수">9.5. 자바스크립트 내장 함수</h2>
+<p>자바스크립트에서 자체적으로 제공해 주는 함수.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">setInterval()</code> : 일정한 시간마다 주기적으로 특정한 함수를 호출한다. 반드시 개발자가 종료(clearInterval())를 시켜주어야 한다.</li>
+  <li>형식) <code class="language-plaintext highlighter-rouge">setInterval(호출할 함수 이름, 시간(ms));</code></li>
+</ul>
+
+<h4 id="예-일정-시간마다-글자색-바꾸기">[예] 일정 시간마다 글자색 바꾸기</h4>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+
+	<span class="kd">let</span> <span class="nx">id</span><span class="p">;</span>	<span class="c1">// 전역 변수</span>
+	
+	<span class="kd">function</span> <span class="nx">change_go</span><span class="p">()</span> <span class="p">{</span>	<span class="c1">// 1초마다 flashText 호출</span>
+		<span class="nx">id</span> <span class="o">=</span> <span class="nx">setInterval</span><span class="p">(</span><span class="nx">flashText</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="c1">// target의 글자색이 red면 blue로, blue면 red로 바꾸는 함수</span>
+	<span class="kd">function</span> <span class="nx">flashText</span><span class="p">()</span> <span class="p">{</span>	
+		<span class="kd">let</span> <span class="nx">target</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">target</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">target</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="p">(</span><span class="nx">target</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">==</span> <span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="p">)</span> <span class="p">?</span> <span class="dl">"</span><span class="s2">blue</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="kd">function</span> <span class="nx">stop_go</span><span class="p">()</span> <span class="p">{</span>	<span class="c1">// setInterval()종료</span>
+		<span class="nx">clearInterval</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"target"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;p&gt;</span>여기는 텍스트 영역입니다......<span class="nt">&lt;/p&gt;</span>	
+	<span class="nt">&lt;/div&gt;</span>
+	
+	<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"change_go()"</span><span class="nt">&gt;</span>시작<span class="nt">&lt;/button&gt;</span>
+	<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"stop_go()"</span><span class="nt">&gt;</span>종료<span class="nt">&lt;/button&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/04.gif" /></p>
+
+<h4 id="예-유효성-검사--회원가입-입력창-입력-여부-확인하기">[예] 유효성 검사 : 회원가입 입력창 입력 여부 확인하기</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;title&gt;</span>유효성 검사<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+
+	<span class="kd">function</span> <span class="nx">check</span><span class="p">()</span> <span class="p">{</span>
+	<span class="cm">/* 	// 아이디 입력창 입력 여부
+		if(document.getElementById("id").value == "") {
+			alert("아이디를 입력하세요.");
+			document.getElementById("id").focus();
+			return false;	// 액션 페이지로의 데이터 전송이 차단됨.
+		} */</span>
+		
+		<span class="c1">// form의 name이 f인 곳의 id의 value</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">value</span> <span class="o">==</span> <span class="dl">""</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">아이디를 입력하세요.</span><span class="dl">"</span><span class="p">);</span>
+			<span class="nx">f</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>	<span class="c1">// 액션 페이지로의 데이터 전송이 차단됨.</span>
+		<span class="p">}</span>
+		
+		<span class="c1">// 비밀번호 입력창 입력 여부</span>
+		<span class="k">if</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">pwd</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span> <span class="o">==</span> <span class="dl">""</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">비밀번호를 입력하세요.</span><span class="dl">"</span><span class="p">);</span>
+			<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">pwd</span><span class="dl">"</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>	<span class="c1">// 액션 페이지로의 데이터 전송이 차단됨.</span>
+		<span class="p">}</span>
+		
+		<span class="c1">// 이름 입력창 입력 여부</span>
+		<span class="k">if</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span> <span class="o">==</span> <span class="dl">""</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">이름을 입력하세요.</span><span class="dl">"</span><span class="p">);</span>
+			<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>	<span class="c1">// 액션 페이지로의 데이터 전송이 차단됨.</span>
+		<span class="p">}</span>
+		
+		<span class="c1">// 주소 입력창 입력 여부</span>
+		<span class="k">if</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">addr</span><span class="dl">"</span><span class="p">).</span><span class="nx">value</span> <span class="o">==</span> <span class="dl">""</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">주소를 입력하세요.</span><span class="dl">"</span><span class="p">);</span>
+			<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">addr</span><span class="dl">"</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>	<span class="c1">// 액션 페이지로의 데이터 전송이 차단됨.</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">"f"</span> <span class="na">action=</span><span class="s">"http://www.google.com"</span> <span class="na">onsubmit=</span><span class="s">"return check()"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">cellspacing=</span><span class="s">"0"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>아이디<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;</span> <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"id"</span> <span class="na">id=</span><span class="s">"id"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>비밀번호<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;</span> <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"pwd"</span> <span class="na">id=</span><span class="s">"pwd"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>이  름<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;</span> <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"name"</span> <span class="na">id=</span><span class="s">"name"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;th&gt;</span>주  소<span class="nt">&lt;/th&gt;</span>
+					<span class="nt">&lt;td&gt;</span> <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"addr"</span> <span class="na">id=</span><span class="s">"addr"</span><span class="nt">&gt;&lt;/td&gt;</span>
+				<span class="nt">&lt;/tr&gt;</span>
+				
+				<span class="nt">&lt;tr&gt;</span>
+					<span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"2"</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+						<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"가입"</span><span class="nt">&gt;</span>
+						<span class="ni">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+						<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"reset"</span> <span class="na">value=</span><span class="s">"취소"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;/td&gt;</span>			
+			<span class="nt">&lt;/table&gt;</span>
+		<span class="nt">&lt;/form&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210426/05.gif" /></p>
+
+<h3 id="-getelementsbytagname">* getElementsByTagName()</h3>
+<p><code class="language-plaintext highlighter-rouge">getElementsByTagName()</code>의 결과값은 검색된 모든 노드를 NodeList라는 객체에 담아서 반환이 된다. 	NodeList는 자주 사용하는 배열과 비슷한 일종의 ArrayList 컬렉션 객체로 DOM 객체 중 하나이다. NodeList 객체에서 제공하는 프로퍼티와 메서드는 아래와 같다.</p>
+<ul>
+  <li>length : 결과값의 전체 개수 정보가 담겨져 있다.</li>
+  <li>
+    <p>item : 결과값을 항목별로 접근할 때 사용한다.</p>
+  </li>
+  <li>문서에서 특정 태그 이름을 지닌 노드 찾기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// 문서에서 태그 이름이 div인 노드를 찾아보자.</span>
+	<span class="c1">// div 태그가 여러 개이므로 배열 형태로 저장된다.</span>
+	<span class="kd">let</span> <span class="nx">divs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="dl">"</span><span class="s2">div</span><span class="dl">"</span><span class="p">);</span>
+		
+	<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">문서 내의 div 태그 개수 &gt;&gt;&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">divs</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+		
+	<span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">divs</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// item() : 찾은 노드에서 n번째 노드에 접근하는 메서드.</span>
+		<span class="kd">let</span> <span class="nx">div</span> <span class="o">=</span> <span class="nx">divs</span><span class="p">.</span><span class="nx">item</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+		<span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">1px solid red</span><span class="dl">"</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>특정 노드의 자식 노드에서 특정 태그 이름을 지닌 노드 찾기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="kd">let</span> <span class="nx">divs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="dl">"</span><span class="s2">div</span><span class="dl">"</span><span class="p">);</span>
+		
+		<span class="c1">// 찾은 노드 가운데 3번째(2번째 인덱스) 노드를 찾아 보자.</span>
+		<span class="kd">let</span> <span class="nx">div2</span> <span class="o">=</span> <span class="nx">divs</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> 
+		
+		<span class="kd">let</span> <span class="nx">div2Child</span> <span class="o">=</span> <span class="nx">div2</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="dl">"</span><span class="s2">div</span><span class="dl">"</span><span class="p">);</span>
+		
+		<span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">div2Child</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">div2Child</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid red</span><span class="dl">"</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>문서에서 특정 클래스가 적용된 노드를 찾기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// 클래스도 중복해서 사용할 수 있으므로, 배열 형태로 저장된다.</span>
+	<span class="kd">let</span> <span class="nx">content</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="dl">"</span><span class="s2">content_data</span><span class="dl">"</span><span class="p">);</span>	
+		
+	<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">content_data 요소 개수 &gt;&gt;&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">content</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+		
+	<span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">content</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">content</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid blue</span><span class="dl">"</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>문서에서 특정 ID를 가진 노드를 찾기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		
+	<span class="kd">let</span> <span class="nx">page</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">sample_page</span><span class="dl">"</span><span class="p">);</span>
+	<span class="kd">let</span> <span class="nx">nodes</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">;</span>	<span class="c1">// page의 자식노드(복수)</span>
+		
+	<span class="kd">let</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">header</span><span class="dl">"</span><span class="p">);</span>
+	<span class="kd">let</span> <span class="nx">footer</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">footer</span><span class="dl">"</span><span class="p">);</span>
+		
+	<span class="nx">header</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid red</span><span class="dl">"</span><span class="p">;</span>
+	<span class="nx">footer</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px soild red</span><span class="dl">"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>문서에서 자식 노드를 찾기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">let</span> <span class="nx">page</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">sample_page</span><span class="dl">"</span><span class="p">);</span>
+	<span class="kd">let</span> <span class="nx">nodes</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">;</span>	<span class="c1">// page의 자식노드(복수)</span>
+		
+	<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">#sample_page의 자식 노드 개수 &gt;&gt;&gt; </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">nodes</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+		
+	<span class="c1">// 자식 노드 중에서 첫번째 자식 노드 접근</span>
+	<span class="kd">let</span> <span class="nx">firstChild</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">firstChild</span><span class="p">;</span>
+		
+	<span class="c1">// 텍스트 노드는 스타일을 적용할 수 없다.</span>
+	<span class="c1">// firstChild.style.border = "3px solid red";</span>
+		
+	<span class="c1">// 자식 노드 중에서 첫번째 자식 노드 접근</span>
+	<span class="kd">let</span> <span class="nx">lastChild</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">lastChild</span><span class="p">;</span>
+		
+	<span class="c1">// 텍스트 노드는 스타일을 적용할 수 없다.</span>
+	<span class="c1">// lastChild.style.border = "3px solid red";</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>문서에서 부모 노드 찾기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// #header인 노드의 부모 노드 찾기</span>
+	<span class="kd">let</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">header</span><span class="dl">"</span><span class="p">);</span>
+		
+	<span class="kd">let</span> <span class="nx">parent</span> <span class="o">=</span> <span class="nx">header</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+	<span class="nx">parent</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid blue</span><span class="dl">"</span><span class="p">;</span>
+		
+	<span class="c1">// 이렇게도 쓸 수 있다.</span>
+	<span class="c1">// header.parentNode.style.border = "3px solid blue";</span>
+		
+	<span class="c1">// [문제] id="data_1" 노드의 부모 노드를 찾아서 스타일을 적용해 보기.</span>
+	<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">data_1</span><span class="dl">"</span><span class="p">);</span>
+	<span class="nx">data</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid red</span><span class="dl">"</span><span class="p">;</span>
+	
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>문서에서 형제 노드를 찾기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">let</span> <span class="nx">content</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">content</span><span class="dl">"</span><span class="p">);</span>
+		
+	<span class="c1">// 내 위치에서 이전 형제 노드를 찾는 방법</span>
+	<span class="kd">let</span> <span class="nx">pre</span> <span class="o">=</span> <span class="nx">content</span><span class="p">.</span><span class="nx">previousSibling</span><span class="p">.</span><span class="nx">previousSibling</span><span class="p">;</span>
+		
+	<span class="nx">pre</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid red</span><span class="dl">"</span><span class="p">;</span>
+		
+	<span class="c1">// 내 위치에서 이후 형제 노드를 찾는 방법</span>
+	<span class="kd">let</span> <span class="nx">next</span> <span class="o">=</span> <span class="nx">content</span><span class="p">.</span><span class="nx">nextSibling</span><span class="p">.</span><span class="nx">nextSibling</span><span class="p">;</span>
+		
+	<span class="nx">next</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid blue</span><span class="dl">"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">document.createElement()</code> 메서드를 이용하여 노드 생성 및 추가하기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// 1. 추가(p태그 추가)</span>
+	<span class="kd">let</span> <span class="nx">page</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">sample_page</span><span class="dl">"</span><span class="p">);</span>
+		
+	<span class="c1">// 기준 노드를 찾아 보자.</span>
+	<span class="kd">let</span> <span class="nx">firstChild</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">firstChild</span><span class="p">;</span>
+		
+	<span class="c1">// &lt;p&gt;태그를 동적으로 생성(실행될 때 생성된다)</span>
+	<span class="kd">let</span> <span class="nx">pNode</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">p</span><span class="dl">"</span><span class="p">);</span>
+		
+		<span class="c1">// 텍스트 노드도 동적으로 생성</span>
+		<span class="kd">let</span> <span class="nx">textNode</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="dl">"</span><span class="s2">추가내용1</span><span class="dl">"</span><span class="p">);</span>
+		
+		<span class="c1">// p태그의 자식노드로 텍스트 노드를 추가</span>
+		<span class="nx">pNode</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">textNode</span><span class="p">);</span>
+		
+		<span class="nx">pNode</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid red</span><span class="dl">"</span><span class="p">;</span>
+		
+		<span class="nx">page</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">pNode</span><span class="p">,</span> <span class="nx">firstChild</span><span class="p">);</span>
+		
+		
+		
+		<span class="c1">// 2. 추가(div 태그 추가)</span>
+		<span class="kd">let</span> <span class="nx">content</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">content</span><span class="dl">"</span><span class="p">);</span>
+		<span class="kd">let</span> <span class="nx">div1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">div</span><span class="dl">"</span><span class="p">);</span>
+		
+		<span class="kd">let</span> <span class="nx">textNode1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="dl">"</span><span class="s2">생성할 노드가 많은 경우, </span><span class="dl">"</span><span class="p">);</span>
+		<span class="kd">let</span> <span class="nx">span1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">span</span><span class="dl">"</span><span class="p">);</span>
+		<span class="kd">let</span> <span class="nx">textNode2</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="dl">"</span><span class="s2">어떤 방법을 </span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">span1</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">textNode2</span><span class="p">);</span>
+		<span class="kd">let</span> <span class="nx">textNode3</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="dl">"</span><span class="s2">사용해야 할까요?</span><span class="dl">"</span><span class="p">);</span>
+		
+		<span class="c1">// div 태그에 자식노드로 텍스트노드와 span태그를 추가해야 한다.</span>
+		<span class="nx">div1</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">textNode1</span><span class="p">);</span>
+		<span class="nx">div1</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">span1</span><span class="p">);</span>
+		<span class="nx">div1</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">textNode3</span><span class="p">);</span>
+		
+		<span class="nx">div1</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid blue</span><span class="dl">"</span><span class="p">;</span>
+		
+		<span class="c1">// 생성된 div 태그를 content id의 위쪽에 추가</span>
+		<span class="nx">page</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">div1</span><span class="p">,</span> <span class="nx">content</span><span class="p">);</span>
+		
+		
+		<span class="c1">// 3. 추가(p태그 추가)</span>
+		<span class="kd">let</span> <span class="nx">p2Node</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">p</span><span class="dl">"</span><span class="p">);</span>
+		<span class="kd">let</span> <span class="nx">textNode4</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="dl">"</span><span class="s2">추가내용2</span><span class="dl">"</span><span class="p">);</span>
+		<span class="nx">p2Node</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">textNode4</span><span class="p">);</span>
+		<span class="nx">p2Node</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid red</span><span class="dl">"</span><span class="p">;</span>
+		
+		<span class="nx">page</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">p2Node</span><span class="p">);</span>
+		
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Node.cloneNode()</code> 메서드를 이용하여 노드 생성</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">let</span> <span class="nx">page</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">sample_page</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="kd">let</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">firstChild</span><span class="p">;</span>
+	
+	<span class="kd">let</span> <span class="nx">pNode</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">p</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="kd">let</span> <span class="nx">textNode</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="dl">"</span><span class="s2">추가내용1</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="nx">pNode</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">textNode</span><span class="p">);</span>
+	
+	<span class="nx">pNode</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid red</span><span class="dl">"</span><span class="p">;</span>
+	
+	<span class="nx">page</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">pNode</span><span class="p">,</span> <span class="nx">first</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>문서에서 노드 삭제하기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// 지우려고 하는 노드가 포함된 부모 노드</span>
+	<span class="kd">let</span> <span class="nx">page</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">sample_page</span><span class="dl">"</span><span class="p">);</span>	
+	
+	<span class="c1">// 지우려는 노드를 찾자.</span>
+	<span class="kd">let</span> <span class="nx">content</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">content</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="c1">// 부모 노드의 removeChild() 메서드를 이용하면 된다.</span>
+	<span class="nx">page</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">content</span><span class="p">);</span>
+	
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>노드 이동시키기</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// 이동시킬 노드를 찾아보자.</span>
+	<span class="kd">let</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">header</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="c1">// 이동 위치의 노드를 구해보자.</span>
+	<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">content</span><span class="dl">"</span><span class="p">);</span>
+	
+	<span class="c1">// header를 content의 자식 노드로 이동</span>
+	<span class="nx">content</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">header</span><span class="p">);</span>
+		
+	<span class="nx">header</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">3px solid blue</span><span class="dl">"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+:ET

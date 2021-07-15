@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] 댓글 기능"
 date:   2021-05-18 22:00:01 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.18.
-
-<br>
-
 # 댓글 기능
 
 <p align="center"><img src="../assets/img/images/210518/02.png"></p>

@@ -1,0 +1,444 @@
+I"��<h1 id="mappingproperties-파일-이용">mapping.properties 파일 이용</h1>
+
+<p>14_Board_Reply 구현 내용이다.<br />
+forward로 데이터를 넘기는 게 어려워서 아직 공부 중이다.<br />
+(+수정완료 210521 | 5-1 참고)</p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="1-action-인터페이스">1. Action 인터페이스</h2>
+<p>이전까지는 반환타입을 String, void로 두었다면<br />
+이번에는 ActionForward 객체 타입으로 두어 ActionForward의 멤버변수로 반환할 것이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Action</span> <span class="o">{</span>
+
+	<span class="c1">// 반환타입이 ActionFoward인 추상 메서드</span>
+	<span class="kd">public</span> <span class="nc">ActionForward</span> <span class="nf">execute</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-actionforward-클래스">2. ActionForward 클래스</h2>
+<p>Action 인터페이스를 상속받는 자식 클래스들의 execute메서드 반환타입이 될 클래스다.<br />
+ActionForward 클래스에는 두 가지 멤버변수가 있다.</p>
+
+<p>1) insRedirect() 멤버 : boolean 타입
+	- *.do 페이지(true) : *.do 페이지로 이동한다면 true 값으로 설정한다. <br />
+	- jsp 페이지(false) : .jsp 페이지로 이동한다면 false 값으로 설정한다.  <br />
+2) path 멤버 : String 타입
+	- 파일 경로 지정. RequestDispatcher()의 인자가 되어 path의 지정경로로 이동한다.</p>
+
+<p>모두 private로 두고 getter()/setter()로 접근하게 한다.<br />
+FrontController, *Action 클래스 등 여러 곳에서 ‘페이지 이동’을 정리해 줄 중심 변수이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ActionForward</span> <span class="o">{</span>
+
+	<span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isRedirect</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">path</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isRedirect</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">isRedirect</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setRedirect</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">isRedirect</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">isRedirect</span> <span class="o">=</span> <span class="n">isRedirect</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getPath</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">path</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setPath</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="3-mappingproperties-파일">3. mapping.properties 파일</h2>
+<p>주석으로는 <code class="language-plaintext highlighter-rouge">#</code>을 사용한다.<br />
+작성방식은 key = value 형태로, getProperty()로 key 또는 value를 호출한다. 
+value 값 앞에 특정 문구(execute)을 두어 서블릿 실행과 jsp 파일 이동을 구분한다. <br />
+value 값 앞에 “execute”라고 적혀있는 key 값을 받으면 모두 서블릿 실행으로 연결된다.<br />
+자세한 방식은 FrontController에서 다룬다.</p>
+
+<pre><code class="language-file"># 주석처리는 샵(#)을 사용한다. 
+# key = value 형태로, 
+# getProperty()로 key 또는 value를 호출한다. 
+
+# 게시판 Action Class
+bbs_list.do = execute|com.reply.action.BbsListAction
+bbs_write_ok.do = execute|com.reply.action.BbsWriteOkAction
+bbs_cont.do = execute|com.reply.action.BbsContAction
+bbs_update.do = execute|com.reply.action.BbsUpdateAction
+bbs_update_ok.do = execute|com.reply.action.BbsUpdateOkAction
+bbs_delete.do = execute|com.reply.action.BbsDeleteAction
+bbs_delete_ok.do = execute|com.reply.action.BbsDeleteOkAction
+
+# 게시판 view page
+bbs_write.do = view/bbs_write.jsp
+</code></pre>
+
+<p><br /></p>
+
+<hr />
+<h2 id="4-frontcontroller">4. FrontController</h2>
+<p>1) 변수 action과 forward를 선언한다. <br />
+우선 아래에서 작성할 조건문 안에서 사용될 변수 action과 forward를 선언한다.<br />
+조건문 안에서 선언할 경우 지역변수가 되어 조건문 밖에선 사용하지 못하므로 미리 선언해둔다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Action</span> <span class="n">action</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="nc">ActionForward</span> <span class="n">forward</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) Properties 클래스의 변수 prop을 정의한다. <br />
+위에서 작성한 mapping.properties 파일의 내용을 사용하기 위해 Properties 클래스 변수를 정의한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Properties</span> <span class="n">prop</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Properties</span><span class="o">();</span>
+
+<span class="c1">// properties 파일 경로로 InputStream 객체를 생성하면 </span>
+<span class="nc">FileInputStream</span> <span class="n">fis</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span><span class="s">"mapping.properties 파일이 저장된 경로"</span><span class="o">);</span>
+
+<span class="c1">// load() 메서드로 파일을 읽어올 수 있게 된다. </span>
+<span class="n">prop</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">fis</span><span class="o">);</span>
+		
+<span class="c1">// getProperty() : 키를 호출하면 value를, value를 호출하면 키 값을 반환한다.</span>
+<span class="c1">// 호출한 값을 value로 저장한다. </span>
+<span class="c1">// 여기서 command 변수는 mapping.properties의 key가 되므로 value에는 value값이 저장된다.  </span>
+<span class="nc">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">command</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li>java.util.Properties 클래스
+    <ul>
+      <li>Properties 클래스는 HashTable의 하위 클래스.</li>
+      <li>보통은 환경 변수 및 속성 값을 Properties 파일에 저장하여 쉽게 접근할 수 있는 장점이 있다.</li>
+      <li>Properties 파일은 일련의 키(key)-값(value)의 한 쌍으로 이루어져 있다.</li>
+      <li>보통은 파일에 저장하여 사용한다. 파일 이름을 *.properties 으로 끝나게 한다.</li>
+      <li>InputStream 에 Properties 파일을 인자로 넣어서 그 스트림으로부터 파일을 가져올 때 가장 많이 사용한다. 인자로 들어온 Properties 파일을 읽게 된다.</li>
+      <li>load() 메서드를 이용하여 파일을 읽어들이게 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<p>3) 동적 객체를 생성한다.<br />
+newInstance() 메서드를 활용하여 value에 저장된 파일의 객체를 생성한다.<br />
+value에 저장된 데이터를 “|”를 기준으로 후자의 데이터를 String 변수로 저장한다.(url_2)<br />
+url_2 에는 실행될 액션파일 경로가 저장되어 있으므로, forName()변수로 해당 액션파일의 객체를 생성한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">7</span><span class="o">).</span><span class="na">equals</span><span class="o">(</span><span class="s">"execute"</span><span class="o">))</span> <span class="o">{</span>	<span class="c1">// value의 0번째에서 6번째 인덱스까지 저장된 값이 "execute"라면  </span>
+			
+	<span class="c1">// StringTokenizer 객체를 생성하여 value에 저장된 값을 "|"를 기준으로 나눈다. </span>
+	<span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="s">"|"</span><span class="o">);</span>
+	
+	<span class="c1">// value에는 "execute|패키지명.클래스명" 형태로 저장되어 있으므로,</span>
+	<span class="nc">String</span> <span class="n">url_1</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">();</span>	<span class="c1">// "execute"</span>
+	<span class="nc">String</span> <span class="n">url_2</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">();</span>	<span class="c1">// "패키지명.클래스명"</span>
+
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="c1">// url_2(패키지명.클래스명)를 로딩한다.</span>
+		<span class="nc">Class</span> <span class="n">url</span> <span class="o">=</span> <span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">url_2</span><span class="o">);</span> 	
+				
+		<span class="c1">// 동적으로 객체 생성</span>
+		<span class="c1">// action = new BbsListAction(); 과 동일한 개념</span>
+		<span class="n">action</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Action</span><span class="o">)</span><span class="n">url</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+				
+		<span class="c1">// ActionForward 클래스의 멤버변수들을 사용하기 위해 실행 메서드를 forward에 저장한다.  </span>
+		<span class="n">forward</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+				
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// TODO Auto-generated catch block</span>
+		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+	<span class="o">}</span>	
+<span class="o">}</span><span class="k">else</span> <span class="o">{</span>	<span class="c1">// value 값이 "execute" 문자열이 아닌 경우 view page로 이동</span>
+	<span class="n">forward</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ActionForward</span><span class="o">();</span>
+	
+	<span class="n">forward</span><span class="o">.</span><span class="na">setRedirect</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>	<span class="c1">// view page로 이동시에는 redirect 값이 false</span>
+	<span class="n">forward</span><span class="o">.</span><span class="na">setPath</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>동적 객체 생성 : newInstance()
+    <ul>
+      <li>Class 객체를 이용하면 new 연산자의 사용 없이 동적으로 객체 생성이 가능하다.</li>
+      <li>코드 작성 시에 클래스의 이름을 결정할 수 없고, 런타임(실행) 시에 클래스의 이름이 결정되는 경우에 유용하게 사용된다.</li>
+      <li>newInstance() 메서드는 기본 생성자를 호출해서 객체를 생성하기 때문에 반드시 클래스에 기본 생성자가 존재해야 한다. 예외가 발생할 수 있는데, 해당 클래스가 추상클래스이거나 인터페이스일 경우 발생하며 또한 클래스의 생성자가 접근 제한자로 인해 접근할 수 없는 경우에도 발생한다. 따라서 예외처리를 해주어야 한다.</li>
+      <li>반환타입은 Objects 타입이므로 맞게 형변환을 하면 되지만, 클래스의 타입을 모르는 상태이므로 형변환을 할 수가 없다. 이러한 문제를 해결하기 위해서 인터페이스를 사용한다.</li>
+      <li>Class.forName(class 이름)은 파라미터로 받은 class 이름에 해당하는 클래스를 로딩한 후에 그 클래스에 해당하는 인터페이스를 리턴한다. newInstance() 메서드는 로딩한 클래스의 객체를 생성하는 메서드이고 이렇게 생성된 객체를 동적 객체 생성이라고 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>4) forward의 값에 따라 서블릿을 실행하거나 view page로 이동한다.<br />
+forward의 redirect 값이</p>
+<ul>
+  <li>true : 서블릿 실행</li>
+  <li>false : view page로 이동</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="o">(</span><span class="n">forward</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>	
+	<span class="k">if</span><span class="o">(</span><span class="n">forward</span><span class="o">.</span><span class="na">isRedirect</span><span class="o">())</span> <span class="o">{</span>	<span class="c1">// true 인 경우 다시 *.do 실행</span>
+		<span class="n">response</span><span class="o">.</span><span class="na">sendRedirect</span><span class="o">(</span><span class="n">forward</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+	<span class="o">}</span><span class="k">else</span> <span class="o">{</span>	<span class="c1">// false 인 경우 view page로 이동</span>
+		<span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="n">forward</span><span class="o">.</span><span class="na">getPath</span><span class="o">());</span>
+		<span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<hr />
+<h2 id="5-액션-클래스-생성">5. 액션 클래스 생성</h2>
+<p>이제 매핑된 value 값마다 액션 클래스를 생성하고, 코드 작성 후 foward 값을 설정하여 리턴하면 된다.<br />
+클래스 안에는 기존의 액션 클래스처럼 DTO, DAO 객체가 활용될 수 있다. <br />
+예를 들면 다음과 같이 작성할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BbsDeleteAction</span> <span class="kd">implements</span> <span class="nc">Action</span> <span class="o">{</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="nc">ActionForward</span> <span class="nf">execute</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+		
+		<span class="kt">int</span> <span class="n">nowPage</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"page"</span><span class="o">).</span><span class="na">trim</span><span class="o">());</span>
+		<span class="kt">int</span> <span class="n">bbs_no</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"no"</span><span class="o">).</span><span class="na">trim</span><span class="o">());</span>
+		
+		<span class="nc">BbsDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="nc">BbsDAO</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+		<span class="nc">BbsDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">getBbsCont</span><span class="o">(</span><span class="n">bbs_no</span><span class="o">);</span>
+		
+		<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"del"</span><span class="o">,</span> <span class="n">dto</span><span class="o">);</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"page"</span><span class="o">,</span> <span class="n">nowPage</span><span class="o">);</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"no"</span><span class="o">,</span> <span class="n">bbs_no</span><span class="o">);</span>
+		
+		<span class="c1">// ActionForward 객체를 생성하여 redirect 값을 설정하고 path를 지정한다.  </span>
+		<span class="nc">ActionForward</span> <span class="n">forward</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ActionForward</span><span class="o">();</span>
+		 
+		<span class="n">forward</span><span class="o">.</span><span class="na">setRedirect</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>	<span class="c1">// redirect가 false 이므로 view page로 이동할 것이다.  </span>
+		<span class="n">forward</span><span class="o">.</span><span class="na">setPath</span><span class="o">(</span><span class="s">"view/bbs_delete.jsp"</span><span class="o">);</span>	<span class="c1">// 이동할 view page 경로</span>
+		
+		<span class="k">return</span> <span class="n">forward</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="5-1-데이터-값을-액션클래스에서-함께-넘기는-방법">5-1. 데이터 값을 액션클래스에서 함께 넘기는 방법</h3>
+<p>게시물을 수정하는데 자꾸 페이지 이동에 에러가 발생하였다.<br />
+수정이 성공되거나 비밀번호 불일치로 실패하거나 모두 cont 페이지로 이동하지 못하고 NullPointException 을 출력하였다.</p>
+
+<p>no변수와 page변수가 함께 넘어가지 않아서 cont 페이지가 열리지 않는다고 판단하여 setAttribute를 설정하는 등 여러가지로 코드를 수정해 보았으나 결과부터 말하자면</p>
+
+<p><strong>모두 필요 없었다.</strong> <br />
+수정 성공시에는 forward의 path 지정에서 기존의 방식과 동일하게 경로에서 데이터를 넘기면 되었다.<br />
+수정 실패시에는 오타가 있어 오류가 발생하는 거였다. 생략된 괄호”)”를 넣어 수정하니 정상적으로 페이지가 돌아갔다. 오타에 주의하자!</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">forward</span><span class="o">.</span><span class="na">setPath</span><span class="o">(</span><span class="s">"bbs_cont.do?no="</span><span class="o">+</span><span class="n">bbs_no</span><span class="o">+</span><span class="s">"&amp;page="</span><span class="o">+</span><span class="n">nowPage</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>아래는 애먹었던 코드 전문</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="o">(</span><span class="n">bbs_pwd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">db_pwd</span><span class="o">))</span> <span class="o">{</span>	<span class="c1">// 비밀번호가 같은 경우</span>
+	
+	<span class="c1">// 변경된 게시물 작성내용을 dto 객체에 저장		</span>
+	<span class="nc">BbsDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="nc">BbsDAO</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+	<span class="nc">BbsDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BbsDTO</span><span class="o">();</span>
+	
+	<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_no</span><span class="o">(</span><span class="n">bbs_no</span><span class="o">);</span>
+	<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_writer</span><span class="o">(</span><span class="n">bbs_writer</span><span class="o">);</span>
+	<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_title</span><span class="o">(</span><span class="n">bbs_title</span><span class="o">);</span>
+	<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_cont</span><span class="o">(</span><span class="n">bbs_cont</span><span class="o">);</span>
+	<span class="n">dto</span><span class="o">.</span><span class="na">setBoard_pwd</span><span class="o">(</span><span class="n">bbs_pwd</span><span class="o">);</span>
+			
+	<span class="c1">// 게시글을 수정하는 메서드 호출</span>
+	<span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">updateBbs</span><span class="o">(</span><span class="n">dto</span><span class="o">);</span>
+			
+	<span class="k">if</span><span class="o">(</span><span class="n">res</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>	<span class="c1">// 게시글 수정이 성공한 경우</span>
+		<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;script&gt;"</span><span class="o">);</span>
+		<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"alert('수정완료!')"</span><span class="o">);</span>
+		<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/script&gt;"</span><span class="o">);</span>
+				
+		<span class="n">forward</span><span class="o">.</span><span class="na">setRedirect</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+		<span class="n">forward</span><span class="o">.</span><span class="na">setPath</span><span class="o">(</span><span class="s">"bbs_cont.do?no="</span><span class="o">+</span><span class="n">bbs_no</span><span class="o">+</span><span class="s">"&amp;page="</span><span class="o">+</span><span class="n">nowPage</span><span class="o">);</span>
+	<span class="o">}</span><span class="k">else</span> <span class="o">{</span>	<span class="c1">// 게시글 수정이 실패한 경우</span>
+		<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;script&gt;"</span><span class="o">);</span>
+		<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"alert('수정실패!')"</span><span class="o">);</span>
+		<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"history.back()"</span><span class="o">);</span>
+		<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/script&gt;"</span><span class="o">);</span>
+	<span class="o">}</span>	
+			
+<span class="o">}</span><span class="k">else</span> <span class="o">{</span>	<span class="c1">// 비밀번호가 다른 경우</span>
+	<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;script&gt;"</span><span class="o">);</span>
+	<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"alert('수정실패! 비밀번호를 확인하세요!')"</span><span class="o">);</span>
+	<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"history.back()"</span><span class="o">);</span>
+	<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"&lt;/script&gt;"</span><span class="o">);</span>
+<span class="o">}</span>			
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="6-답변-기능">6. 답변 기능</h2>
+
+<p align="center"><img src="../assets/img/images/210521/01.png" /></p>
+
+<p>이번 게시판의 테이블은 다음과 같다.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">table</span> <span class="n">jsp_bbs</span><span class="p">(</span>
+	<span class="n">board_no</span> <span class="n">number</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>				<span class="c1">-- 게시판 글번호</span>
+	<span class="n">board_writer</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span><span class="p">,</span>		<span class="c1">-- 게시판 글 작성자</span>
+	<span class="n">board_title</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span><span class="p">,</span>		<span class="c1">-- 게시판 글 제목</span>
+	<span class="n">board_cont</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span><span class="p">,</span>		<span class="c1">-- 게시판 글 내용</span>
+	<span class="n">board_pwd</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span><span class="p">,</span>			<span class="c1">-- 게시판 글 비밀번호</span>
+	<span class="n">board_hit</span> <span class="n">number</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">default</span> <span class="mi">0</span><span class="p">,</span>				<span class="c1">-- 게시판 글 조회수</span>
+	<span class="n">board_date</span> <span class="nb">date</span><span class="p">,</span>								<span class="c1">-- 게시판 글 작성일자</span>
+	<span class="n">board_group</span> <span class="n">number</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>						<span class="c1">-- 게시판 글 그룹</span>
+	<span class="n">board_step</span> <span class="n">number</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>							<span class="c1">-- 게시판 글 답변 단계</span>
+	<span class="n">board_indent</span> <span class="n">number</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>						<span class="c1">--	게시판 답변글 들여쓰기</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>여기서 board_group, board_step, board_indent 가 답변 기능에서 활용되는 컬럼들이다.</p>
+<ul>
+  <li>board_group : 글 번호에 해당하는 답글들을 하나의 그룹으로 묶어주는 컬럼.</li>
+  <li>board_step : 답글이 달린 순서에 따라 오름차순으로 정렬하기 위한 컬럼.</li>
+  <li>board_indent : 들여쓰기 횟수를 지정하기 위한 컬럼.</li>
+</ul>
+
+<p>그림으로 나타내면 다음과 같다. 작성순서는 test 옆의 수로 나타내었다.</p>
+
+<p align="center"><img src="../assets/img/images/210521/00.png" /></p>
+
+<ol>
+  <li>10번 게시글에 달린 답글은 모두 10번 group 으로 묶였다. (board_group)</li>
+  <li>답글이 step에 따라 오름차순으로 정렬되었다. (board_step)</li>
+  <li>indent의 수만큼 들여쓰기가 적용되었다. (board_indent)</li>
+</ol>
+
+<p>위와 같이 출력하기 위하여, 답글을 작성할 때는 두 가지 메서드를 호출한다.</p>
+
+<p><br /></p>
+
+<h3 id="6-1-replyupdate">6-1. replyUpdate()</h3>
+<p>jsp_bbs 테이블 게시판 답변 글의 step을 하나 증가시키는 메서드. 
+n번 글에 답변을 달 때, n번 글의 그룹이면서 step이 n번 글의 step보다 큰 모든 게시글의 step을 모두 +1 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sql</span> <span class="o">=</span> <span class="s">"update jsp_bbs set board_step = board_step + 1 where board_group = ? and board_step &gt; ?"</span><span class="o">;</span>
+
+<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">bbs_group</span><span class="o">);</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">bbs_step</span><span class="o">);</span>
+
+<span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="6-2-replybbs">6-2. replyBbs()</h3>
+
+<p>DB에 작성한 답글의 데이터를 저장하는 메서드.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+<span class="n">openConn</span><span class="o">();</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="s">"select count(*) from jsp_bbs"</span><span class="o">;</span>
+<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+<span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>	<span class="c1">// sequence 대신 사용하는 방법</span>
+<span class="o">}</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="s">"insert into jsp_bbs values(?,?,?,?,?,default,sysdate,?,?,?)"</span><span class="o">;</span>
+
+<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">count</span><span class="o">);</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_writer</span><span class="o">());</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_title</span><span class="o">());</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_cont</span><span class="o">());</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_pwd</span><span class="o">());</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_group</span><span class="o">());</span>
+
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_step</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>	<span class="c1">// 답변을 달 게시글보다 step 을 +1한다. </span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">8</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_indent</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>	<span class="c1">// 답변을 달 게시글보다 indent 를 +1한다.</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>예를 들어 아래의 그림에서 15번 게시글인 “re) re) test6”에 답글을 작성한다고 가정해 보자.</p>
+
+<p align="center"><img src="../assets/img/images/210521/02.png" /></p>
+
+<p>15번 게시글은 10번 게시글의 답글에 답글이 달린, 즉 10번 그룹에 속하는 글이다. <br />
+현재 step이 2 이므로, 아래에 달릴 답글의 step은 3이 되어야 한다.<br />
+이 때 3과 동일한 step이 존재하면 순서가 꼬일 수도 있으므로 3 이상의 step들을 모두 +1씩 해주어야 한다.</p>
+
+<p><br /></p>
+
+<p align="center"><img src="../assets/img/images/210521/03.png" /></p>
+
+<p>즉, 답글을 달 15번 게시글의 step인 2보다 큰 수들을 모두 +1씩 해주고 그 사이에 step이 3인 게시글을 넣는 식이다.<br />
+기존글과 답글을 구분하기 위한 들여쓰기를 위해 indent 수도 +1 한다.</p>
+
+<p><br /></p>
+
+<p align="center"><img src="../assets/img/images/210521/04.png" /></p>
+
+<p>indent는 게시글 출력시에 반복문의 end 변수로 사용한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;</span> 
+	<span class="o">&lt;</span><span class="nl">c:</span><span class="n">forEach</span> <span class="n">begin</span><span class="o">=</span><span class="s">"1"</span> <span class="n">end</span><span class="o">=</span><span class="s">"${dto.getBoard_indent() }"</span><span class="o">&gt;</span>
+		<span class="o">&amp;</span><span class="n">nbsp</span><span class="o">;&amp;</span><span class="n">nbsp</span><span class="o">;&amp;</span><span class="n">nbsp</span><span class="o">;&amp;</span><span class="n">nbsp</span><span class="o">;</span>	<span class="c1">// 들여쓰기</span>
+	<span class="o">&lt;/</span><span class="nl">c:</span><span class="n">forEach</span><span class="o">&gt;</span>
+						
+	<span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">"&lt;%=request.getContextPath() %&gt;/bbs_cont.do?no=${dto.getBoard_no() }&amp;page=${page }"</span><span class="o">&gt;</span>
+						
+		<span class="o">&lt;</span><span class="nl">c:</span><span class="n">forEach</span> <span class="n">begin</span><span class="o">=</span><span class="s">"1"</span> <span class="n">end</span><span class="o">=</span><span class="s">"${dto.getBoard_indent() }"</span><span class="o">&gt;</span>
+			<span class="n">re</span><span class="o">)</span>
+		<span class="o">&lt;/</span><span class="nl">c:</span><span class="n">forEach</span><span class="o">&gt;</span>
+		
+		<span class="err">$</span><span class="o">{</span><span class="n">dto</span><span class="o">.</span><span class="na">getBoard_title</span><span class="o">()</span> <span class="o">}</span>
+	<span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="6-3-deletebbs">6-3. deleteBbs()</h3>
+<p>답변이 달린 게시글은 삭제되지 않도록 sql문을 작성한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sql</span> <span class="o">=</span> <span class="s">"select count(*) from jsp_bbs where board_no &gt; ? and board_group = ? and board_step &gt; ?"</span><span class="o">;</span>
+
+<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_no</span><span class="o">());</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_group</span><span class="o">());</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_step</span><span class="o">());</span>
+
+<span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span> 
+			
+<span class="k">if</span><span class="o">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>	<span class="c1">// 답글이 있는 게시물의 경우</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">;</span>
+<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+	<span class="n">sql</span> <span class="o">=</span> <span class="s">"delete from jsp_bbs where board_no = ?"</span><span class="o">;</span>
+	<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+	<span class="n">pstmt</span><span class="o">.</span><span class="na">setInt</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">dto</span><span class="o">.</span><span class="na">getBoard_no</span><span class="o">());</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+:ET

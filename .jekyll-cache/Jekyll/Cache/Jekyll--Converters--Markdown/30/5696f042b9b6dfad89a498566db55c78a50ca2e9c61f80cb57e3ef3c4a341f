@@ -1,0 +1,840 @@
+I"��<h1 id="spring">SPRING</h1>
+<hr />
+
+<h2 id="1-스프링-개요">1. 스프링 개요</h2>
+<ul>
+  <li>선수학습 : <code class="language-plaintext highlighter-rouge">java</code>, <code class="language-plaintext highlighter-rouge">jsp(servlet)</code>, 스크립트 언어(<code class="language-plaintext highlighter-rouge">html</code>, <code class="language-plaintext highlighter-rouge">javascript</code>, <code class="language-plaintext highlighter-rouge">css</code>, <code class="language-plaintext highlighter-rouge">jquery</code>)</li>
+  <li>개념 : 자바 언어를 기반으로 한 애플리케이션을 제작할 때 효율적으로 빠르게 개발할 수 있도록 하는 애플리케이션 프레임워크(프로그래밍 틀).</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="11-스프링-프레임워크란">1.1. 스프링 프레임워크란?</h3>
+<ul>
+  <li>스프링은 엔터프라이즈(기업용) 애플리케이션에서 필요로 하는 여러가지 기능들을 제공하는 프레임 워크.</li>
+  <li>Java EE가 제공하는 기능들을 스프링에서도 지원하고 있기 때문에 국내에서는 가장 인기있는 프레임워크로 자리를 잡았다.</li>
+  <li>스프링은 Java EE에서 제공하는 기능 외에 DI나 AOP와 같은 기능을 추가적으로 제공한다.</li>
+  <li>Java EE에서 MVC-2 모델 방식도 새로운 애플리케이션을 개발할 때마다 일일이 처음부터 다시 개발해야 하는 단점이 있다. 모든 애플리케이션에서 공통적인 기능등을 처음부터 다시 개발해야 한다는 것은 상당히 비효율적이다.</li>
+  <li>이보다 더 좋은 방법이 바로 스프링이다. 애플리케이션 개발 시에 일반적인 웹 애플리케이션에서 많이 사용하는 기능들은 미리 만들어서 제공하고, 그 외에 필요한 부분만 추가 및 수정하는 방식을 이용하면 된다. 이렇게 하면 훨씬 효율적일 뿐만 아니라 일정한 형식에 따라서 개발을 진행하므로 표준화가 이루어져 생산성도 높일 수 있다.</li>
+  <li>
+    <p>애플리케이션은 규모가 커질수록 각각의 기능들을 개발자가 따로 개발하는 것보다는 표준화된 방법으로 개발하는 것이 상당히 유리하다.</p>
+  </li>
+  <li>그렇다면 <strong>프레임워크(framework)</strong> 란?
+    <ul>
+      <li>프레임워크(framework)의 사전적 의미는 <code class="language-plaintext highlighter-rouge">어떤 것을 구성하는 구조 또는 뼈대</code>이다.</li>
+      <li>소프트웨적 의미로는 “기능을 미리 클래스나 인터페이스 등으로 만들어 제공하는 반제품” 정도로 해석할 수 있다.</li>
+      <li>즉, 어느 정도는 완성된 상태로 제공하는 기능이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="12-스프링-프레임워크의-특징">1.2. 스프링 프레임워크의 특징</h3>
+<ul>
+  <li>스프링은 경량의 프레임워크이다.
+    <ul>
+      <li>자바의 객체를 담고 있는 컨테이너(IoC 컨테이너).</li>
+      <li>객체의 생성, 관리, 소멸과 같은 생명주기를 관리한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="13-한글-인코딩">1.3. 한글 인코딩</h3>
+
+<p>프로젝트의 web.xml 파일에서 한글 인코딩 설정 작업을 하면 프로젝트 전체에 적용된다.</p>
+
+<p align="center"><img src="../assets/img/images/210623/04.png" /></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- 한글 인코딩 설정 작업 --&gt;</span>
+<span class="nt">&lt;filter&gt;</span>
+	<span class="nt">&lt;filter-name&gt;</span>encodingFilter<span class="nt">&lt;/filter-name&gt;</span>
+	<span class="nt">&lt;filter-class&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="nt">&lt;/filter-class&gt;</span>
+	<span class="nt">&lt;init-param&gt;</span>
+		<span class="nt">&lt;param-name&gt;</span>encoding<span class="nt">&lt;/param-name&gt;</span>
+		<span class="nt">&lt;param-value&gt;</span>UTF-8<span class="nt">&lt;/param-value&gt;</span>
+	<span class="nt">&lt;/init-param&gt;</span>
+	
+	<span class="nt">&lt;init-param&gt;</span>
+		<span class="nt">&lt;param-name&gt;</span>forceEncoding<span class="nt">&lt;/param-name&gt;</span>
+		<span class="nt">&lt;param-value&gt;</span>true<span class="nt">&lt;/param-value&gt;</span>
+	<span class="nt">&lt;/init-param&gt;</span>
+<span class="nt">&lt;/filter&gt;</span>
+	
+<span class="nt">&lt;filter-mapping&gt;</span>
+	<span class="nt">&lt;filter-name&gt;</span>encodingFilter<span class="nt">&lt;/filter-name&gt;</span>
+	<span class="nt">&lt;url-pattern&gt;</span>*.do<span class="nt">&lt;/url-pattern&gt;</span>
+<span class="nt">&lt;/filter-mapping&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-didependecy-injection--의존성-주입">2. DI(Dependecy Injection : 의존성 주입)</h2>
+
+<h3 id="21-didependecy-injection--의존성-주입">2.1. DI(Dependecy Injection : 의존성 주입)</h3>
+<ul>
+  <li>DI는 스프링 핵심 개념 중 하나.</li>
+  <li>기존에는 어떤 한 클래스가 다른 클래스의 기능(메서드)을 사용하려면 당연히 개발자가 코드에서 직접적으로 사용할 클래스의 생성자를 호출하여 사용하였다(<code class="language-plaintext highlighter-rouge">new</code> 키워드 이용). 따라서 사용할 클래스와 사용될 클래스의 관계는 개발자에 의해 직접 코드에서 부여가 되었다.(높은 의존도 - 강한 결합)</li>
+  <li>스프링에서는 객체 사이의 의존 관계를 객체 자신이 아닌 외부(스프링 컨테이너)에서 수행하는 개념이다.
+    <ul>
+      <li>즉, 이런 연관 관계를 개발자가 직접 코딩을 통해서 부여하는 것이 아니라 스프링 컨테이너가 연관 관계를 직접 규정하는 것을 말한다. 그러면 코드에서 직접적인 연관 관계가 발생하지 않으므로 각각의 클래스들의 변경이 자유로워진다.(낮은 의존도-약한 결합) 따라서 스프링 프레임워크에서는 각 클래스들의 연관 관계를 클래스들 간의 사이에서 맺어지는 것이 아니라, 스프링 프레임워크에서 설정을 통해 맺어줌으로써 클래스들끼리 연관 관계를 맺지 않도록 구현을 해 놓았다.</li>
+    </ul>
+  </li>
+  <li>스프링 프레임워크에서의 의존 관계는 설정 파일(<code class="language-plaintext highlighter-rouge">bean.xml</code>)이나 애노테이션을 이용하여 설정한다.</li>
+  <li>스프링에서 클래스(빈 : <code class="language-plaintext highlighter-rouge">bean</code>)를 담는 그릇을 스프링 컨테이너라고 한다.
+    <ul>
+      <li>스프링 기반 애플리케이션에서는 스프링 컨테이너에서 객체가 태어나고, 자라고 소멸한다.</li>
+      <li>스프링 컨테이너는 객체를 생성하고, 서로 엮어 주고, 이들의 전체 생명주기를 관리한다.</li>
+      <li>스프링 컨테이너는 스프링 프레임워크 핵심부에 위치한다. 스프링 컨테이너는 종속 객체 주입을 이용해서 애플리케이션을 구성하는 컴포넌트를 관리하며, 협력 컴포넌트 간 연관 관계의 형상도 스프링 컨테이너에서 이루어진다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="22-스프링-컨테이너">2.2. 스프링 컨테이너</h3>
+<ul>
+  <li>스프링은 객체를 생성하고 각각의 객체를 연결해 주는 조립기 역할을 한다.</li>
+  <li>대표적으로 <code class="language-plaintext highlighter-rouge">GenericXmlApplicationContext</code> 객체가 조립기 기능을 구현한 클래스이다.</li>
+  <li>조립기에서 생성할 객체가 무엇이고, 각 객체를 어떻게 연결하는지에 대한 정보는 xml 파일에 설정이 되어 있다.</li>
+  <li><code class="language-plaintext highlighter-rouge">GenericXmlApplicationContext</code> 클래스는 이 xml 파일에 정의된 설정 정보를 읽어와서 객체를 생성하고, 각각의 객체를 연결한 뒤에 내부적으로 보관한다.</li>
+  <li>xml을 이용한 스프링 설정을 하다 보면 컨테이너가 생성할 객체를 지정하기 위해 <code class="language-plaintext highlighter-rouge">&lt;bean&gt; 태그</code>를 사용하는 것을 볼 수 있다.</li>
+  <li>스프링 컨테이너가 생성해서 보관하는 객체를 스프링 빈(<code class="language-plaintext highlighter-rouge">spring bean</code>) 객체라고 부르며, 일반적으로 자바 객체와 동일하다.</li>
+  <li>스프링 컨테이너는 생성한 빈 객체를 &lt;이름, 빈 객체&gt; 이렇게 쌍을 보관한다.</li>
+  <li>스프링 컨테이너가 보관하고 있는 객체를 사용하고 싶은 경우 빈 객체와 연결되어 있는 이름을 이용해서 객체를 참조하게 된다.</li>
+</ul>
+
+<p><br /></p>
+
+<h4 id="221-스프링-컨테이너의-종류">2.2.1. 스프링 컨테이너의 종류</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">BeanFactory</code> : 단순히 스프링 컨테이너에서 객체를 생성하고 DI만 처리해 주는 기능만을 제공하는 객체.
+    <ul>
+      <li>하지만 스프링을 사용하는 이유는 단순히 DI만 사용하기 위해서가 아니다.</li>
+      <li>스프링을 사용하는 이유는 다양한 부가 기능(트랜잭션 처리, 자바 코드 기반의 스프링 설정, 애노테이션을 이용한 빈 설정,  스프링을 이용한 웹 개발 등) 때문인데 이러한 부가적인 기능을 사용하기 위해서는 <code class="language-plaintext highlighter-rouge">ApplicationContext</code> 객체를 주로 이용한다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">AbstractApplicationContext</code> : 컨테이너 종료(<code class="language-plaintext highlighter-rouge">close()</code>)와 같은 기능을 제공하는 객체.</li>
+  <li><code class="language-plaintext highlighter-rouge">GenericXmlApplicationContext</code> : <code class="language-plaintext highlighter-rouge">AbstractApplicationContext</code> 객체를 상속받아 만들어진 클래스로, <strong>xml 파일</strong>에서 스프링 빈 설정 정보를 읽어 오는 역할을 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">GenericXmlApplicationContext</code> 객체를 생성할 때 파라미터 값으로 “classpath:getsum.xml” 을 전달했는데 이는 클래스 패스에 위치한 xml 파일을 설정 파일로 사용한다는 의미이다.</li>
+  <li><code class="language-plaintext highlighter-rouge">GenericXmlApplicationContext</code> 객체는 전달 받은 xml 파일에서 설정 정보를 읽어 와서 스프링 빈 객체를 생성하고 프로퍼티 값을 설정한다.
+    <ul>
+      <li>이렇게 생성된 스프링 빈 객체는 <code class="language-plaintext highlighter-rouge">getBean()</code> 이라는 메서드를 사용해서 구현할 수 있다.</li>
+      <li><code class="language-plaintext highlighter-rouge">getBean()</code> 메서드의 첫번째 파라미터는 구현하고자 하는 스프링 빈 객체의 고유한 id 이름이며, 두번째 파라미터는 그 객체의 클래스 타입을 의미한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="23-di의존성-주입-하는-방법-2가지">2.3. DI(의존성 주입) 하는 방법 2가지</h3>
+<ol>
+  <li>setter(설정 메서드)를 이용한 주입</li>
+  <li>
+    <p>constructor(인자생성자)를 이용한 주입</p>
+
+    <p><strong>[예] 2.3.1. setter(설정 메서드)를 이용한 주입</strong> <br />
+ xml 파일에 setter를 이용하여 주입하는 방법.</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"mySum"</span> <span class="na">class=</span><span class="s">"com.sist.di01.MyGetSum"</span><span class="nt">&gt;</span>
+
+     <span class="c">&lt;!--
+         MyGetSum mySum = new MyGetSum();
+         mySum.setSu1(200);
+         mySum.setSu2(100); 와 동일한 의미--&gt;</span>
+
+     <span class="c">&lt;!-- 속성(setter)을 활용하는 경우 --&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"su1"</span> <span class="na">value=</span><span class="s">"200"</span><span class="nt">/&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"su2"</span> <span class="na">value=</span><span class="s">"100"</span><span class="nt">/&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"getSum"</span><span class="nt">&gt;</span>
+
+         <span class="c">&lt;!-- bean id="getsum"을 참조(reference)한다. --&gt;</span>
+         <span class="c">&lt;!-- 참조클래스가 달라지면 참조태그의 빈만 변경하면 되므로 유지보수가 용이하다. --&gt;</span>
+         <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"getsum"</span><span class="nt">/&gt;</span>	
+
+     <span class="nt">&lt;/property&gt;</span>
+ <span class="nt">&lt;/bean&gt;</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <hr />
+
+    <p><strong>[예] 2.3.2. constructor(인자생성자)를 이용한 주입</strong><br />
+ xml 파일에 인자생성자를 이용하여 주입하는 방법.  <br />
+ Exam 클래스에 멤버변수를 선언하고, 인자 생성자를 작성하였다.</p>
+
+    <ul>
+      <li><strong>class Exam</strong>
+ ```java
+ private String msg;
+ private int number;
+ private ArrayList<String> position;</String></li>
+    </ul>
+
+    <p>public Exam(String msg, int number, ArrayList<String> position) {
+     this.msg = msg;
+ }</String></p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 속성(setter) 이 아닌 인자생성자를 활용하는 경우 `&lt;constructor-arg&gt;` 태그를 이용한다.    
+ 멤버변수가 선언된 순서대로 value 값을 지정한다.    
+ 별도의 타입을 설정하지 않아도 적절한 타입으로 저장된다.    
+
+ * **xml파일**
+
+ ```xml
+ &lt;!-- 방식1 --&gt;
+ &lt;constructor-arg value="안녕하세요. 스프링에 오신 걸 환영합니다."/&gt;
+	
+ &lt;!-- 방식2 --&gt;
+ &lt;constructor-arg&gt;
+     &lt;value&gt;100&lt;/value&gt;
+ &lt;/constructor-arg&gt;
+</code></pre></div>    </div>
+    <p><br /></p>
+
+    <hr />
+
+    <p><strong>[예] 2.3.3. 속성(setter)과 인자생성자를 모두 활용하는 방법</strong></p>
+
+    <p>1) 인자생성자에 인자로 있는 멤버변수 : <code class="language-plaintext highlighter-rouge">&lt;constructor-arg&gt;</code> 태그로 선언</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">"김현수"</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">"33"</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;constructor-arg&gt;</span>
+     <span class="nt">&lt;list&gt;</span>
+         <span class="nt">&lt;value&gt;</span>3번 타자<span class="nt">&lt;/value&gt;</span>
+         <span class="nt">&lt;value&gt;</span>좌익수<span class="nt">&lt;/value&gt;</span>
+     <span class="nt">&lt;/list&gt;</span>
+ <span class="nt">&lt;/constructor-arg&gt;</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <p>2) 인자생성자에 인자로 없는 멤버변수 : <code class="language-plaintext highlighter-rouge">&lt;property&gt;</code> 태그로 선언</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"weight"</span> <span class="na">value=</span><span class="s">"95"</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"height"</span> <span class="na">value=</span><span class="s">"185"</span><span class="nt">/&gt;</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <hr />
+
+    <p><strong>[+] 형식에 따른 주입 방법</strong></p>
+
+    <ul>
+      <li>ArrayList 와 같은 List 계열 : 태그 안에 <code class="language-plaintext highlighter-rouge">&lt;list&gt;</code> 태그로 원하는 만큼 value 값을 지정.</li>
+    </ul>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c">&lt;!-- ArrayList의 경우 --&gt;</span>
+ <span class="nt">&lt;list&gt;</span>
+     <span class="nt">&lt;value&gt;</span>3번 타자<span class="nt">&lt;/value&gt;</span>
+     <span class="nt">&lt;value&gt;</span>좌익수<span class="nt">&lt;/value&gt;</span>
+ <span class="nt">&lt;/list&gt;</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <ul>
+      <li>map : 태그 안에 <code class="language-plaintext highlighter-rouge">&lt;map&gt;</code> 태그를 이용. 원하는 만큼 <code class="language-plaintext highlighter-rouge">&lt;entry&gt;</code> 태그를 반복한다.</li>
+    </ul>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;map&gt;</span>
+     <span class="nt">&lt;entry&gt;</span>
+         <span class="nt">&lt;key&gt;</span> <span class="nt">&lt;value&gt;</span>1<span class="nt">&lt;/value&gt;</span> <span class="nt">&lt;/key&gt;</span>
+         <span class="nt">&lt;value&gt;</span>짜장면<span class="nt">&lt;/value&gt;</span>
+     <span class="nt">&lt;/entry&gt;</span>
+ <span class="nt">&lt;/map&gt;</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <hr />
+
+    <p><strong>[+] Namespaces 를 활용하는 방법</strong></p>
+    <ul>
+      <li>네임스페이스(Namespaces) : <code class="language-plaintext highlighter-rouge">&lt;property&gt;</code> 태그나 <code class="language-plaintext highlighter-rouge">&lt;constructor-arg&gt;</code> 태그를 사용하다 보면 작성해야 할 xml 문서의 내용이 전반적으로 증가하게 된다. 이를 좀 더 짧게 작성하게 하는 것이 네임스페이스이다.
+        <ul>
+          <li>생성자 주입시에는 c 라는 네임스페이스를 사용한다.
+            <ul>
+              <li>형식) <code class="language-plaintext highlighter-rouge">c:매개변수이름="값"</code> 또는 <code class="language-plaintext highlighter-rouge">c:매개변수이름-ref="참조할 객체의 id"</code></li>
+            </ul>
+          </li>
+          <li>속성(setter) 주입시에는 p 라는 네임스페이스를 하용한다.
+            <ul>
+              <li>형식) <code class="language-plaintext highlighter-rouge">p:매개변수이름="값"</code> 또는 <code class="language-plaintext highlighter-rouge">p:매개변수이름-ref="참조할 객체의 id"</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <p>xml 파일의 하단 탭 중 Namespaces를 선택 - c, p에 체크한다.</p>
+
+    <p align="center"><img src="../assets/img/images/210623/02.png" /></p>
+
+    <p>체크하면 Source 탭 <code class="language-plaintext highlighter-rouge">&lt;beans&gt;</code> 태그에 아래와 같은 코드가 추가된다.</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> xmlns:c="http://www.springframework.org/schema/c"
+ xmlns:p="http://www.springframework.org/schema/p"
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <p>c태그와 p태그를 이용하여 더 간략하게 bean 설정을 할 수 있다. <br />
+ 의미는 다음과 같다.</p>
+
+    <ul>
+      <li>c : <code class="language-plaintext highlighter-rouge">&lt;constructor-arg&gt;</code></li>
+      <li>p : <code class="language-plaintext highlighter-rouge">&lt;property&gt;</code></li>
+    </ul>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"player"</span> <span class="na">class=</span><span class="s">"com.sist.di07.player"</span>
+     <span class="na">c:name=</span><span class="s">"김현수"</span> <span class="na">c:age=</span><span class="s">"33"</span> <span class="na">c:position=</span><span class="s">"좌익수"</span> <span class="na">p:weight=</span><span class="s">"95"</span> <span class="na">p:height=</span><span class="s">"15"</span> <span class="nt">/&gt;</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <hr />
+  </li>
+</ol>
+
+<h3 id="24-의존-관계를-설정하는-방법">2.4. 의존 관계를 설정하는 방법</h3>
+<ol>
+  <li>XML 파일을 이용하여 의존 관계 설정</li>
+  <li>Java 코드를 이용하여 의존 관계 설정 - 애노테이션 이용.</li>
+  <li>XML과 Java를 혼용해서 의존 관계 설정</li>
+</ol>
+
+<ul>
+  <li>설정 파일(<code class="language-plaintext highlighter-rouge">bean.xml</code>)에 들어가는 형식
+    <ul>
+      <li>주로 아래 두 xml 파일에서 설정.</li>
+    </ul>
+  </li>
+</ul>
+<p align="center"><img src="../assets/img/images/210623/01.PNG" /></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean&gt;</span>
+	- id 속성 : bean의 고유한 이름. 클래스에서 작성한 변수(참조변수) 이름. 중복불가.
+	- class 속성 : 스프링 컨테이너에서 객체를 생성할 클래스의 위치(패키지명.클래스명).
+<span class="nt">&lt;/bean&gt;</span> 
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="예-241-xml-파일을-이용하여-의존-관계-설정">[예] 2.4.1. XML 파일을 이용하여 의존 관계 설정</h4>
+
+<ul>
+  <li><strong>class GetSum</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Data</span>	<span class="c1">// lombok : getter/setter 기능 대신하는 애노테이션</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GetSum</span> <span class="o">{</span>
+
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">num1</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">num2</span><span class="o">;</span>
+
+	<span class="c1">// 핵심기능(비지니스 로직)</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">hap</span><span class="o">(</span><span class="kt">int</span> <span class="n">num1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">num2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"더하기 &gt;&gt; "</span> <span class="o">+</span> <span class="o">(</span><span class="n">num1</span> <span class="o">+</span> <span class="n">num2</span><span class="o">));</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>class MyGetSum</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Data</span>	<span class="c1">// lombok : getter/setter 기능 대신하는 애노테이션</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyGetSum</span> <span class="o">{</span>
+
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">su1</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">su2</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">GetSum</span> <span class="n">getSum</span><span class="o">;</span>
+
+	<span class="c1">// GetSum 타입의 인자가 들어오면 되므로 MyGetSum 타입의 인자도 들어올 수 있다.(다형성)</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGetSum</span><span class="o">(</span><span class="nc">GetSum</span> <span class="n">getSum</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">getSum</span> <span class="o">=</span> <span class="n">getSum</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 핵심 기능</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">sum</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">getSum</span><span class="o">.</span><span class="na">hap</span><span class="o">(</span><span class="n">su1</span><span class="o">,</span> <span class="n">su2</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>getsum.xml</strong>
+    <ul>
+      <li>src/main/resources/getsum.xml</li>
+      <li>Spring Bean Configuration File</li>
+      <li>DI 즉, 주입을 어떻게 할 것인지는 <strong>xml 문서</strong> 에 기입이 되어 있다.</li>
+      <li>스프링 컨테이너인 <code class="language-plaintext highlighter-rouge">ctx</code>가 <code class="language-plaintext highlighter-rouge">classpath:getsum.xml</code> 파일을 보고 DI를 진행한다.</li>
+      <li>getsum.xml 파일은 <code class="language-plaintext highlighter-rouge">resource</code> 폴더에 들어가 있어야 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- 
+	"com.sist.di01" 패키지에 있는 "GetSum" 클래스를 "getsum"이라는 id로 지정하여 객체(bean)를 생성한다는 의미.
+	GetSum getsum = new GetSum(); 와 동일 
+--&gt;</span>
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"getsum"</span> <span class="na">class=</span><span class="s">"com.sist.di01.GetSum"</span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"mySum"</span> <span class="na">class=</span><span class="s">"com.sist.di01.MyGetSum"</span><span class="nt">&gt;</span>
+	<span class="c">&lt;!--
+		MyGetSum mySum = new MyGetSum();
+		mySum.setSu1(200);
+		mySum.setSu2(100);
+	--&gt;</span>
+
+	<span class="c">&lt;!-- 속성(setter)을 활용하는 경우 --&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"su1"</span> <span class="na">value=</span><span class="s">"200"</span><span class="nt">/&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"su2"</span> <span class="na">value=</span><span class="s">"100"</span><span class="nt">/&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"getSum"</span><span class="nt">&gt;</span>
+
+		<span class="c">&lt;!-- bean id="getsum"을 참조(reference)한다. --&gt;</span>
+		<span class="c">&lt;!-- 참조클래스가 달라지면 참조태그의 빈만 변경하면 되므로 유지보수가 용이하다. --&gt;</span>
+		<span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"getsum"</span><span class="nt">/&gt;</span>	
+
+	<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>Main.java</strong> : 실행 파일
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">AbstractApplicationContext</code> 객체가 DI 작업을 하는 스프링 컨테이너.</li>
+      <li>스프링 컨테이너 객체를 생성한다.</li>
+      <li>xml 파일을 이용하여 메모리로 스프링 컨테이너 객체가 생성된다.(메모리로 로딩)</li>
+    </ul>
+
+    <p>1) 스프링 컨테이너 객체 생성</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// xml 설정 파일(classpath:getsum.xml)을 읽어들여서 메모리로 로딩.</span>
+  <span class="nc">AbstractApplicationContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GenericXmlApplicationContext</span><span class="o">(</span><span class="s">"classpath:getsum.xml"</span><span class="o">);</span>
+
+  <span class="c1">// 또는 path를 별도로 두어도 된다.</span>
+  <span class="nc">String</span> <span class="n">path1</span> <span class="o">=</span> <span class="s">"classpath:getsum.xml"</span><span class="o">;</span>
+  <span class="nc">String</span> <span class="n">path2</span> <span class="o">=</span> <span class="s">"classpath:getsum2.xml"</span><span class="o">;</span>
+
+  <span class="c1">// path가 여러개일 경우 ,로 구분하여 인자로 넣는다.</span>
+  <span class="nc">AbstractApplicationContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GenericXmlApplicationContext</span><span class="o">(</span><span class="n">path</span><span class="o">,</span> <span class="n">path2</span><span class="o">);</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <p>2) 실제적으로 아래 코드에서 주입과정이 일어나게 된다.
+      - <code class="language-plaintext highlighter-rouge">new</code> 키워드를 사용하지 않고 직접 스프링 컨테이너에서 꺼내서 사용한다.
+      - my1 = my2  동일. (방식의 차이)</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nc">MyGetSum</span> <span class="n">my1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">MyGetSum</span><span class="o">)</span><span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"mySum"</span><span class="o">);</span>
+
+  <span class="c1">// getBean(스프링 빈 객체 id, 그 객체의 클래스 타입)</span>
+  <span class="nc">MyGetSum</span> <span class="n">my2</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"mySum"</span><span class="o">,</span> <span class="nc">MyGetSum</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>	
+
+  <span class="c1">// GetSum 인터페이스 객체로 생성도 가능하다.</span>
+  <span class="nc">GetSum</span> <span class="n">my3</span> <span class="o">=</span> <span class="o">(</span><span class="nc">GetSum</span><span class="o">)</span><span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"mySum"</span><span class="o">);</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <p>3) 메서드 또는 값 호출</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">my1</span><span class="o">.</span><span class="na">sum</span><span class="o">();</span>	<span class="c1">// 메서드(비지니스 로직)를 호출</span>
+  <span class="n">my2</span><span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"수1 : "</span> <span class="o">+</span> <span class="n">my3</span><span class="o">.</span><span class="na">getSu1</span><span class="o">());</span>	<span class="c1">// 이렇게 값을 가져올 수도 있다.</span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"수2 : "</span> <span class="o">+</span> <span class="n">my3</span><span class="o">.</span><span class="na">getSu2</span><span class="o">());</span>	
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <p>4) 사용한 자원은 반납해야 한다.</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">ctx</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+
+    <hr />
+
+    <p><strong>[예] 2.4.2. Java 코드를 이용하여 의존 관계 설정 - 애노테이션(annotation) 이용.</strong></p>
+
+    <p>설정 시 <code class="language-plaintext highlighter-rouge">cglib</code> 라이브러리가 반드시 필요하므로, pom.xml에 라이브러리를 추가해야 한다. <a href="https://github.com/csooy38/github/blob/main/Annotation.md">[cglib 설정]</a> <br />
+  <code class="language-plaintext highlighter-rouge">new</code> 키워드를 사용하는 등 결합이 강하므로 자주 사용되는 방법은 아니다.</p>
+
+    <ul>
+      <li><strong>class Config</strong>
+        <ul>
+          <li>클래스 앞에 <code class="language-plaintext highlighter-rouge">@Configuration</code>, 메서드 앞에 <code class="language-plaintext highlighter-rouge">@Bean</code> 애노테이션(annotation)을 선언한다.</li>
+          <li>애노테이션 역할
+            <ul>
+              <li>컴파일러에게 정보를 알려주는 역할.</li>
+              <li>컴파일 할 때와 설치 시의 작업을 지정하는 역할.</li>
+              <li>실행할 때에 별도의 처리가 필요한 경우 사용되는 역할.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Configuration</span>	<span class="c1">// 애노테이션</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Config</span> <span class="o">{</span>
+
+      <span class="nd">@Bean</span>	<span class="c1">// 애노테이션</span>
+      <span class="kd">public</span> <span class="nc">Player</span> <span class="nf">player1</span><span class="o">()</span> <span class="o">{</span>
+          <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">position</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;();</span>
+          <span class="n">position</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"4번 타자"</span><span class="o">);</span>
+          <span class="n">position</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"1루수"</span><span class="o">);</span>
+
+          <span class="nc">Player</span> <span class="n">player</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Player</span><span class="o">(</span><span class="s">"추신수"</span><span class="o">,</span> <span class="mi">38</span><span class="o">,</span> <span class="n">position</span><span class="o">);</span>
+
+          <span class="n">player</span><span class="o">.</span><span class="na">setWeight</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+          <span class="n">player</span><span class="o">.</span><span class="na">setHeight</span><span class="o">(</span><span class="mi">188</span><span class="o">);</span>
+
+          <span class="k">return</span> <span class="n">player</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <ul>
+      <li><strong>class Main</strong>
+        <ul>
+          <li>xml 파일을 이용하여 메모리로 스프링 컨테이너 객체 생성하지 않는다.</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// Config 클래스를 컨테이너로 가져온다.</span>
+  <span class="nc">AnnotationConfigApplicationContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AnnotationConfigApplicationContext</span><span class="o">(</span><span class="nc">Config</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+	
+  <span class="c1">// Config 클래스의 메서드 이름(player1)이 id로 들어간다.</span>
+  <span class="nc">Player</span> <span class="n">player1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Player</span><span class="o">)</span><span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"player1"</span><span class="o">);</span>
+
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"선수 이름 : "</span> <span class="o">+</span> <span class="n">player1</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"선수 포지션 : "</span> <span class="o">+</span> <span class="n">player1</span><span class="o">.</span><span class="na">getPosition</span><span class="o">());</span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"선수 체중 : "</span> <span class="o">+</span> <span class="n">player1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">());</span>
+
+  <span class="n">ctx</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <hr />
+
+    <p><strong>[예] 2.4.3. XML과 Java를 혼용해서 의존 관계 설정 - XML 중심</strong> <br />
+  xml 파일에 애노테이션도 읽을 수 있도록 태그를 추가한 후, xml 파일을 이용하여 의존 설정한다.</p>
+
+    <ul>
+      <li><strong>class Config</strong>
+        <ul>
+          <li><strong>[예] 2.4.2.</strong> 와 동일한 <strong>class Config</strong></li>
+          <li>클래스 앞에 <code class="language-plaintext highlighter-rouge">@Configuration</code>, 메서드 앞에 <code class="language-plaintext highlighter-rouge">@Bean</code> 애노테이션(annotation)을 선언한다.</li>
+        </ul>
+      </li>
+      <li><strong>baseball.xml</strong>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">&lt;beans&gt;</code> 태그 안에 <code class="language-plaintext highlighter-rouge">&lt;context:annotation-config /&gt;</code> 태그를 선언하여 애노테이션을 인식할 수 있도록 한다.</li>
+          <li><code class="language-plaintext highlighter-rouge">&lt;context:annotation-config /&gt;</code> 태그 : 특정 패키지 안에 있는 클래스 중에서 @Configuration, @Bean, @Autowired, @Resource 애노테이션이 존재하면 해당 애노테이션을 인식할 수 있도록 하는 태그.</li>
+          <li>Namespaxes 에서 context를 체크한 후 사용한다.</li>
+          <li>체크하면 <code class="language-plaintext highlighter-rouge">&lt;beans&gt;</code> 태그에 다음과 같은 코드가 추가된다.</li>
+          <li><code class="language-plaintext highlighter-rouge">xmlns:context="http://www.springframework.org/schema/context</code></li>
+        </ul>
+
+        <p align="center"><img src="../assets/img/images/210623/03.png" /></p>
+
+        <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;context:annotation-config/&gt;</span>
+
+  <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"com.sist.di10.Config"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"player3"</span> <span class="na">class=</span><span class="s">"com.sist.di10.Player"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">"김현수"</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">"33"</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;constructor-arg&gt;</span>
+          <span class="nt">&lt;list&gt;</span>
+              <span class="nt">&lt;value&gt;</span>3번 타자<span class="nt">&lt;/value&gt;</span>
+              <span class="nt">&lt;value&gt;</span>외야수<span class="nt">&lt;/value&gt;</span>
+          <span class="nt">&lt;/list&gt;</span>
+      <span class="nt">&lt;/constructor-arg&gt;</span>
+      <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"weight"</span> <span class="na">value=</span><span class="s">"95"</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"height"</span> <span class="na">value=</span><span class="s">"185"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/bean&gt;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <ul>
+      <li><strong>class Main</strong>
+        <ul>
+          <li>기존의 XML 파일을 이용하여 의존을 설정하는 방식과 동일하게 설정한다.</li>
+          <li>XML 파일에서 애노테이션도 읽을 수 있도록 태그를 설정하였으므로, 애노테이션과 XML 방식을 혼용할 수 있다.</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nc">AbstractApplicationContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GenericXmlApplicationContext</span><span class="o">(</span><span class="s">"classpath:baseball3.xml"</span><span class="o">);</span>
+	
+  <span class="c1">// 애노테이션으로 받는 변수</span>
+  <span class="nc">Player</span> <span class="n">player1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Player</span><span class="o">)</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"player1"</span><span class="o">);</span>
+  <span class="nc">Player</span> <span class="n">player2</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Player</span><span class="o">)</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"player2"</span><span class="o">);</span>
+	
+  <span class="c1">// XML 파일 설정으로 받는 변수</span>
+  <span class="nc">Player</span> <span class="n">player3</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Player</span><span class="o">)</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"player3"</span><span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <hr />
+    <p><strong>[예] 2.4.3. XML과 Java를 혼용해서 의존 관계 설정 - 애노테이션(annotation) 중심</strong> <br />
+  <code class="language-plaintext highlighter-rouge">@ImportResource("classpath:xml 파일명")</code> 애노테이션을 추가하여 xml 파일도 함께 읽을 수 있게 한다.</p>
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">@ImportResource("classpath:xml 파일명")</code> : xml 파일도 함께 읽도록 하는 애노테이션.</p>
+
+        <ul>
+          <li><strong>class Config</strong></li>
+          <li>클래스명 앞에 <code class="language-plaintext highlighter-rouge">@ImportResource("classpath:xml 파일명")</code>를 추가한다.</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Configuration</span>		<span class="c1">// 애노테이션</span>
+  <span class="nd">@ImportResource</span><span class="o">(</span><span class="s">"classpath:baseball4.xml"</span><span class="o">)</span>	<span class="c1">// 애노테이션</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Config</span> <span class="o">{</span>
+
+      <span class="nd">@Bean</span>		<span class="c1">// 애노테이션</span>
+      <span class="kd">public</span> <span class="nc">Player</span> <span class="nf">player1</span><span class="o">()</span> <span class="o">{...}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+
+        <ul>
+          <li><strong>class Main</strong></li>
+          <li>위에서 설정을 했으므로, <br />
+  애노테이션으로 의존 설정하는 방식과 동일하게 작성해도 애노테이션, xml 파일 설정을 모두 활용할 수 있다.</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nc">AbstractApplicationContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AnnotationConfigApplicationContext</span><span class="o">(</span><span class="nc">Config</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+	
+  <span class="c1">// 애노테이션으로 받는 변수</span>
+  <span class="nc">Player</span> <span class="n">player1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Player</span><span class="o">)</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"player1"</span><span class="o">);</span>
+  <span class="nc">Player</span> <span class="n">player2</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Player</span><span class="o">)</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"player2"</span><span class="o">);</span>
+	
+  <span class="c1">// XML 파일 설정으로 받는 변수</span>
+  <span class="nc">Player</span> <span class="n">player3</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Player</span><span class="o">)</span> <span class="n">ctx</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"player3"</span><span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h2 id="3-mvc-흐름">3. MVC 흐름</h2>
+
+<h4 id="1-webxml">1. web.xml</h4>
+
+<p align="center"><img src="../assets/img/images/210623/04.png" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 클라이언트로부터 요청이 들어오면 해당 요청을 가장 먼저 처리하는 곳.
+- 필터가 있다면 가장 먼저 반응을 하여 필터 작업을 진행. =&gt; 한글 인코딩 처리.
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="2-web-infspringroot-contextxml">2. /WEB-INF/spring/root-context.xml</h4>
+
+<p align="center"><img src="../assets/img/images/210623/05.png" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- /WEB-INF/spring/root-context.xml로 이동.
+- 모든 서블릿에서 사용할 자원을 설정하는 공간.
+- DB 연동을 이곳에서 진행.
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="3-dispatcherservlet">3. DispatcherServlet</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 해당 요청에 대해서 DispatcherServlet이 우선적으로 요청을 가로챈다.
+- `&lt;init-param&gt;` 부분에 있는 servlet-context.xml로 넘어간다.
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="4-web-infspringappservletservlet-contextxml">4. /WEB-INF/spring/appServlet/servlet-context.xml</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- servlet-context.xml 파일은 브라우저의 요청으로 그 요청을 처리할 Controller(`@Controller`)로 이어주는 역할.
+- 즉, servlet-context.xml에서 HanderMapping(`URL-Mapping`)의 작업이 진행.
+- `&lt;annotation-driven /&gt;` 이라는 이 설정을 통하여 URL 매핑이 일어난다.
+- `&lt;annotation-driven /&gt;` 에 의해 `@RequestMapping`을 사용할 수 있게 되고 `@RequestMapping`에 지정된 URL로 웹 브라우저의 요청 URL이 매핑 된다.
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="5-homecontroller">5. HomeController</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- servlet-context.xml에 의해 브라우저의 요청은 HomeController로 넘어간다.    
+- `@RequestMapping`에 연결되어 있는 URL-Pattern에 의하여 맞는 mapping을 찾아서 비지니스 로직을 진행.
+- 비지니스 로직을 수행 후, 해당 결과 값을 Model이라는 객체에 특정 이름(키)을 부여하여 작업을 처리.
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="6-web-infspringappservletservlet-contextxml">6. /WEB-INF/spring/appServlet/servlet-context.xml</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 넘겨 받은 문자열을 InternalResourceViewResolver라는 객체를 통해서 뷰(view)를 찾게 된다.
+- 이 때 전달 받은 문자열 앞에는 /WEB-INF/views/를 붙이고 뒤에는 .jsp를 붙여주게 된다.
+- 결국 /WEB-INF/views/home.jsp라고 붙게 되어 해당 경로의 해당 페이지로 뷰 이름이 만들어지게 된다.
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="7-dispatcherservlet">7. DispatcherServlet</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 새롭게 만들어진 뷰 이름은 DispatcherServlet으로 전달.
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="8-webxml">8. web.xml</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- DispatcherServlet으로 전달된 뷰 이름으로 인해서 home.jsp 페이지를 볼 수 있게 된다.
+- 클라이언트의 요청에 대해서 응답이 이루어지게 된다.
+</code></pre></div></div>
+
+<ul>
+  <li>WEB-INF 안의 파일은 주요 설정이 모여있으므로, 그 안에서 파일을 실행하려고 하면 제한된다.<br />
+  전체 프로젝트에서만 run 이 가능하다.</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h3 id="31-model">3.1. Model</h3>
+<p>스프링 MVC에서 <strong>Model</strong> (모델)이란?</p>
+<ul>
+  <li>컨트롤러에 의해서 비지니스 로직이 수행이 되고 나면 대체적으로 view page에 보여질 정보들이 만들어진다. <br />
+이러한 정보들을 스프링에서는 Model(모델)이라고 한다. 이 Model(정보)를 view page로 보내게 된다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/memberInfo"</span><span class="o">)</span>
+<span class="c1">// view page 이름을 String 타입으로 적는다.</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">member</span><span class="o">(</span><span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+
+	<span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="s">"홍길동"</span><span class="o">);</span>
+	<span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"age"</span><span class="o">,</span> <span class="mi">27</span><span class="o">);</span>
+
+	<span class="c1">// "/memberInfo"로 들어오면 모델(정보)과 함께 "WEB_INF/views/member.jsp"로 이동</span>
+	<span class="k">return</span> <span class="s">"member"</span><span class="o">;</span>	
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>HomeController에서 addAttribute()로 키-값을 저장해서 return 하면,</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;p&gt;</span>회원 이름 : ${name }<span class="nt">&lt;/p&gt;</span>
+	<span class="nt">&lt;p&gt;</span>회원 나이 : ${age }<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+<p>return된 view page에서 EL언어 등으로 호출이 가능하다.</p>
+
+<p><br /></p>
+
+<h3 id="32-modelandview-객체">3.2. ModelAndView 객체</h3>
+<p><code class="language-plaintext highlighter-rouge">ModelAndView</code> 객체는 컨트롤러에 의해서 비지니스 로직이 수행이 되고 나면 대체적으로 사용자에게 반환되어 브라우저에 보여질 정보들이 만들어진다.  <br />
+이 정보(Model과 view page 정보)를 담아 view page로 전달하는 객체.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```java
+@Controller	// 자동으로 bean 등록
+public class MyController {
+
+	@RequestMapping("/info")	// 프로젝트 실행 후 주소 뒤에 "/info"를 붙이면 아래코드를 실행하여 view page로 넘어간다.
+	public ModelAndView aaa() {
+
+		ModelAndView mav = new ModelAndView();		// ModelAndView 객체 생성
+
+		mav.addObject("email", "hong@naver.com");	// view page에 넘어갈 정보(Model) 저장
+		mav.setViewName("member/email");		// 이동할 view page 주소(views/member/email.jsp) 저장
+
+		return mav;
+	}
+}
+```
+</code></pre></div></div>
+
+<p>이렇게 저장된 값 “email”은 view page(views/member/email.jsp)에서 EL언어(<code class="language-plaintext highlighter-rouge">${email }</code>) 등으로 호출할 수 있다.</p>
+
+<p><br /></p>
+
+<h4 id="--태그">[+] <context:component-scan> 태그</context:component-scan></h4>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">"com.sist.mvc01"</span> <span class="nt">/&gt;</span> (servlet-context.xml)
+</code></pre></div></div>
+<ul>
+  <li>base-package 속성에 있는 패키지(com.sist.mvc01) 안에 <code class="language-plaintext highlighter-rouge">@Controller</code>, <code class="language-plaintext highlighter-rouge">@Repository</code>, <code class="language-plaintext highlighter-rouge">@Service</code>, <code class="language-plaintext highlighter-rouge">@Component</code> 애노테이션이 있는 클래스가 존재하면 해당 클래스를 자동으로 bean으로 등록하라는 의미.</li>
+</ul>
+
+<p>아래와 같이 “com.sist.*” 또는 “com.sist” 와 같은 형태로 설정하면 sist 아래 모든 패키지에 적용된다.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">"com.sist.*"</span> <span class="nt">/&gt;</span> (servlet-context.xml)
+<span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">"com.sist"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="예-model">[예] Model</h4>
+<p>인자로 <code class="language-plaintext highlighter-rouge">HttpServletRequest</code> 객체를 받아 <code class="language-plaintext highlighter-rouge">getParameter()</code>로 값을 받아온다. <br />
+그러나 데이터가 많아지면 비효율적이므로 스프링에서 권장하는 방법은 아니다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/inputOk"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">bbb</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+		
+	<span class="nc">String</span> <span class="n">id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"id"</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+	<span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"userId"</span><span class="o">,</span> <span class="n">id</span><span class="o">);</span>		
+		
+	<span class="k">return</span> <span class="s">"login"</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>DTO 클래스에 멤버 변수를 선언하면 인자로만 두어도 <br />
+데이터가 넘어올 때 멤버변수와 동일한 이름을 가지는 값들은 자동으로 DTO 객체에 저장된다.</p>
+
+<p>아래는 Person 객체를 DTO로 두었을 경우.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/insert_ok"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">inputOk</span><span class="o">(</span><span class="nc">Person</span> <span class="n">person</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+
+	<span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"dto"</span><span class="o">,</span> <span class="n">person</span><span class="o">);</span>
+	
+	<span class="k">return</span> <span class="s">"login"</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="예-modelandview">[예] ModelAndView</h4>
+<p>인자로 애노테이션을 이용하여 “id”로 넘어온 값을 바로 String userId 에 저장.<br />
+ModelAndView 객체를 생성하여 정보와 이동할 주소를 함께 저장하여 넘긴다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/inputOk"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">ModelAndView</span> <span class="nf">bbb</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+		
+	<span class="nc">ModelAndView</span> <span class="n">mav</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ModelAndView</span><span class="o">();</span>
+		
+	<span class="n">mav</span><span class="o">.</span><span class="na">addObject</span><span class="o">(</span><span class="s">"userId"</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
+	<span class="n">mav</span><span class="o">.</span><span class="na">addObject</span><span class="o">(</span><span class="s">"insertOk"</span><span class="o">);</span>
+
+	<span class="k">return</span> <span class="n">mav</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+:ET

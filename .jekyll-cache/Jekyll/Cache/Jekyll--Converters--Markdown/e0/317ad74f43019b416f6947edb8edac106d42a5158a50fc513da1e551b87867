@@ -1,0 +1,478 @@
+I"<h1 id="html">HTML</h1>
+<hr />
+
+<h2 id="4-웹-표준">4. 웹 표준</h2>
+<p>W3C에서 제안한 웹 관련 표준을 의미한다. 웹에서 표준으로 사용되는 기술이나 규칙을 의미하며, 이는 특정 브래우저에서만 사용되는 비 표준화된 기술은 배제하고, W3C의 토론을 통해서 나온 권고안을 사용하는 것을 말한다.  문서의 구조(HTML5)와 표현(CSS3), 그리고 동작(JavaScript, JQuery)을 구분해서 사용하는 것을 뜻한다.</p>
+
+<ul>
+  <li>HTML5 : 웹 문서의 구조 작성</li>
+  <li>CSS3 : 웹 문서의 디자인 적용(담당)</li>
+  <li>JQuery : 웹 문서의 동적인 기능 담당 (JavaScript 최신 버전)</li>
+</ul>
+
+<hr />
+<h2 id="5-html5와-csscascading-style-sheet를-배우는-이유">5. HTML5와 CSS(Cascading Style Sheet)를 배우는 이유</h2>
+
+<ol>
+  <li>게시판이나 블로그를 좀 더 자유롭게 꾸밀 수 있음.</li>
+  <li>웹 사이트 제작을 위해서는 HTML5와 CSS3가 필수적임.</li>
+  <li>인터렉티브한 웹 사이트를 만들 수 있음.</li>
+  <li>플래시 플러그(가장 큰이유)인이 없이도 멀티미디어 콘텐츠 제작이 가능.</li>
+  <li>반응형 웹 사이트를 만들 수 있음.</li>
+  <li>모바일용 앱을 만들 수 있음.</li>
+</ol>
+
+<p>[참고사이트] <a href="http://w3schools.com">http://w3schools.com</a></p>
+
+<hr />
+<h2 id="6-html5의-태그">6. HTML5의 태그</h2>
+<p>HTML4에서도 적용되는 태그도 있으나, HTML5에서 추가된 태그를 함께 보기 위하여 여기에 기술한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;b&gt;</code> : 볼드체.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;strong&gt;</code> : 볼드와 같은 역할.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;mark&gt;</code> : 글자 배경색을 노란색 처리. style=”background-color:yellow; 와 동일.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;b&gt;</span>볼드체<span class="nt">&lt;/b&gt;</span> <span class="nt">&lt;br&gt;</span>
+<span class="nt">&lt;strong&gt;</span>스트롱<span class="nt">&lt;/strong&gt;</span> <span class="nt">&lt;br&gt;</span>
+<span class="nt">&lt;mark&gt;</span>mark 적용<span class="nt">&lt;/mark&gt;</span> <span class="nt">&lt;br&gt;</span>
+</code></pre></div></div>
+<p>적용하면 아래와 같이 출력된다.  <br />
+<b>볼드체</b><br />
+<strong>스트롱</strong><br />
+<mark>mark 적용</mark><br /></p>
+
+<h3 id="-span-태그-span-span">* span 태그 <code class="language-plaintext highlighter-rouge">&lt;span&gt; &lt;/span&gt;</code></h3>
+<p>span 태그 안에 폰트의 스타일을 사전에 정의한 후 호출하여 사용한다.</p>
+<ul>
+  <li>일반적으로 타이틀 태그 아래에서 스판 태그를 선언한다.</li>
+  <li>일괄적인 스타일 변경 시 유용하다.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;title&gt;</span>타이틀<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nt">span</span> <span class="p">{</span>
+		<span class="nl">font-size</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+		<span class="nl">font-weight</span><span class="p">:</span> <span class="nb">bold</span><span class="p">;</span>
+		<span class="nl">color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;p&gt;</span>이제 <span class="nt">&lt;span&gt;</span>웹 표준<span class="nt">&lt;/span&gt;</span>의 역할은 아주 <span class="nt">&lt;span&gt;</span>중요<span class="nt">&lt;/span&gt;</span>합니다.<span class="nt">&lt;/p&gt;</span>
+	
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p>코드 실행시 다음과 같이 출력된다.  <br />
+<img src="../assets/img/images/210420/01.png" /></p>
+
+<p>span 태그 내의 color: 를 color: blue; 로 변경시 다음과 같이 출력된다.  <br />
+<img src="../assets/img/images/210420/02.png" /></p>
+
+<hr />
+<h3 id="-용어를-정의하고-용어를-설명하는-태그">* 용어를 정의하고 용어를 설명하는 태그</h3>
+<p>dl 태그 안에 dt 태그와 dd 태그가 존재한다.</p>
+<ul>
+  <li>dt 태그 : 용어</li>
+  <li>dd 태그 : 용어를 설명하는 태그. dt 태그보다 들여쓰기가 된다.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h3&gt;</span>용어 정의 목록<span class="nt">&lt;/h3&gt;</span>
+	 <span class="nt">&lt;dl&gt;</span>
+	 	<span class="nt">&lt;dt&gt;&lt;b&gt;</span>키보드<span class="nt">&lt;/b&gt;&lt;/dt&gt;</span>
+	 		<span class="nt">&lt;dd&gt;</span>컴퓨터에 문자를 입력하는 장치이다.<span class="nt">&lt;/dd&gt;</span>
+	 
+	 	<span class="nt">&lt;dt&gt;</span>마우스<span class="nt">&lt;/dt&gt;</span>
+	 		<span class="nt">&lt;dd&gt;</span>화면의 커서를 요리조리 움직이고 버튼을 눌러서 선택하는 장치이다.<span class="nt">&lt;/dd&gt;</span>
+	 
+	 	<span class="nt">&lt;dt&gt;</span>노트북<span class="nt">&lt;/dt&gt;</span>
+	 		<span class="nt">&lt;dd&gt;</span>휴대하면서 영화를 보거나 웹 서핑이 가능한 장치이다.<span class="nt">&lt;/dd&gt;</span>
+	 		<span class="nt">&lt;dd&gt;</span>작고 가벼운 컴퓨터이다.<span class="nt">&lt;/dd&gt;</span>
+	 <span class="nt">&lt;/dl&gt;</span>
+</code></pre></div></div>
+<p>코드 실행시 다음과 같이 출력된다.
+<img src="../assets/img/images/210420/03.png" /></p>
+
+<hr />
+<h3 id="-form-태그-">* form 태그 (☆)</h3>
+<p>사용자에게 입력을 받을 데이터 양식을 설정하는 태그.</p>
+
+<hr />
+<h4 id="-input-태그-속성">* input 태그 속성</h4>
+<ul>
+  <li><strong>autocomplate</strong> : 사용자가 이전에 입력한 값으로 자동완성기능을 사용할 것인지 여부. on(default) or off</li>
+  <li><strong>autofocus</strong> : 페이지가 로드될 때 자동으로 포커스를 이동할지 여부 확인.</li>
+  <li><strong>checked</strong> : 양식이 선택되었음을 표시할 지 여부 확인. type 속성 값이 radio, checkbox인 경우만 사용 가능.</li>
+  <li><strong>disabled</strong> : 양식을 비활성화할지 여부 확인.</li>
+  <li><strong>max</strong> : 지정 가능한 최대값 설정. type 속성이 number일 경우만 사용 가능. min 속성보다 큰 값만 허용.</li>
+  <li><strong>min</strong> : 지정 가능한 최소값 설정. type 속성이 number일 경우만 사용 가능. max 속성보다 작은 값만 허용.</li>
+  <li><strong>maxlength</strong> : 입력 가능한 최대 문자 수 설정. type 속성 값이 text, email, password, tel, url일 경우만 허용.</li>
+  <li><strong>multiple</strong> : 둘 이상의 값을 입력할 수 있는지 여부 설정. type 속성 값이 email, file일 경우만 허용 가능. email 경우 ,로 구분.</li>
+  <li><strong>name</strong> : 양식의 이름을 지정.</li>
+  <li><strong>placeholder</strong> : 사용자가 입력할 값의 힌트 설정. type 속성 값이 text, search, tel, url, email일 경우만 허용.</li>
+  <li><strong>readonly</strong> : 수정 불가능한 읽기 전용 설정.</li>
+  <li><strong>step</strong> : 유효한 증감 숫자 간격의 설정. type 속성 값이 number, range일 경우만 허용.</li>
+  <li><strong>src</strong> : 이미지의  url 설정. type 속성 값이 image일 경우만 허용.</li>
+  <li><strong>alt</strong> : 이미지의 대체 텍스트 설정. type 속성 값이 image일 경우만 허용.</li>
+  <li><strong>type</strong> : 입력 받을 데이터의 종류 설정. 아래에 type에 대한 내용 기재.</li>
+  <li><strong>value</strong> : 양식의 초기 값 설정.</li>
+</ul>
+
+<hr />
+
+<h3 id="-데이터의-종류type의-값value">* 데이터의 종류(type)의 값(value)</h3>
+<ul>
+  <li><strong>button</strong> : 일반 버튼. onClick 속성은 자바스크립트 함수를 호출할 때 사용.</li>
+  <li><strong>checkbox</strong> : 체크 박스. 여러 개 중 동시에 선택, 비선택 가능. 배열로 값이 전달됨.</li>
+  <li><strong>color</strong> : 색상 선택. IE 지원 불가.</li>
+  <li><strong>date</strong> : 날짜 선택. IE 지원 불가.</li>
+  <li><strong>email</strong> : 이메일 선택.</li>
+  <li><strong>file</strong> : 파일 선택.</li>
+  <li><strong>hidden</strong> : 보이지 않지만 전송할 양식 설정. 양식에는 보이지 않지만 값이 전달될 때는 값이 전달되는 양식.</li>
+  <li><strong>image</strong> : 이미지 제출 버튼.</li>
+  <li><strong>number</strong> : 숫자 선택. IE 지원 불가.</li>
+  <li><strong>password</strong> : 비밀번호 입력 가능. 입력된 내용이 안 보이는 형식.</li>
+  <li><strong>radio</strong> : 라디오 버튼. 여러 개 중 하나만 선택됨.</li>
+  <li><strong>range</strong> : 범위 컨트롤 지정. max, min, step, value(기본값) 속성 사용 가능.</li>
+  <li><strong>reset</strong> : 초기화 하는 버튼. 해당 form 범위 내의 모든 양식 값이 초기화됨.</li>
+  <li><strong>search</strong> : 검색 기능.</li>
+  <li><strong>submit</strong> : 제출 버튼 기능. form 태그 속성 중 action 페이지로 해당 값들을 전송.</li>
+  <li><strong>tel</strong> : 전화번호 입력 기능.</li>
+  <li><strong>text</strong> : 일반 텍스트 입력 기능.</li>
+  <li><strong>url</strong> : 절대 url 입력 기능.</li>
+</ul>
+
+<h4 id="예1">[예1]</h4>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h2&gt;</span>회원 로그인 화면	<span class="nt">&lt;/h2&gt;</span>
+	
+	<span class="nt">&lt;h3&gt;</span>아이디와 비밀번호를 입력하세요.<span class="nt">&lt;/h3&gt;</span>
+	
+	<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"http://www.google.com"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">cellspacing=</span><span class="s">"0"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;tr&gt;</span>
+				<span class="nt">&lt;th&gt;</span>아이디<span class="nt">&lt;/th&gt;</span>
+				<span class="nt">&lt;td&gt;</span>
+					<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">autofocus</span> <span class="na">placeholder=</span><span class="s">"4자리 이상 16자 미만"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span> <span class="c">&lt;!-- &amp;nbsp; : 강제로 한칸띄어쓰기 --&gt;</span>
+					<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">value=</span><span class="s">"중복확인"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;/td&gt;</span>
+			<span class="nt">&lt;/tr&gt;</span>
+			
+			<span class="nt">&lt;tr&gt;</span>
+				<span class="nt">&lt;th&gt;</span>비밀번호<span class="nt">&lt;/th&gt;</span>
+				<span class="nt">&lt;td&gt;&lt;input</span> <span class="na">type=</span><span class="s">"password"</span><span class="nt">&gt;&lt;/td&gt;</span>
+			<span class="nt">&lt;/tr&gt;</span>		
+			
+			<span class="nt">&lt;tr&gt;</span>
+				<span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"2"</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"전송"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+					<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"reset"</span> <span class="na">value=</span><span class="s">"취소"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;/td&gt;</span>
+			<span class="nt">&lt;/tr&gt;</span>
+		<span class="nt">&lt;/table&gt;</span>
+	
+	<span class="nt">&lt;/form&gt;</span>
+</code></pre></div></div>
+<p>코드 실행 시 다음과 같은 창이 열린다.  <br />
+<img src="../assets/img/images/210420/04.png" /></p>
+
+<p>아이디칸에 입력하면 칸에 연하게 있던 ‘4자리 이상 16자리 미만’ 문장은 사라지고 키보드로 입력한 값이 나타난다.   <br />
+<img src="../assets/img/images/210420/05.png" /></p>
+
+<p>‘전송’을 누르면 form action=에서 설정했던 구글창으로 넘어간다. 현재로선 실제적인 입력값이 전송되지는 않는다.  <br />
+<img src="../assets/img/images/210420/05.5.png" /></p>
+
+<hr />
+<h4 id="예2">[예2]</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+	<span class="kd">function</span> <span class="nx">going</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">버튼을 클릭하셨군요!!!</span><span class="dl">"</span><span class="p">)</span> <span class="c1">//경고창 </span>
+	<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"going()"</span><span class="nt">&gt;</span>클릭하세요<span class="nt">&lt;/button&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+<p>버튼 클릭 시 위에서 스크립트로 정의한 going() 함수가 실행되어 경고창이 출력된다.  <br />
+<img src="../assets/img/images/210420/06.png" /></p>
+
+<hr />
+<h4 id="예3-체크박스-checkbox">[예3] 체크박스 checkbox</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>당신의 취미는?<span class="nt">&lt;/h3&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"운동"</span><span class="nt">&gt;</span>운동
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"여행"</span> <span class="na">checked</span><span class="nt">&gt;</span>여행
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"독서"</span><span class="nt">&gt;</span>독서
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"수면"</span><span class="nt">&gt;</span>수면
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"숨쉬기"</span><span class="nt">&gt;</span>숨쉬기
+</code></pre></div></div>
+<p>체크박스는 다중 선택이 가능하다.  <br />
+checked 로 지정된 ‘여행’이 기본적으로 선택되어 있다.
+<img src="../assets/img/images/210420/07.png" /></p>
+
+<hr />
+<h4 id="예4-라디오-버튼-radio-button">[예4] 라디오 버튼 radio button</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>당신의 성별은?<span class="nt">&lt;/h3&gt;</span>
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"gender"</span> <span class="na">value=</span><span class="s">"여자"</span><span class="nt">&gt;</span>여자	
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"gender"</span> <span class="na">value=</span><span class="s">"남자"</span> <span class="na">checked</span><span class="nt">&gt;</span>남자	
+
+</code></pre></div></div>
+<p>라디오 버튼은 다중 선택이 불가능하다.  <br />
+checked 로 지정된 ‘남자’항목이 기본적으로 선택되어 있다.  <br />
+<img src="../assets/img/images/210420/08.png" /></p>
+
+<hr />
+<h4 id="예5-textarea">[예5] textarea</h4>
+<p>textarea 태그는 여러 줄을 입력할 수 있는 태그이다.</p>
+<ul>
+  <li>rows : 태그에 기본적으로 설정할 줄(행) 수 입력.</li>
+  <li>cols : 태그에 기본적으로 설정할 열(column) 입력.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>운영자에게 하고 싶은 말<span class="nt">&lt;/h3&gt;</span>
+	<span class="nt">&lt;hr&gt;</span>
+	<span class="nt">&lt;textarea</span> <span class="na">rows=</span><span class="s">"5"</span> <span class="na">cols=</span><span class="s">"30"</span><span class="nt">&gt;</span>하고 싶은 말을 작성하세요.<span class="nt">&lt;/textarea&gt;</span>
+</code></pre></div></div>
+<p>‘하고 싶은 말을 작성하세요.’ 적혀 있는 부분을 지우고 텍스트를 작성할 수 있다.  <br />
+텍스트가 길어질 경우 세로로 스크롤바가 자동 생성된다.  <br />
+<img src="../assets/img/images/210420/09.png" /></p>
+
+<hr />
+<h4 id="예6-file">[예6] file</h4>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>파일을 선택 하세요.<span class="nt">&lt;/h3&gt;</span>
+
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"file"</span> <span class="na">multiple</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+<p>파일 선택 버튼 클릭시 파일을 삽입할 수 있는 창이 열린다.  <br />
+multiple 속성이 있으므로 ctrl 키를 누른 채 선택하면 다중 선택이 가능하다.  <br />
+<img src="../assets/img/images/210420/10.png" /> <img src="../assets/img/images/210420/11.png" />
+선택을 완료하면 몇 개의 파일이 선택되었는지 확인할 수 있다.  <br />
+2개를 선택하였으므로 ‘파일 2개’라고 출력된다.  <br />
+<img src="../assets/img/images/210420/12.png" /></p>
+
+<hr />
+<h4 id="예7-select">[예7] select</h4>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>직업을 선택하세요.<span class="nt">&lt;/h3&gt;</span>
+	<span class="nt">&lt;hr&gt;</span>
+	<span class="nt">&lt;select</span> <span class="na">multiple</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>:::직업 선택:::<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"회사원"</span><span class="nt">&gt;</span>회사원<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"공무원"</span><span class="nt">&gt;</span>공무원<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"학생"</span><span class="nt">&gt;</span>학생<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"주부"</span><span class="nt">&gt;</span>주부<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"무직"</span><span class="nt">&gt;</span>무직<span class="nt">&lt;/option&gt;</span>
+		<span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"기타"</span><span class="nt">&gt;</span>기타<span class="nt">&lt;/option&gt;</span>
+	<span class="nt">&lt;/select&gt;</span>
+</code></pre></div></div>
+<p>자바의 콤보박스와 비슷한 역할을 한다.  <br />
+<img src="../assets/img/images/210420/13.png" /><br />
+<img src="../assets/img/images/210420/14.png" /> <br />
+multiple 속성이 지정되어 있으므로 ctrl 키와 함께 클릭하면 다중 선택이 가능하다.  <br />
+<img src="../assets/img/images/210420/15.png" /></p>
+
+<hr />
+<h4 id="예8-color">[예8] color</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>색상을 선택하세요.<span class="nt">&lt;/h3&gt;</span>
+	<span class="nt">&lt;hr&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"color"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+<p>사각박스를 클릭 시 색상을 선택할 수 있다.  <br />
+<img src="../assets/img/images/210420/16.png" />  <br />
+색상은 스펙트럼에서 고르거나 RGB 컬러값을 입력 또는 스포이드를 활용하는 등 <br />
+다양하게 추출할 수 있다.  <br />
+<img src="../assets/img/images/210420/17.png" /></p>
+
+<hr />
+<h4 id="예9-date--time">[예9] date &amp; time</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>날짜를 입력하세요.<span class="nt">&lt;/h3&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"date"</span><span class="nt">&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"time"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p><img src="../assets/img/images/210420/18.png" /> <br />
+날짜를 클릭하면 만년달력에서 자유롭게 날짜를 고를 수 있다.   <br />
+오늘 날짜를 선택하였다.  <br />
+<img src="../assets/img/images/210420/19.png" /> <br />
+시간을 클릭하면 오전/오후, 시, 분 단위로 시간을 선택할 수 있다.  <br />
+<img src="../assets/img/images/210420/20.png" /></p>
+
+<hr />
+<h4 id="예10-number--range">[예10] number &amp; range</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>수량을 선택하세요.<span class="nt">&lt;/h3&gt;</span>
+
+	<span class="nt">&lt;hr&gt;</span>
+
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"number"</span> <span class="na">min=</span><span class="s">"1"</span> <span class="na">max=</span><span class="s">"20"</span> <span class="na">step=</span><span class="s">"2"</span> <span class="na">value=</span><span class="s">"10"</span><span class="nt">&gt;</span>	
+	
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"range"</span> <span class="na">min=</span><span class="s">"1"</span> <span class="na">max=</span><span class="s">"20"</span> <span class="na">step=</span><span class="s">"2"</span> <span class="na">value=</span><span class="s">"10"</span><span class="nt">&gt;</span>	
+</code></pre></div></div>
+
+<ul>
+  <li>number  <br />
+value=”10”이므로 실행 시 기본적으로 ‘10’으로 지정되어 있다.  <br />
+<img src="../assets/img/images/210420/21.png" /> <br />
+min=”1” max=”20” 이므로 아무리 내려도 1 밑으로는 내려가지 않고,<br />
+아무리 올려도 20을 넘길 수 없다.   <br />
+step=”2” 이므로 2단위로 수를 조정할 수 있다.<br />
+최저숫자인 1부터 2씩 조정하므로 최대 19까지 선택 가능하다.  <br />
+<img src="../assets/img/images/210420/22.png" />     <br />
+<img src="../assets/img/images/210420/23.png" /></li>
+  <li>range  <br />
+원형버튼을 움직여 수를 조절할 수 있으나 구체적인 숫자는 표시되지 않는다.  <br />
+<img src="../assets/img/images/210420/25.png" />  <br />
+<img src="../assets/img/images/210420/26.png" /></li>
+</ul>
+
+<hr />
+<h4 id="예11-week">[예11] week</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>오늘은 올해의 몇 번째 주일까요?<span class="nt">&lt;/h3&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"week"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+<p>실행 시 다음과 같은 창이 출력된다.  <br />
+<img src="../assets/img/images/210420/27.png" />   <br />
+클릭하면 달력이 출력되고, 날짜를 선택하면 일년 52 주 중 몇 번째 주인지 알 수 있다.   <br />
+오늘은 2021년의 16번째 주이다. <br />
+<img src="../assets/img/images/210420/28.png" /></p>
+
+<hr />
+<h4 id="예12-email">[예12] email</h4>
+<ul>
+  <li>required : 필수 입력 내용. 입력되지 않을 경우 오류가 발생한다.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;h3&gt;</span>이메일 주소를 입력하세요.<span class="nt">&lt;/h3&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+	<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"http://www.daum.net"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"email"</span> <span class="na">required</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"전송"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;/form&gt;</span>
+</code></pre></div></div>
+<p>이메일 주소를 입력하는 창이 열린다.  <br />
+현재로선 전송 버튼을 눌러도 실제로 데이터가 전송되지 않고, <br />
+action에 지정된 사이트로만 페이지가 이동된다.	  <br />
+<img src="../assets/img/images/210420/29.png" />	 <br />
+required 설정이 되어 있으므로,<br />
+입력하지 않고 바로 전송 버튼을 누르면 다음과 같이 작성하라는 안내창이 뜬다.    	
+<img src="../assets/img/images/210420/30.png" /></p>
+
+<hr />
+<h4 id="예13-fieldset--legend">[예13] fieldset &amp; legend</h4>
+<ul>
+  <li>fieldset 태그 : HTML 태그들을 하나로 그룹화하는 역할을 하는 태그.</li>
+  <li>legend 태그 : fieldset 태그에 제목을 부여하는 태그.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;fieldset&gt;</span>
+		<span class="nt">&lt;legend&gt;</span>필수 입력 사항<span class="nt">&lt;/legend&gt;</span>
+		<span class="nt">&lt;ul&gt;</span>
+			<span class="nt">&lt;li&gt;</span>이  름 : <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>아이디 : <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"20"</span> 
+				<span class="na">placeholder=</span><span class="s">"6자 이상 20자 미만 공백 없이"</span><span class="nt">&gt;&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>이메일 : <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"email"</span><span class="nt">&gt;&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>연락처 : <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>
+				<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"가입하기"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+				<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"reset"</span> <span class="na">value=</span><span class="s">"취소"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;/li&gt;</span>
+		<span class="nt">&lt;/ul&gt;</span>
+	<span class="nt">&lt;/fieldset&gt;</span>
+	
+	<span class="nt">&lt;fieldset&gt;</span>
+		<span class="nt">&lt;legend&gt;</span>선택 입력 사항<span class="nt">&lt;/legend&gt;</span>
+		<span class="nt">&lt;ul&gt;</span>
+			<span class="nt">&lt;li&gt;</span>
+				<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"운동"</span><span class="nt">&gt;</span>운동
+				<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"여행"</span><span class="nt">&gt;</span>여행
+				<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"독서"</span><span class="nt">&gt;</span>독서
+				<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"잠자기"</span><span class="nt">&gt;</span>잠자기
+				<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">name=</span><span class="s">"hobby"</span> <span class="na">value=</span><span class="s">"숨쉬기"</span><span class="nt">&gt;</span>숨쉬기
+			<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>
+				<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"gender"</span> <span class="na">value=</span><span class="s">"여자"</span><span class="nt">&gt;</span>여자
+				<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"radio"</span> <span class="na">name=</span><span class="s">"gender"</span> <span class="na">value=</span><span class="s">"남자"</span><span class="nt">&gt;</span>남자
+			<span class="nt">&lt;/li&gt;</span>
+		<span class="nt">&lt;/ul&gt;</span>
+	<span class="nt">&lt;/fieldset&gt;</span>
+</code></pre></div></div>
+<p>fieldset 태그 안에 넣은 태그들이 하나의 박스 안에 담겨 출력된다.  <br />
+<img src="../assets/img/images/210420/31.png" /></p>
+
+<hr />
+<h4 id="예14-audio--video">[예14] audio &amp; video</h4>
+<ul>
+  <li>audio 태그 : 음악 파일을 실행할 수 있는 태그.</li>
+  <li>video 태그 : 동영상 파일을 실행할 수 있는 태그.</li>
+  <li>autoplay loop : 처음 재생 이후론 무한 반복된다.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;audio</span> <span class="na">src=</span><span class="s">"audio/simpsons.mp4"</span>
+		<span class="na">controls</span> <span class="na">autoplay</span> <span class="na">loop</span><span class="nt">&gt;&lt;/audio&gt;</span>
+		
+	<span class="nt">&lt;hr&gt;</span>
+		
+	<span class="nt">&lt;video</span> <span class="na">src=</span><span class="s">"audio/simpsons.mp4"</span>
+		<span class="na">controls</span> <span class="na">autoplay</span> <span class="na">loop</span><span class="nt">&gt;&lt;/video&gt;</span>
+</code></pre></div></div>
+<p>음악 파일과 동영상 파일을 재생하거나 다운로드 받을 수 있다.  <br />
+autoplay loop 코드가 있으므로 처음 재생 버튼을 누른 이후로는 자동으로 반복 재생된다.  <br />
+<img src="../assets/img/images/210420/32.png" />  <br />
+동영상의 경우 PIP모드도 제공한다. 놀랍다.  <br />
+<img src="../assets/img/images/210420/33.png" /></p>
+
+<hr />
+<h3 id="-시맨틱-태그의-태그-종류">* 시맨틱 태그의 태그 종류</h3>
+<ul>
+  <li>시맨틱(semantic) : 의미가 있는 태그라는 뜻.</li>
+  <li>HTML5에 도입된 시맨틱 태그는 개발자와 브라우저에게 의미가 있는 태그를 제공한다. 태그의 이름만 보고 어느 영역에 삽입된 코드인지 파악할 수 있도록 하는 역할을 한다.</li>
+</ul>
+
+<ol>
+  <li>
+    <p>header 태그 : 브라우저의 상단에 존재하는 태그. 회사의 로고, 회원가입, 로그인 버튼들을 나타내는 태그.</p>
+  </li>
+  <li>
+    <p>footer 태그 : 브라우저의 하단에 존재하는 태그. 일반적으로 저작권, 회사의 주소에 대한 정보를 나타내는 태그.</p>
+  </li>
+  <li>
+    <p>article 태그 : 일반적으로 웹 문서의 본문에 해당하는 내용을 작성하는 태그.</p>
+  </li>
+  <li>
+    <p>section 태그 : 문서의 일반적인 영역을 설정하는 태그. article 태그 사용이 가능하다.</p>
+  </li>
+  <li>
+    <p>aside 태그 : 문서의 별도 컨텐츠 영역, 보통 광고나 기타 링크 등의 사이드 바를 설정하는 태그.</p>
+  </li>
+  <li>
+    <p>nav 태그 : 다른 페이지 링크를 제공하는 영역. 보통 메뉴(home, content 등등) 설정 시 사용한다.</p>
+  </li>
+</ol>
+
+:ET

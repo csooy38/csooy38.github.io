@@ -1,0 +1,38 @@
+I"-<p><a href="https://docs.google.com/document/d/1ttdnhQSGiP8oYt0saMN2S5nEIe6MOODr6DhZKSpAvLQ/edit#heading=h.26rku1b8pivp">DB-Oracle SQL developer</a></p>
+
+<p>클릭하면 Oracle SQL developer를 정리한 구글 문서로 넘어간다.<br />
+목차는 다음과 같다.</p>
+
+<ol>
+  <li>오라클에서 속성에 들어가는 주요 자료형</li>
+  <li>DB의 중요한 개념</li>
+  <li>where 조건절</li>
+  <li>like 키워드</li>
+  <li>order by 절</li>
+  <li>not 키워드</li>
+  <li>그룹 함수</li>
+  <li>시퀀스</li>
+  <li>join ~ on 키워드  <br />
+ 9.1. Cross Join   <br />
+ 9.2. Equi Join  <br />
+ 9.3. Self Join  <br />
+ 9.4. Outer Join</li>
+  <li>dual 테이블  <br />
+10.1. 오라클에서 제공하는 함수들</li>
+  <li>서브쿼리</li>
+  <li>group by</li>
+  <li>having 절</li>
+  <li>view</li>
+  <li>컬럼 속성 - 제약조건  <br />
+15.1. not null <br />
+15.2. unique<br />
+15.3. primary<br />
+15.4. foreign key<br />
+15.5. check</li>
+  <li>트랜잭션</li>
+  <li>PL/SQL</li>
+  <li>조건 제어문</li>
+  <li>반복 제어문</li>
+</ol>
+
+:ET

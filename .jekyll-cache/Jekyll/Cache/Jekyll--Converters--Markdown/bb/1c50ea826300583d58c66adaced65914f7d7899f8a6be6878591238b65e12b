@@ -1,0 +1,22 @@
+I"J<h2 id="문제">문제</h2>
+
+<p>프로젝트를 진행하며 반복적으로 데이터값을 바꿔 넣으며 sql문 실행이 필요한 경우가 발생하여, for문, while문 없이 MyBatis 내에서 실행 가능한 코드구현 필요</p>
+
+<p><br /></p>
+
+<h2 id="해결">해결</h2>
+
+<p>반복적으로 데이터값을 바꿔 넣으며 sql문 실행이 필요한 경우 <br />
+파라미터로 List 또는 array 를 넣고, <foreach> 구문을 활용한다.</foreach></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"memCart"</span> <span class="na">parameterType=</span><span class="s">"ArrayList"</span> <span class="na">resultType=</span><span class="s">"com.spring.model.ProductDTO"</span><span class="nt">&gt;</span>
+	select * from product where pro_no in
+	<span class="nt">&lt;foreach</span> <span class="na">collection=</span><span class="s">"list"</span> <span class="na">item=</span><span class="s">"item"</span> <span class="na">open=</span><span class="s">"("</span> <span class="na">close=</span><span class="s">")"</span> <span class="na">separator=</span><span class="s">","</span><span class="nt">&gt;</span>#{item.value}<span class="nt">&lt;/foreach&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<p>참고 | <a href="https://linked2ev.github.io/mybatis/2020/01/05/MyBatis-5-foreach-%EA%B5%AC%EB%AC%B8,-parameterType-List-Model-Map/">[MyBatis] foreach 구문, parameterType List, Model, Map 사용</a></p>
+:ET

@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] 하단에 이동할 페이지 넣기"
 date:   2021-05-17 19:32:11 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.17.
-
-<br>
-
 # 하단에 이동할 페이지 넣기
  
 <br>

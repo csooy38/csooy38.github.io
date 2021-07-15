@@ -1,0 +1,446 @@
+I"x�<h1 id="mvc2-패턴">MVC2 패턴</h1>
+
+<p align="center"><img src="../assets/img/images/210513/05.jpg" /></p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="1-서블릿-매핑n1">1. 서블릿 매핑(n:1)</h2>
+<p>모든 서블릿을 FrontController 하나로 통합한 것과 동일한 형태를 띤다.</p>
+
+<p>1) xml 파일 소스에 서블릿을 매핑(n:1)한다.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;servlet&gt;</span>
+	<span class="nt">&lt;servlet-name&gt;</span>FrontController<span class="nt">&lt;/servlet-name&gt;</span>
+	<span class="nt">&lt;servlet-class&gt;</span>com.member.controller.FrontController<span class="nt">&lt;/servlet-class&gt;</span>
+<span class="nt">&lt;/servlet&gt;</span>
+  
+  <span class="c">&lt;!-- .do 라는 경로는 모두 FrontController 라는 서블릿으로 이동 시켜라. --&gt;</span>
+<span class="nt">&lt;servlet-mapping&gt;</span>
+
+	<span class="c">&lt;!-- 서블릿 이름은 위에서 작성한 것과 동일해야 한다. --&gt;</span>
+	<span class="nt">&lt;servlet-name&gt;</span>FrontController<span class="nt">&lt;/servlet-name&gt;</span>
+	<span class="nt">&lt;url-pattern&gt;</span>*.do<span class="nt">&lt;/url-pattern&gt;</span>
+<span class="nt">&lt;/servlet-mapping&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>2) web.xml 파일에 작성한 패키지 아래 FrontController 클래스를 생성한다. <br />
+3) 서블릿 파일과 동일하게 형식을 구성한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FrontController</span> <span class="kd">extends</span> <span class="nc">HttpServlet</span> <span class="o">{</span>
+	
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">service</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+		
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>4) service 메서드 안에서 한글 인코딩 처리를 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">request</span><span class="o">.</span><span class="na">setCharacterEncoding</span><span class="o">(</span><span class="s">"UTF-8"</span><span class="o">);</span>
+<span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/html; charset=UTF-8"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>5) 파일명을 받아온다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// getRequestURI() : "/프로젝트명/파일명(*.do)" 라는 문자열을 반환하는 메서드.</span>
+<span class="nc">String</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"uri &gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">uri</span><span class="o">);</span>		<span class="c1">// uri &gt;&gt;&gt; /11_Member_MVC2/select.do</span>
+		
+<span class="c1">// getContextPath() : 현재 프로젝트명을 문자열로 반환하는 메서드.</span>
+<span class="nc">String</span> <span class="n">path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"path &gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">path</span><span class="o">);</span>		<span class="c1">// path &gt;&gt;&gt; /11_Member_MVC2</span>
+		
+<span class="nc">String</span> <span class="n">command</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">path</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+<span class="n">ystem</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"command &gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">command</span><span class="o">);</span> <span class="c1">// command &gt;&gt;&gt; select.do</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>6) src 패키지 com.member.action 패키지를 생성하고 그 아래 Action.java 라는 인터페이스를 생성한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.member.action</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletResponse</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Action</span> <span class="o">{</span>
+
+	<span class="c1">// 추상메서드</span>
+	 <span class="kd">public</span> <span class="nc">String</span> <span class="nf">execute</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>7) com.member.action 패키지 아래 MemberListAction.java 라는 클래스를 생성한다. Action 인터페이스를 상속받는다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemberListAction</span> <span class="kd">implements</span> <span class="nc">Action</span> <span class="o">{</span>
+ 
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">execute</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// member 테이블에서 회원 전체 리스트를 조회하여 view page로 이동시키는 작업</span>
+		<span class="nc">MemberDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="nc">MemberDAO</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+		<span class="n">dao</span><span class="o">.</span><span class="na">getMemberList</span><span class="o">();</span>
+		
+		<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>8) memberDAO 에서 DB 커넥션풀을 작성하고  MemberListAction.java에서 선언한 getMemberList() 메서드를 생성한다.</p>
+
+<p>9) MemberListAction.java 클래스 반환값을 FrontController에서 받아서 페이지 이동 처리한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Action</span> <span class="n">action</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+		
+<span class="k">if</span><span class="o">(</span><span class="n">command</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"select.do"</span><span class="o">))</span> <span class="o">{</span>
+	<span class="c1">// 비즈니스 로직만 실행</span>
+	<span class="c1">// MemberListAction 클래스에서 서블릿 역할</span>
+	<span class="n">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MemberListAction</span><span class="o">();</span>
+	<span class="nc">String</span> <span class="n">path1</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+			
+	<span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="n">path1</span><span class="o">);</span>
+	<span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-전체-코드">2. 전체 코드</h2>
+
+<p align="center"><img src="../assets/img/images/210513/05.png" /></p>
+
+<h3 id="-0-indexjsp">* 0. index.jsp</h3>
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"blue"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;h3&gt;</span>MEMBER10 테이블 메인 페이지<span class="nt">&lt;/h3&gt;</span>
+		<span class="nt">&lt;hr</span> <span class="na">width=</span><span class="s">"50%"</span> <span class="na">color=</span><span class="s">"blue"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;br&gt;&lt;br&gt;</span>
+		
+		<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="nt">&lt;%=</span><span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">()</span> <span class="nt">%&gt;</span><span class="s">/select.do"</span><span class="nt">&gt;</span>[전체 회원 목록]<span class="nt">&lt;/a&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-1-webxml">* 1. web.xml</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;web-app</span> <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="na">xmlns=</span><span class="s">"http://xmlns.jcp.org/xml/ns/javaee"</span> <span class="na">xsi:schemaLocation=</span><span class="s">"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"</span> <span class="na">id=</span><span class="s">"WebApp_ID"</span> <span class="na">version=</span><span class="s">"4.0"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;display-name&gt;</span>11_Member_MVC2<span class="nt">&lt;/display-name&gt;</span>
+  <span class="nt">&lt;welcome-file-list&gt;</span>
+    <span class="nt">&lt;welcome-file&gt;</span>index.html<span class="nt">&lt;/welcome-file&gt;</span>
+    <span class="nt">&lt;welcome-file&gt;</span>index.htm<span class="nt">&lt;/welcome-file&gt;</span>
+    <span class="nt">&lt;welcome-file&gt;</span>index.jsp<span class="nt">&lt;/welcome-file&gt;</span>
+    <span class="nt">&lt;welcome-file&gt;</span>default.html<span class="nt">&lt;/welcome-file&gt;</span>
+    <span class="nt">&lt;welcome-file&gt;</span>default.htm<span class="nt">&lt;/welcome-file&gt;</span>
+    <span class="nt">&lt;welcome-file&gt;</span>default.jsp<span class="nt">&lt;/welcome-file&gt;</span>
+  <span class="nt">&lt;/welcome-file-list&gt;</span>
+  
+  <span class="c">&lt;!-- 서블릿 매핑(n:1) --&gt;</span>
+  <span class="nt">&lt;servlet&gt;</span>
+  	<span class="nt">&lt;servlet-name&gt;</span>FrontController<span class="nt">&lt;/servlet-name&gt;</span>
+  	<span class="nt">&lt;servlet-class&gt;</span>com.member.controller.FrontController<span class="nt">&lt;/servlet-class&gt;</span>
+  <span class="nt">&lt;/servlet&gt;</span>
+  
+  <span class="nt">&lt;servlet-mapping&gt;</span>
+  	<span class="nt">&lt;servlet-name&gt;</span>FrontController<span class="nt">&lt;/servlet-name&gt;</span>
+  	<span class="nt">&lt;url-pattern&gt;</span>*.do<span class="nt">&lt;/url-pattern&gt;</span>
+  <span class="nt">&lt;/servlet-mapping&gt;</span>
+
+<span class="nt">&lt;/web-app&gt;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-2-frontcontrollerjava">* 2. FrontController.java</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.member.controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.servlet.RequestDispatcher</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.ServletException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServlet</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletResponse</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.member.action.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FrontController</span> <span class="kd">extends</span> <span class="nc">HttpServlet</span> <span class="o">{</span>
+	
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">service</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ServletException</span><span class="o">,</span> <span class="nc">IOException</span> <span class="o">{</span>
+		<span class="c1">// 한글 인코딩 처리</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setCharacterEncoding</span><span class="o">(</span><span class="s">"UTF-8"</span><span class="o">);</span>
+		<span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"text/html; charset=UTF-8"</span><span class="o">);</span>
+		
+		<span class="c1">// getRequestURI() : "/프로젝트명/파일명(*.do)" 라는 문자열을 반환하는 메서드.</span>
+		<span class="nc">String</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">();</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"uri &gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">uri</span><span class="o">);</span>
+		
+		<span class="c1">// getContextPath() : 현재 프로젝트명을 문자열로 반환하는 메서드.</span>
+		<span class="nc">String</span> <span class="n">path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getContextPath</span><span class="o">();</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"path &gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">path</span><span class="o">);</span>
+		
+		<span class="nc">String</span> <span class="n">command</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">path</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"command &gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">command</span><span class="o">);</span>
+		
+		<span class="nc">Action</span> <span class="n">action</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+		
+		<span class="k">if</span><span class="o">(</span><span class="n">command</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"select.do"</span><span class="o">))</span> <span class="o">{</span>
+			<span class="c1">// 비즈니스 로직만 실행</span>
+			<span class="c1">// MemberListAction 클래스에서 서블릿 역할</span>
+			<span class="n">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MemberListAction</span><span class="o">();</span>
+			<span class="nc">String</span> <span class="n">path1</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+			
+			<span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="n">path1</span><span class="o">);</span>
+			<span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-3-actionjava">* 3. Action.java</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.member.action</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletResponse</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Action</span> <span class="o">{</span>
+
+	<span class="c1">// 추상메서드</span>
+	 <span class="kd">public</span> <span class="nc">String</span> <span class="nf">execute</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-4-memberlistactionjava">* 4. MemberListAction.java</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.member.action</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.servlet.RequestDispatcher</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletResponse</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.member.model.MemberDAO</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.member.model.MemberDTO</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemberListAction</span> <span class="kd">implements</span> <span class="nc">Action</span> <span class="o">{</span>
+ 
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">execute</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// member 테이블에서 회원 전체 리스트를 조회하여 view page로 이동시키는 작업</span>
+		<span class="nc">MemberDAO</span> <span class="n">dao</span> <span class="o">=</span> <span class="nc">MemberDAO</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">MemberDTO</span><span class="o">&gt;</span> <span class="n">memberList</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="na">getMemberList</span><span class="o">();</span>
+		
+		<span class="c1">// DB에서 가져온 전체 회원 리스트를 view page로 이동시키자.</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"List"</span><span class="o">,</span> <span class="n">memberList</span><span class="o">);</span>
+		
+		<span class="k">return</span> <span class="s">"view/member_list.jsp"</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-5-memberdao">* 5. MemberDAO</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.member.model</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.PreparedStatement</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.ResultSet</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.SQLException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.naming.Context</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.naming.InitialContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemberDAO</span> <span class="o">{</span>
+
+	<span class="nc">Connection</span> <span class="n">con</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>				<span class="c1">// DB 연결하는 객체.</span>
+	<span class="nc">PreparedStatement</span> <span class="n">pstmt</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>		<span class="c1">// DB에 SQL문을 전송하는 객체.</span>
+	<span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>				<span class="c1">// SQL문을 실행 후 결과값을 가지고 있는 객체.</span>
+	
+	<span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>					<span class="c1">// 쿼리문을 저장할 객체.</span>
+
+	
+	<span class="c1">// public은 객체를 불러올 때마다 heap영역에 객체를 생성하게 되어 메모리 차지가 많음 =&gt; 메모리 낭비</span>
+	<span class="c1">// private 접근지정자 =&gt; 싱글턴 방식으로 ProductDAO 객체를 만드는 방식</span>
+	<span class="c1">// 1단계 : 싱글턴 방식으로 객체를 만들기 위해서는 우선적으로 기본생성자의 접근 제어자를</span>
+	<span class="c1">//       private로 선언을 해줘야 함. (외부접근 x, 내부에서 객체를 만들어줘야함)</span>
+	
+	<span class="c1">// 2단계 : 정적 멤버로 선언을 해야 함. =&gt; static으로 선언을 해야한다는 의미.</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="nc">MemberDAO</span> <span class="n">instance</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+	
+	<span class="c1">// 3단계 : 외부에서 객체 생성을 하지 못하게 접근을 제어 - private 기본 생성자를 만듦.</span>
+	<span class="kd">private</span> <span class="nf">MemberDAO</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+	
+	<span class="c1">// 4단계 : 기본 생성자 대신에 싱글턴 객체를 return을 해주는 getInstance() 메서드를</span>
+	<span class="c1">//       만들어서 여기에 접근하게 하는 방법. =&gt; 정적 인스턴스를 만들어서 가져다 씀</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">MemberDAO</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>	<span class="c1">// 반환 타입이 MemberDAO</span>
+		<span class="k">if</span><span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MemberDAO</span><span class="o">();</span>		<span class="c1">// 객체생성(주소값 가지고있음) =&gt; method 영역에 생성</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+	<span class="o">}</span> <span class="c1">// getInstance() 메서드 end</span>
+	
+	
+	<span class="c1">// DB 연동하는 작업을 진행하는 메서드 - DBCP(Connection Pool) 방식으로 연결 진행</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">openConn</span><span class="o">()</span> <span class="o">{</span>
+		
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="c1">// 1단계 : JNDI 서버 객체 생성</span>
+			<span class="nc">Context</span>	<span class="n">ctx</span>  <span class="o">=</span> <span class="k">new</span> <span class="nc">InitialContext</span><span class="o">();</span>	<span class="c1">// Context(javax.lang)</span>
+			
+			<span class="c1">// 2단계 : lookup() 메서드를 이용하여 매칭되는 커넥션을 찾는다.</span>
+			<span class="nc">DataSource</span> <span class="n">ds</span> <span class="o">=</span> <span class="o">(</span><span class="nc">DataSource</span><span class="o">)</span><span class="n">ctx</span><span class="o">.</span><span class="na">lookup</span><span class="o">(</span><span class="s">"java:comp/env/jdbc/myoracle"</span><span class="o">);</span>	<span class="c1">// DataSource(javax.sql) =&gt; object타입이라 형변환 필요</span>
+			
+			<span class="c1">// 3단계 : DataBase 객체를 이용하여 커넥션 객체를 하나 가져온다.</span>
+			<span class="n">con</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="na">getConnection</span><span class="o">();</span>
+			
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// TODO Auto-generated catch block</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span> 
+		
+	<span class="o">}</span> <span class="c1">// openConn() 메서드 end</span>
+	
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">MemberDTO</span><span class="o">&gt;</span> <span class="nf">getMemberList</span><span class="o">()</span> <span class="o">{</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">MemberDTO</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">MemberDTO</span><span class="o">&gt;();</span>
+		<span class="n">openConn</span><span class="o">();</span>
+		<span class="n">sql</span> <span class="o">=</span> <span class="s">"select * from member10 order by num desc"</span><span class="o">;</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">pstmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+			<span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+			
+			<span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+				<span class="nc">MemberDTO</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MemberDTO</span><span class="o">();</span>
+				
+				<span class="n">dto</span><span class="o">.</span><span class="na">setNum</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"num"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setMemid</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"memid"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setMemname</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"memname"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setPwd</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"pwd"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"age"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setMileage</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"mileage"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setJob</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"job"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setAddr</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"addr"</span><span class="o">));</span>
+				<span class="n">dto</span><span class="o">.</span><span class="na">setRegdate</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"regdate"</span><span class="o">));</span>
+				
+				<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">dto</span><span class="o">);</span>
+			<span class="o">}</span>
+			
+			<span class="c1">// open 객체 닫기</span>
+			<span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="n">con</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// TODO Auto-generated catch block</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+		
+		<span class="k">return</span> <span class="n">list</span><span class="o">;</span>
+		
+	<span class="o">}</span> <span class="c1">// getMemberList() end	</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-6-memberdto">* 6. MemberDTO</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.member.model</span><span class="o">;</span>
+
+
+<span class="c1">// Member10 테이블의 컬럼과 동일하게 멤버변수 구성</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemberDTO</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">num</span><span class="o">;</span>		<span class="c1">// 회원 번호</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">memid</span><span class="o">;</span>	<span class="c1">// 회원 아이디</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">memname</span><span class="o">;</span>	<span class="c1">// 회원 이름</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">pwd</span><span class="o">;</span>		<span class="c1">// 회원 비밀번호</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>		<span class="c1">// 회원 나이</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">mileage</span><span class="o">;</span>	<span class="c1">// 회원 마일리지</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">job</span><span class="o">;</span>		<span class="c1">// 회원 직업</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">addr</span><span class="o">;</span>	<span class="c1">// 회원 주소</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">regdate</span><span class="o">;</span> <span class="c1">// 회원 가입일</span>
+	
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getNum</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">num</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setNum</span><span class="o">(</span><span class="kt">int</span> <span class="n">num</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">num</span> <span class="o">=</span> <span class="n">num</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getMemid</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">memid</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setMemid</span><span class="o">(</span><span class="nc">String</span> <span class="n">memid</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">memid</span> <span class="o">=</span> <span class="n">memid</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getMemname</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">memname</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setMemname</span><span class="o">(</span><span class="nc">String</span> <span class="n">memname</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">memname</span> <span class="o">=</span> <span class="n">memname</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getPwd</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">pwd</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setPwd</span><span class="o">(</span><span class="nc">String</span> <span class="n">pwd</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">pwd</span> <span class="o">=</span> <span class="n">pwd</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getAge</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">age</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAge</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getMileage</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">mileage</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setMileage</span><span class="o">(</span><span class="kt">int</span> <span class="n">mileage</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">mileage</span> <span class="o">=</span> <span class="n">mileage</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getJob</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">job</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setJob</span><span class="o">(</span><span class="nc">String</span> <span class="n">job</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">job</span> <span class="o">=</span> <span class="n">job</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getAddr</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">addr</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAddr</span><span class="o">(</span><span class="nc">String</span> <span class="n">addr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getRegdate</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">regdate</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setRegdate</span><span class="o">(</span><span class="nc">String</span> <span class="n">regdate</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">regdate</span> <span class="o">=</span> <span class="n">regdate</span><span class="o">;</span>
+	<span class="o">}</span>	
+<span class="o">}</span>
+</code></pre></div></div>
+:ET

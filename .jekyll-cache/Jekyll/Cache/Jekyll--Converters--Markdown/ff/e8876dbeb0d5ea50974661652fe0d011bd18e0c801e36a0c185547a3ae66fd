@@ -1,0 +1,920 @@
+I"��<h1 id="csscascading-style-sheet">CSS(Cascading Style Sheet)</h1>
+<p>HTML이 웹 페이지의 <strong>뼈대</strong>라고 한다면 CSS는 <strong>살</strong>이라고 할 수 있다. 즉, HTML이 웹 페이지의 정보를 표현한다면, CSS는 HTML을 좀 더 보기 좋게 디자인하는 역할을 한다.</p>
+
+<ul>
+  <li>CSS 특징
+    <ul>
+      <li>Cascading Style Sheet</li>
+      <li>HTML 문서에 스타일(디자인)을 적용하는 언어</li>
+      <li>CSS 사용 방법
+        <ul>
+          <li>인라인 방식(태그에 직접 적용) : 번거로우므로 사용빈도가 낮다.</li>
+          <li>head 영역 선언 방식</li>
+          <li>외부 파일(*.css) 링크 방식</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>CSS 형식 : 선택자 { 속성: 값; }
+    <ul>
+      <li>선택자 : body 태그에서 선언한 태그</li>
+      <li>하위태그 지정 : 상위태그 하위태그 { 속성: 값; }</li>
+      <li>둘 이상의 요소에 같은 스타일을 적용하는 방법 : 태그1, 태그2 { 속성: 값; }</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<h2 id="1-css-사용-방법">1. CSS 사용 방법</h2>
+<h3 id="11-외부-파일css-링크-방식">1.1. 외부 파일(*.css) 링크 방식</h3>
+<ul>
+  <li><strong>link</strong> : 현재 문서와 외부 리소스(*.css) 파일과의 관계를 명시.</li>
+  <li><code class="language-plaintext highlighter-rouge">rel="stylesheet"</code> : <code class="language-plaintext highlighter-rouge">&lt;link&gt;</code> 태그로 연결하는 파일이 외부에 있는 스타일시트 파일이란 뜻을 가지고 있다.</li>
+  <li><code class="language-plaintext highlighter-rouge">href</code> : 이 속성은 링크된 리소스의 url 경로를 참고한다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">href="#"</code> : 링크없이 클릭만 가능</li>
+    </ul>
+  </li>
+  <li>외부에 스타일시트 파일로 선언하고 사용할 때의 장점은 모든 HTML 파일에 동일하게 적용이 가능하다는 점이다.</li>
+</ul>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">//</span> <span class="nt">main</span><span class="nc">.css</span> <span class="nt">파일</span>
+<span class="o">//</span> <span class="nt">html</span> <span class="nt">파일에서</span> <span class="nt">선언한</span> <span class="nt">링크</span> <span class="s1">"css/main.css"</span> <span class="nt">주소에</span> <span class="nt">파일을</span> <span class="nt">만들고</span> <span class="nt">아래의</span> <span class="nt">코드를</span> <span class="nt">작성하였다</span><span class="o">.</span>
+
+<span class="o">//</span> <span class="nt">링크된</span> <span class="nt">html의</span> <span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">태그에</span> <span class="nt">적용되는</span> <span class="nt">css</span>
+<span class="nt">p</span> <span class="p">{</span>
+	<span class="nl">color</span><span class="p">:</span> <span class="no">blue</span><span class="p">;</span> 		<span class="c">/* 글자 색상 */</span>
+	<span class="nl">font-size</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span> 	<span class="c">/* 글자 크기 */</span>
+	<span class="nl">font-weight</span><span class="p">:</span> <span class="nb">bold</span><span class="p">;</span>  <span class="c">/* 글자 굵기 */</span>
+	<span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span> <span class="c">/* 글자 위치 */</span>
+	<span class="nl">font-family</span><span class="p">:</span> <span class="n">궁서체</span>   <span class="c">/* 글꼴(글자체) */</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="nt">링크된</span> <span class="nt">html의</span> <span class="o">&lt;</span><span class="nt">body</span><span class="o">&gt;</span> <span class="nt">태그에</span> <span class="nt">적용되는</span> <span class="nt">css</span>
+<span class="nt">body</span> <span class="p">{</span>		
+	<span class="nl">background-color</span><span class="p">:</span> <span class="no">pink</span><span class="p">;</span>	<span class="c">/* 문서 전체 배경 색상 변경 */</span>
+	
+	<span class="c">/* 배경 이미지를 지정하는 속성 */</span>
+	<span class="nl">background-image</span><span class="p">:</span> <span class="sx">url(".../assets/img/images/beauty.jpg")</span><span class="p">;</span>
+	
+	<span class="c">/* 배경 이미지를 한 번만 표시하는 속성 */</span>
+	<span class="nl">background-repeat</span><span class="p">:</span> <span class="nb">no-repeat</span><span class="p">;</span>
+	
+	<span class="c">/* 배경 이미지를 웹 브라우저의 가운데 배치하는 속성 */</span>
+	<span class="nl">background-position</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// html 파일
+<span class="nt">&lt;head&gt;</span>  // 헤더 안에서 선언
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"css/main.css"</span><span class="nt">&gt;</span> // 링크한 파일의 스타일을 적용한다.
+<span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;p&gt;</span>link 방식으로 스타일 지정하기<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p>엄청난 게 만들어졌다. 정말 beauty한 화면이다.  <br />
+링크한 css파일의 코드에 따라 p태그와 body태그의 디자인이 결정되었다.</p>
+<p align="center"><img src="../assets/img/images/210420/34.png" /></p>
+
+<p><br /></p>
+
+<h3 id="12-css-사용-방법-2---head-영역-선언-방식">1.2. CSS 사용 방법 2  : head 영역 선언 방식</h3>
+<p><code class="language-plaintext highlighter-rouge">&lt;head&gt;</code> 영역에서 원하는 태그의 스타일을 지정한다.</p>
+
+<ul>
+  <li>하위 태그 지정 : ‘상위태그 하위태그 { 속성: 값;}’</li>
+  <li>둘 이상의 요소에 같은 스타일을 적용하는 방법 : 태그1, 태그2 { 속성: 값; }</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;title&gt;</span>Insert title here<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nt">ul</span> <span class="nt">li</span><span class="p">{</span> <span class="err">//</span> <span class="err">ul태그의</span> <span class="err">하위</span> <span class="err">태그인</span> <span class="err">li태그의</span> <span class="err">스타일</span> <span class="err">정의</span> 
+		<span class="nl">font-size</span><span class="p">:</span> <span class="m">18px</span><span class="p">;</span>
+		<span class="nl">font-weight</span><span class="p">:</span> <span class="nb">bold</span><span class="p">;</span>
+		<span class="nl">color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span> <span class="p">{</span> <span class="err">//</span> <span class="err">둘</span> <span class="err">이상의</span> <span class="err">태그를</span> <span class="err">한</span> <span class="err">번에</span> <span class="err">스타일</span> <span class="err">정의</span>
+		<span class="nl">font-style</span><span class="p">:</span> <span class="nb">italic</span><span class="p">;</span>
+		<span class="nl">font-weight</span><span class="p">:</span> <span class="nb">bold</span><span class="p">;</span>
+		<span class="nl">text-decoration</span><span class="p">:</span> <span class="nb">underline</span><span class="p">;</span> <span class="c">/* 텍스트에 밑줄 적용*/</span>
+	<span class="p">}</span>
+	
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;h3&gt;</span>음료 종류<span class="nt">&lt;/h3&gt;</span>
+	
+	<span class="nt">&lt;hr&gt;</span>
+	
+	<span class="nt">&lt;ul&gt;</span>
+		<span class="nt">&lt;li&gt;</span>콜라<span class="nt">&lt;/li&gt;</span>
+		<span class="nt">&lt;li&gt;</span>사이다<span class="nt">&lt;/li&gt;</span>
+		<span class="nt">&lt;li&gt;</span>환타<span class="nt">&lt;/li&gt;</span>
+		<span class="nt">&lt;li&gt;</span>생과일주스<span class="nt">&lt;/li&gt;</span>
+	<span class="nt">&lt;/ul&gt;</span>
+	
+	<span class="nt">&lt;h1&gt;</span>나보다 동료의 생각이 더 옳을 수 있다는 믿음을 가집니다.<span class="nt">&lt;/h1&gt;</span>	
+	<span class="nt">&lt;h2&gt;</span>Trust to Trust<span class="nt">&lt;/h2&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;head&gt;</code>에서 정의한 스타일이 li, h1, h2 태그에 각각 적용되어 출력된다.</p>
+<p align="center"><img src="../assets/img/images/210420/35.png" /></p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-css-형식--선택자--속성-값-">2. CSS 형식 : 선택자 { 속성: 값; }</h2>
+<h3 id="21-선택자의-종류">2.1. 선택자의 종류</h3>
+<ul>
+  <li>태그 선택자 : 특정 태그를 사용한 요소에 스타일 적용. id 선택자와 class 선택자가 있다.
+    <ol>
+      <li>id 선택자 : 특정 부분에 스타일 적용.</li>
+    </ol>
+    <ul>
+      <li>웹 문서에서 고유한 식별자를 정의할 때 사용한다.</li>
+      <li>대체적으로 큰 골격의 이름에 사용하는 것이 좋다.</li>
+      <li>같은 id 이름을 중복해서 사용하지 못한다. 하나의 요소에 여러 개의 id를 동시에 사용하지 못한다.</li>
+      <li>대체적으로 상단 헤더, 왼쪽 메뉴, 가운데 컨텐츠 영역, 하단 footer 영역에 사용한다.</li>
+      <li>예) <code class="language-plaintext highlighter-rouge">&lt;body&gt; id="title"</code> ==&gt; <code class="language-plaintext highlighter-rouge">&lt;head&gt; #title</code>
+        <ol>
+          <li>class 선택자 : 특정 부분에 스타일 적용.</li>
+        </ol>
+      </li>
+      <li>같은 클래스의 이름을 여러 요소에 중복하여 적용할 수 있다.</li>
+      <li>주로 class 선택자를 많이 사용한다.</li>
+      <li>예) <code class="language-plaintext highlighter-rouge">&lt;body&gt; class="main_text"</code> ==&gt; <code class="language-plaintext highlighter-rouge">&lt;head&gt; .main_text</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예-id-선택자--class-선택자">[예] id 선택자 &amp; class 선택자</h4>
+<p>id 선택자는 헤더영역에서 ‘#’을 선택자 이름 앞에, class 선택자의 이름은 헤더영역에서 ‘.’을 선택자 이름 앞에 붙여서 선언한다.</p>
+<ul>
+  <li>id 선택자는 중복해서 사용할 수 없음에 주의한다.</li>
+  <li>class 선택자는 중복해서 사용가능하므로 넓은 영역에서 사용 가능하다.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nf">#title</span> <span class="p">{</span> <span class="err">//</span> <span class="err">id</span> <span class="err">선택자</span>
+		<span class="nl">color</span><span class="p">:</span> <span class="no">blue</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="nc">.main_text</span> <span class="p">{</span> <span class="err">//</span> <span class="err">class</span> <span class="err">선택자</span>
+		<span class="nl">font-weight</span><span class="p">:</span> <span class="nb">bold</span><span class="p">;</span>
+		<span class="nl">font-size</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+		<span class="nl">color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+	// id 선택자 title 적용
+	<span class="nt">&lt;h1</span> <span class="na">id=</span><span class="s">"title"</span><span class="nt">&gt;</span>제목1<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;h1&gt;</span>제목2<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;hr&gt;</span>
+	
+	// class 선택자 main_text 적용
+	<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"main_text"</span><span class="nt">&gt;</span>본문1<span class="nt">&lt;/p&gt;</span>
+	<span class="nt">&lt;p&gt;</span>본문2<span class="nt">&lt;/p&gt;</span>
+	<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"main_text"</span><span class="nt">&gt;</span>본문3<span class="nt">&lt;/p&gt;</span>
+	<span class="nt">&lt;p&gt;</span>본문4<span class="nt">&lt;/p&gt;</span>
+	<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"main_text"</span><span class="nt">&gt;</span>본문5<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p>‘제목2’는 id 선택자 title의 스타일이 적용되었으며,
+‘본문1’, ‘본문3’, ‘본문4’는 class 선택자 main_text의 스타일이 적용되었다.</p>
+
+<p align="center"><img src="../assets/img/images/210420/36.png" /></p>
+
+<p><br /></p>
+
+<h3 id="22-블록레벨-요소와-인라인-레벨-요소">2.2. 블록레벨 요소와 인라인 레벨 요소</h3>
+<h4 id="221-블록-레벨-요소">2.2.1. 블록 레벨 요소</h4>
+<ul>
+  <li>주요 태그 : <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;hn&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;p&gt;</code></li>
+  <li>사용 가능한 최대 가로 너비를 사용한다.</li>
+  <li>크기를 지정할 수 있다.</li>
+  <li>(default) <code class="language-plaintext highlighter-rouge">width:100%, heigh:0%</code></li>
+  <li>수직으로 쌓인다.</li>
+  <li><code class="language-plaintext highlighter-rouge">margin</code>, <code class="language-plaintext highlighter-rouge">padding</code>의 속성에 상하좌우로 사용이 가능하다.</li>
+  <li>레이아웃을 설정하는 용도로 사용이 된다.</li>
+</ul>
+
+<h4 id="222-인라인-레벨-요소">2.2.2. 인라인 레벨 요소</h4>
+<ul>
+  <li>주요 태그 : <code class="language-plaintext highlighter-rouge">&lt;span&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;img&gt;</code></li>
+  <li>필요한 만큼만의 너비를 사용한다.</li>
+  <li>크기를 지정할 수 없다.</li>
+  <li>(default) <code class="language-plaintext highlighter-rouge">width:0%, height:0%</code></li>
+  <li>수평으로 쌓인다.</li>
+  <li><code class="language-plaintext highlighter-rouge">margin</code>, <code class="language-plaintext highlighter-rouge">padding</code>의 속성에 상하좌우로 사용이 불가능하다.</li>
+  <li>텍스트를 설정하는 용도로 사용이 된다.</li>
+</ul>
+
+<h4 id="-div-태그">* div 태그</h4>
+<p><code class="language-plaintext highlighter-rouge">&lt;div&gt;</code>는 특별한 의미가 없는 태그로, 주로 구분 용도로 사용된다. 즉, 영역 설정 용도.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">margin: 0 auto;</code> : <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code>의 선택자에서 선언시 <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code>박스가 가운데 정렬된다.</li>
+</ul>
+
+<h4 id="예-블록레벨요소--인라인-레벨-요소">[예] 블록레벨요소 &amp; 인라인 레벨 요소</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	&lt;p&gt;블록 레벨 요소 : p태그&lt;/p&gt;
+	&lt;span&gt;인라인 레벨 요소 : span&lt;/span&gt;
+</code></pre></div></div>
+
+<p>겉보기엔 별다를 게 없어보이는 p태그와 span 태그로 작성한 문장이지만</p>
+<p align="center"><img src="../assets/img/images/210420/37.png" /></p>
+
+<p>개발자모드(F12)로 보면 p태그는 작성하지 않은 가로 넓이 끝까지 블록이 지정되어 있으며,</p>
+<p align="center"><img src="../assets/img/images/210420/38.png" /></p>
+
+<p>반면에 span 태그는 작성한 영역만 소숫점 단위로 너비가 지정되어 있음을 알 수 있다.</p>
+<p align="center"><img src="../assets/img/images/210420/39.png" /></p>
+
+<h3 id="-display">* display</h3>
+<p><code class="language-plaintext highlighter-rouge">display</code>는 웹 페이지 상에서 요소들이 어떻게 보여지고 다른 요소와 어떻게 상호 배치되는지 결정하는 속성이다.
+블록 레벨 요소를 인라인 레벨로, 인라인 레벨 요소를 블록 레벨로 등 변환하는 효과를 준다.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">display: inline;</code>으로 지정된 요소는 전후 줄바꿈 없이 한 줄에 다른 요소들과 나란히 배치가 된다.
+    <ul>
+      <li>예) <code class="language-plaintext highlighter-rouge">&lt;span&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;a&gt;</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">display: block;</code>으로 지정된 요소는 전후 줄바꿈이 들어가 다른 요소들을 다른 줄로 밀어내고 혼자 한 줄을 차지한다.
+    <ul>
+      <li>예) <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;p&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;hn&gt;</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">display: inline-block;</code>으로 지정된 요소는 기본적으로 <code class="language-plaintext highlighter-rouge">inline</code> 요소처럼 전후 줄바꿈이 없이 한 줄에 다른 요소들과 나란히 배치된다. 하지만 <code class="language-plaintext highlighter-rouge">inline</code> 요소에서 불가능하던 <code class="language-plaintext highlighter-rouge">width</code>와 <code class="language-plaintext highlighter-rouge">height</code> 속성 및 <code class="language-plaintext highlighter-rouge">margin</code>과 <code class="language-plaintext highlighter-rouge">padding</code> 속성의 상하 간격 지정이 가능하다.</li>
+</ul>
+
+<h4 id="예-display-1">[예] display 1</h4>
+<p>다음과 같이 <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code> 를 작성하면</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"block"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"images/car1.gif"</span> <span class="na">width=</span><span class="s">"250"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"images/car2.gif"</span> <span class="na">width=</span><span class="s">"250"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"images/car3.gif"</span> <span class="na">width=</span><span class="s">"250"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p>아래와 같이 가로로 3개의 이미지가 연달아 출력된다.</p>
+<p align="center"><img src="../assets/img/images/210421/05.png" /></p>
+
+<p>기본적으로 <code class="language-plaintext highlighter-rouge">&lt;img&gt;</code>는 인라인 레벨 요소로 각각 필요한 만큼만 너비로 사용하기 때문이다.</p>
+<p align="center"><img src="../assets/img/images/210421/06.png" /></p>
+
+<p>여기에 위에서 선언한 class 선택자에 <code class="language-plaintext highlighter-rouge">display: block;</code>라는 값을 주면</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+	<span class="nc">.block</span> <span class="nt">img</span> <span class="p">{</span>
+		<span class="nl">display</span><span class="p">:</span> <span class="nb">block</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</code></pre></div></div>
+
+<p>아래와 같이 세로로 출력이 된다.</p>
+<p align="center"><img src="../assets/img/images/210421/08.png" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">display</code> 속성이 <code class="language-plaintext highlighter-rouge">block</code>이 되면서 각각의 이미지 전후에 줄바꿈이 들어가 다른 요소들을 다른 줄로 밀어내고 혼자 한 줄을 차지할 수 있게 되었기 때문이다.  <br />
+인라인 레벨에서 블록 레벨로 변환된 효과가 나타난다.</p>
+<p align="center"><img src="../assets/img/images/210421/11.png" /></p>
+
+<h4 id="예-display-2">[예] display 2</h4>
+<p><code class="language-plaintext highlighter-rouge">&lt;li&gt;</code>의 <code class="language-plaintext highlighter-rouge">display</code>도 변경해보자.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;ul&gt;</span>
+		<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>회사소개<span class="nt">&lt;/a&gt;</span>	href="#" : 링크없이 클릭만 가능
+		<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>사업영역<span class="nt">&lt;/a&gt;</span>	
+		<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>제품문의<span class="nt">&lt;/a&gt;</span>
+		<span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>고객센터<span class="nt">&lt;/a&gt;</span>
+		<span class="nt">&lt;/li&gt;</span>
+	<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p>위와 같이 코드를 작성하고 실행하면 아래와 같은 창이 열린다.</p>
+<p align="center"><img src="../assets/img/images/210421/09.png" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;li&gt;</code> 태그는 기본적으로 블록 레벨 요소이기 때문에, 각각 한줄씩 차지하여 세로로 출력이 된다.</p>
+<p align="center"><img src="../assets/img/images/210421/12.png" /></p>
+
+<p>가로로 길게 보고 싶으므로, 아래와 같이 <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code>영역에 하위태그 선택자를 입력하고 <code class="language-plaintext highlighter-rouge">display: inline;</code> 속성을 입력한다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nt">ul</span> <span class="nt">li</span> <span class="p">{</span>
+		<span class="nl">display</span><span class="p">:</span> <span class="nb">inline</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+
+</code></pre></div></div>
+
+<p>코드 입력 후 재실행 하면 아래와 같이 가로로 리스트가 출력되는 것을 볼 수 있다.</p>
+<p align="center"><img src="../assets/img/images/210421/10.png" /></p>
+
+<p>display 속성이 inline이 되어 전후 줄바꿈 없이 한 줄에 다른 요소들과 나란히 배치가 된다.</p>
+<p align="center"><img src="../assets/img/images/210421/13.png" /></p>
+
+<h3 id="-em-단위">* em 단위</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">em</code>은 사용하는 글꼴의 대문자 M을 기준으로 한다.</li>
+  <li>부모 요소에서 지정한 폰트의 대문자 M을 <code class="language-plaintext highlighter-rouge">1em</code>이라는 기준으로 설장하고 상대적 값을 계산하여 다른 요소들의 글자 크기를 지정한다.</li>
+  <li>만약 지정한 크기가 없다면 <code class="language-plaintext highlighter-rouge">&lt;body&gt;</code> 태그의 기본 글자 크기인 16px이 <code class="language-plaintext highlighter-rouge">1em</code>의 기준이 된다.</li>
+</ul>
+
+<h4 id="예-em-단위">[예] em 단위</h4>
+<p>다음과 같이 <code class="language-plaintext highlighter-rouge">&lt;body&gt;</code> 태그에 코드를 작성하면</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h1&gt;</span>3em의 크기를 가지는 제목입니다.<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>1em의 크기를 가지는 p 태그입니다.<span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<p>아래와 같이 출력된다.</p>
+<p align="center"><img src="../assets/img/images/210421/00.png" /></p>
+
+<p>개발자모드로 보면 <code class="language-plaintext highlighter-rouge">&lt;h1&gt;</code> 의 기본 폰트 사이즈는 32px,</p>
+<p align="center"><img src="../assets/img/images/210421/02.png" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;p&gt;</code>태그의 기본 폰트사이즈는 16px이다.</p>
+<p align="center"><img src="../assets/img/images/210421/03.png" /></p>
+
+<p>이 때, <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code> 영역에서 <code class="language-plaintext highlighter-rouge">&lt;h1&gt;</code>의 폰트 사이즈를 3em으로 지정하면</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">h1</span> <span class="p">{</span>
+		<span class="nl">font-size</span><span class="p">:</span> <span class="m">3em</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>아래와 같이 <code class="language-plaintext highlighter-rouge">&lt;h1&gt;</code>의 크기가 변경된 것을 볼 수 있다.</p>
+<p align="center"><img src="../assets/img/images/210421/01.png" /></p>
+
+<p>개발자모드로 보면 폰트사이즈가 48px로 변경되었음을 알 수 있다. <br />
+즉, <code class="language-plaintext highlighter-rouge">&lt;body&gt;</code> 태그의 기본 글자 크기인 16px을 기준으로 3em(=3배)인 48px로 폰트사이즈가 변경되었다.</p>
+<p align="center"><img src="../assets/img/images/210421/04.png" /></p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="3-css의-여백">3. CSS의 여백</h2>
+
+<p align="center"><img src="../assets/img/images/210421/15.png" /></p>
+
+<h3 id="31-margin">3.1. margin</h3>
+
+<p align="center"><img src="../assets/img/images/210421/18.png" /></p>
+
+<ul>
+  <li>요소의 바깥쪽 여백을  지정한다.</li>
+  <li>바깥쪽 여백은 요소와 요소 사이의 여백(거리, 공간)을 생성할 때 사용한다.</li>
+  <li>단위 : px, em, cm, % 등의 단위로 지정.</li>
+  <li><code class="language-plaintext highlighter-rouge">%</code> : 너비를 백분율로 지정도 가능하다. 페이지에서 차지하는 비율을 말한다.</li>
+  <li>속성에는 상단, 오른쪽, 하단, 왼쪽 각각 다르게 지정할 수 있다.</li>
+  <li>사용법)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">margin: 10px 20px 30px 40px;</code> : [상단] 10px, [오른쪽] 20px, [하단] 30px, [왼쪽] 40px 지정</li>
+      <li><code class="language-plaintext highlighter-rouge">margin: 10px 20px 30px;</code> : [상단] 10px, [오른쪽/왼쪽] 20px, [하단] 30px</li>
+      <li><code class="language-plaintext highlighter-rouge">margin: 10px 20px;</code> : [상단/하단] 10px, [오른쪽/왼쪽] 20px</li>
+      <li><code class="language-plaintext highlighter-rouge">margin: 10px</code> : [상단/오른쪽/하단/왼쪽] 10px</li>
+      <li><code class="language-plaintext highlighter-rouge">margin: 0 auto;</code> : <code class="language-plaintext highlighter-rouge">&lt;div&gt;</code> 박스를 가운데로 정렬.</li>
+      <li>`	margin-left: auto; margin-right: auto;` : 가운데 정렬. 좌우 여백을 자동으로 잡아준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-padding">3.2. padding</h3>
+
+<p align="center"><img src="../assets/img/images/210421/16.png" /></p>
+
+<ul>
+  <li>요소의 안쪽 여백을 지정한다.</li>
+  <li>단위 : px, em, cm, % 등의 단위로 지정.</li>
+  <li><code class="language-plaintext highlighter-rouge">%</code> : 너비를 백분율로 지정도 가능하다. 페이지에서 차지하는 비율을 말한다.</li>
+  <li>속성에는 상단, 오른쪽, 하단, 왼쪽 각각 다르게 지정할 수 있다.</li>
+  <li>사용법)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">padding: 10px 20px 30px 40px;</code> : [상단] 10px, [오른쪽] 20px, [하단] 30px, [왼쪽] 40px 지정</li>
+      <li><code class="language-plaintext highlighter-rouge">padding: 10px 20px 30px;</code> : [상단] 10px, [오른쪽/왼쪽] 20px, [하단] 30px</li>
+      <li><code class="language-plaintext highlighter-rouge">padding: 10px 20px;</code> : [상단/하단] 10px, [오른쪽/왼쪽] 20px</li>
+      <li><code class="language-plaintext highlighter-rouge">padding: 10px;</code> : [상단/오른쪽/하단/왼쪽] 10px</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예-margin">[예] margin</h4>
+<p>다음과 같은 <code class="language-plaintext highlighter-rouge">box1</code>이 있다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nc">.box1</span> <span class="p">{</span>
+		<span class="nl">width</span><span class="p">:</span> <span class="m">300px</span><span class="p">;</span> 	<span class="c">/* 가로너비 300px */</span>
+		<span class="nl">height</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>	<span class="c">/* 세로높이 200px */</span>
+		<span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>	
+	<span class="p">}</span>
+	
+<span class="o">&lt;/</span><span class="nt">head</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nt">body</span><span class="o">&gt;</span>
+	<span class="o">&lt;</span><span class="nt">div</span> <span class="nt">class</span><span class="o">=</span><span class="s1">"box1"</span><span class="o">&gt;</span><span class="err">1</span><span class="o">&lt;/</span><span class="nt">div</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="nt">body</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210421/14.png" /></p>
+
+<p>class 선택자에 <code class="language-plaintext highlighter-rouge">margin</code> 속성을 추가하여 <code class="language-plaintext highlighter-rouge">box1</code>의 바깥 여백 값을 변경한다.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.box1</span> <span class="p">{</span>
+	<span class="nl">margin</span><span class="p">:</span> <span class="m">10px</span> <span class="m">10px</span> <span class="m">10px</span> <span class="m">10px</span><span class="p">;</span> <span class="c">/* 바깥쪽 여백 - 상단, 오른쪽, 하단, 왼쪽 */</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>큰 차이가 없어보이나 개발자모드로 보면 기존보다 요소의 상하좌우로 여백이 생겼음을 알 수 있다.</p>
+<p align="center"><img src="../assets/img/images/210421/21.png" /></p>
+<p align="center"><img src="../assets/img/images/210421/20.png" /></p>
+
+<h4 id="예-padding">[예] padding</h4>
+<p>다음과 같은 <code class="language-plaintext highlighter-rouge">box2</code>가 있다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nc">.box2</span> <span class="p">{</span>
+		<span class="nl">width</span><span class="p">:</span> <span class="m">300px</span><span class="p">;</span> 	<span class="c">/* 가로너비 300px */</span>
+		<span class="nl">height</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>	<span class="c">/* 세로높이 200px */</span>
+		<span class="nl">background-color</span><span class="p">:</span> <span class="no">skyblue</span><span class="p">;</span>	
+	<span class="p">}</span>
+	
+<span class="o">&lt;/</span><span class="nt">head</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nt">body</span><span class="o">&gt;</span>
+	<span class="o">&lt;</span><span class="nt">div</span> <span class="nt">class</span><span class="o">=</span><span class="s1">"box2"</span><span class="o">&gt;</span><span class="err">2</span><span class="o">&lt;/</span><span class="nt">div</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="nt">body</span><span class="o">&gt;</span>
+</code></pre></div></div>
+<p align="center"><img src="../assets/img/images/210421/22.png" /></p>
+
+<p>현재 <code class="language-plaintext highlighter-rouge">box2</code>의 사이즈는 300*200 이다.</p>
+<p align="center"><img src="../assets/img/images/210421/23.png" /></p>
+
+<p>class 선택자에 <code class="language-plaintext highlighter-rouge">padding</code> 속성을 추가하여 <code class="language-plaintext highlighter-rouge">box2</code>의 안쪽 여백을 늘린다.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.box2</span> <span class="p">{</span>
+	<span class="nl">padding</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>	<span class="c">/* 안쪽 여백 - 상단, 오른쪽, 하단, 왼쪽 */</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">padding</code> 값 지정 후 <code class="language-plaintext highlighter-rouge">box2</code>의 사이즈가 커졌다.</p>
+<p align="center"><img src="../assets/img/images/210421/24.png" /></p>
+
+<p>개발자 모드로 보면 사이즈가 340*240으로 상하좌우로 20px씩 내부여백이 늘어났음을 알 수 있다.  <br />
+즉, 내부 여백이 늘어났으므로 늘어난 크기만큼 요소의 크기가 커진다.</p>
+<p align="center"><img src="../assets/img/images/210421/25.png" /></p>
+
+<p>그렇다면 내부 여백이 커져도 최초의 크기를 유지하기 위해선 어떻게 해야 할까?  <br />
+바로 <code class="language-plaintext highlighter-rouge">box-sizing</code>을 활용하면 된다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.box2 { 
+	box-sizing: border-box;	/* padding 변경되어도 전체 크기 유지 */
+}
+</code></pre></div></div>
+
+<p>선택자에 <code class="language-plaintext highlighter-rouge">box-sizing</code> 속성을 추가하면 <code class="language-plaintext highlighter-rouge">padding</code>을 변경하여 내부 여백이 변하여도 요소의 전체 크기는 처음과 동일하게 유지된다.</p>
+<p align="center"><img src="../assets/img/images/210421/27.png" /></p>
+
+<h3 id="-border">* border</h3>
+
+<p align="center"><img src="../assets/img/images/210421/17.png" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">border</code>는 요소의 테두리 선을 지정할 때 사용하는 속성이다.</p>
+<ul>
+  <li>형식) <code class="language-plaintext highlighter-rouge">border: (두께) (종류) (색상);</code></li>
+  <li>개별적으로 사용하는 속성.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">border-width</code> : 테두리 선의 두께</li>
+      <li><code class="language-plaintext highlighter-rouge">border-style</code> : 테두리 선의 종류</li>
+      <li><code class="language-plaintext highlighter-rouge">border-color</code> : 테두리 선의 색상</li>
+      <li><code class="language-plaintext highlighter-rouge">border-radius</code> : 모서리가 둥근 사각형 (CSS3에 추가된 기능)
+        <ul>
+          <li>상단 오른쪽 하단 왼쪽순으로 둥글기를 지정한다.</li>
+          <li>예) <code class="language-plaintext highlighter-rouge">border-radius: 0 20px 0 20px</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>사용법
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">border-style (테두리 선의 종류)</code>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">none</code> : 테두리 선 없음</li>
+          <li><code class="language-plaintext highlighter-rouge">hidden</code> : 테두리 선 없음</li>
+          <li><code class="language-plaintext highlighter-rouge">solid</code> : 실선, 단선(일반적인 선)</li>
+          <li><code class="language-plaintext highlighter-rouge">dotted</code> : 점선(……)</li>
+          <li><code class="language-plaintext highlighter-rouge">dashed</code> : 파선(——)</li>
+          <li><code class="language-plaintext highlighter-rouge">doubled</code> : 두 줄선(이중선)</li>
+          <li><code class="language-plaintext highlighter-rouge">groove</code> : 홈이 파여 있는 선</li>
+          <li><code class="language-plaintext highlighter-rouge">ridge</code> : 솟은 모양의 선(groove의 반대)</li>
+          <li><code class="language-plaintext highlighter-rouge">inset</code> : 요소 전체가 들어간 선</li>
+          <li><code class="language-plaintext highlighter-rouge">outset</code> : 요소 전체가 나온 선</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예-border">[예] border</h4>
+
+<p>다양한 스타일 중에 기본적인 solid 하나만 예로 작성해보자.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nc">.box</span> <span class="p">{</span>
+		<span class="nl">width</span><span class="p">:</span> <span class="m">500px</span><span class="p">;</span>
+		<span class="nl">height</span><span class="p">:</span> <span class="m">300px</span><span class="p">;</span>
+		<span class="nl">border</span><span class="p">:</span> <span class="m">15px</span> <span class="nb">solid</span> <span class="no">red</span><span class="p">;</span>	<span class="c">/* 선굵기 선종류 선색상 */</span>
+	<span class="p">}</span>
+	
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"box"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>	
+
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">border: 15px solid red;</code> 대신 아래와 같이 입력해도 동일한 결과가 나온다.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">border-width</span><span class="o">:</span> <span class="err">15</span><span class="nt">px</span><span class="o">;</span> 
+<span class="nt">border-style</span><span class="o">:</span> <span class="nt">solid</span><span class="o">;</span> 
+<span class="nt">border-color</span><span class="o">:</span> <span class="nt">red</span><span class="o">;</span>		
+
+</code></pre></div></div>
+<p align="center"><img src="../assets/img/images/210421/28.png" /></p>
+
+<h3 id="-text-shadow">* text-shadow</h3>
+<p><code class="language-plaintext highlighter-rouge">text-shadow</code>는 텍스트에 그림자를 지정하는 속성이다.</p>
+<ul>
+  <li>형식) <code class="language-plaintext highlighter-rouge">text-shadow: (가로거리) (세로거리) (번짐정도) (색상);</code>
+    <ul>
+      <li>가로거리 : 텍스트로부터 그림자까지의 가로 거리.
+        <ul>
+          <li>양수 값은 글자 오른쪽으로, 음수 값은 왼쪽으로 그림자를 만든다.</li>
+          <li>필수적으로 들어가야 하는 속성.</li>
+        </ul>
+      </li>
+      <li>세로거리 : 텍스트로부터 그림자까지의 세로거리.
+        <ul>
+          <li>양수 값은 글자 아래로, 음수 값은 글자의 위쪽으로 그림자를 만든다.</li>
+          <li>필수적으로 들어가야 하는 속성.</li>
+        </ul>
+      </li>
+      <li>번짐 정도 : 그림자가 번지는 정도.
+        <ul>
+          <li>양수 값을 사용하면 그림자가 모든 방향으로 퍼져 나가며, 크게 나타난다.</li>
+          <li>음수 값을 사용하면 그림자가 모든 방향으로 축소가 되어 보인다.</li>
+          <li>기본 값은 0.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예-text-shadow">[예] text-shadow</h4>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nt">h2</span> <span class="p">{</span>
+		<span class="nl">text-shadow</span><span class="p">:</span> <span class="m">3px</span> <span class="m">3px</span> <span class="m">1px</span> <span class="no">gray</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;h2&gt;</span>text-shadow<span class="nt">&lt;/h2&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210421/29.png" /></p>
+
+<h3 id="-box-shadow">* box-shadow</h3>
+<p>box-shadow는 요소에 그림자를 만드는 속성이다.</p>
+<ul>
+  <li>형식) <code class="language-plaintext highlighter-rouge">box-shadow: (수평거리) (수직거리) (흐림정도) (번짐정도) (색상);</code>
+    <ul>
+      <li>수평거리 : 그림자의 수평 거리(얼마나 떨어져 있는지)
+        <ul>
+          <li>양수 값은 오른쪽, 음수 값은 왼쪽에 그림자를 만든다.</li>
+        </ul>
+      </li>
+      <li>수직거리 : 그림자의 수직 거리(얼마나 떨어져 있는지)
+        <ul>
+          <li>양수 값은 아래쪽, 음수 값은 위쪽에 그림자를 만든다.</li>
+          <li>흐림정도 : 그림자의 흐림 정도를 표현. 기본 값은 해가 진 그림자를 표시.</li>
+          <li>값이 커질수록 부드러운 그림자를 표시한다.</li>
+          <li>음수값은 사용불가.</li>
+        </ul>
+      </li>
+      <li>번짐정도 : 그림자가 번지는 정도를 표현.
+        <ul>
+          <li>양수 값은 그림자가 모든 방향으로 퍼진다.</li>
+          <li>음수 값은 그림자가 모든 방향으로 축소되어 보인다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예-box-shadow">[예] box-shadow</h4>
+<p>튤립 이미지를 절대 위치로 설정한 후, 그림자를 만들어 보자.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nc">.shadow</span><span class="p">{</span>
+		<span class="nl">position</span><span class="p">:</span> <span class="nb">absolute</span><span class="p">;</span>	<span class="c">/* 절대 위치 */</span>
+		<span class="nl">left</span><span class="p">:</span> <span class="m">450px</span><span class="p">;</span>
+		<span class="nl">top</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+		
+		<span class="nl">border-radius</span><span class="p">:</span> <span class="m">50px</span><span class="p">;</span>
+		<span class="nl">box-shadow</span><span class="p">:</span> <span class="m">50px</span> <span class="m">50px</span> <span class="m">10px</span> <span class="no">orange</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+	
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"shadow"</span> <span class="na">src=</span><span class="s">"images/img.jpg"</span> <span class="na">alt=</span><span class="s">"튤립"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210421/34.png" /></p>
+
+<h3 id="-line-height">* line-height</h3>
+<p><code class="language-plaintext highlighter-rouge">line-height</code>은 줄과 줄 사이의 간격, 즉 행간을 설정하는 속성이다.</p>
+
+<h3 id="-word-spacing">* word-spacing</h3>
+<p><code class="language-plaintext highlighter-rouge">word-spacing</code>은 글자와 글자 사이의 간격, 즉 자간을 설정하는 속성이다.</p>
+
+<h4 id="예-line-height--word-spacing">[예] line-height &amp; word-spacing</h4>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;p&gt;</span>
+		동해물과 백두산이 마르고 닳도록<span class="nt">&lt;br&gt;</span>
+		하느님이 보우하사 우리나라 만세<span class="nt">&lt;br&gt;</span>
+		무궁화 삼천리 화려강산<span class="nt">&lt;br&gt;</span>
+		대한사람 대한으로 길이 보전하세<span class="nt">&lt;br&gt;</span>
+	<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210421/30.png" /></p>
+
+<p>선택자에 속성을 넣어 행간과 자간을 조절한다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nt">p</span> <span class="p">{</span>
+		<span class="nl">line-height</span><span class="p">:</span> <span class="m">30px</span><span class="p">;</span> 
+		<span class="nl">word-spacing</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</code></pre></div></div>
+<p>행간과 자간 모두 지정한 픽셀만큼 넓어졌다.</p>
+<p align="center"><img src="../assets/img/images/210421/31.png" /></p>
+
+<h3 id="-float-속성">* float 속성</h3>
+<p><code class="language-plaintext highlighter-rouge">float</code>은 웹 문서의 요소를 떠 있게 하는 방법을 의미한다.</p>
+<ul>
+  <li>수직적인 요소를 수평적인 요소로 바꾸어 주는 속성.</li>
+  <li>왼쪽 구석이나 오른쪽 구석에 배치한다는 의미.</li>
+  <li>문서의 레이아웃을 구성하기 위해서 많이 사용되는 속성.</li>
+  <li><code class="language-plaintext highlighter-rouge">float</code> 속성의 종류
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">right</code> : 오른쪽부터 차례로 왼쪽 방향으로 떠 있게 하는 속성.</li>
+      <li><code class="language-plaintext highlighter-rouge">left</code> : 왼쪽부터 차례로 오른쪽 방향으로 떠 있게 하는 속성.</li>
+      <li><code class="language-plaintext highlighter-rouge">both</code> : 양쪽에서 어느 쪽으로도 떠있지 않게 하는 속성. 즉, 해제하는 속성.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">float</code> 속성을 사용한 후에는 반드시 해제(<code class="language-plaintext highlighter-rouge">clear=both</code>)해 주어야 한다.</li>
+</ul>
+
+<h4 id="예-float">[예] float</h4>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"first"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;h2&gt;</span>회사소개<span class="nt">&lt;/h2&gt;</span>
+		<span class="nt">&lt;ul&gt;</span>
+			<span class="nt">&lt;li&gt;</span>대표인삿말<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>조직도<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>비전<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>오시는 길<span class="nt">&lt;/li&gt;</span>		
+		<span class="nt">&lt;/ul&gt;</span>	
+	<span class="nt">&lt;/div&gt;</span>
+	
+	<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"second"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;h2&gt;</span>사업영역<span class="nt">&lt;/h2&gt;</span>
+		<span class="nt">&lt;ul&gt;</span>
+			<span class="nt">&lt;li&gt;</span>포탈사이트<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>시스템 통합<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>마케팅<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>웹디자인<span class="nt">&lt;/li&gt;</span>		
+		<span class="nt">&lt;/ul&gt;</span>	
+	<span class="nt">&lt;/div&gt;</span>
+	
+	<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"first"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;h2&gt;</span>고객센터<span class="nt">&lt;/h2&gt;</span>
+		<span class="nt">&lt;ul&gt;</span>
+			<span class="nt">&lt;li&gt;</span>다운로드<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>질의응답<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>자유게시판<span class="nt">&lt;/li&gt;</span>
+			<span class="nt">&lt;li&gt;</span>1:1게시판<span class="nt">&lt;/li&gt;</span>		
+		<span class="nt">&lt;/ul&gt;</span>	
+	<span class="nt">&lt;/div&gt;</span>
+	
+	<span class="nt">&lt;address&gt;</span>대한민국<span class="nt">&lt;/address&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210421/32.png" /></p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nf">#first</span> <span class="nt">ul</span> <span class="nt">li</span> <span class="p">{</span>
+		<span class="nl">line-height</span><span class="p">:</span> <span class="m">200%</span>
+	<span class="p">}</span>
+	
+	<span class="nf">#second</span> <span class="nt">ul</span> <span class="nt">li</span> <span class="p">{</span>
+		<span class="nl">list-style</span><span class="p">:</span> <span class="nb">square</span><span class="p">;</span>
+		<span class="nl">line-height</span><span class="p">:</span> <span class="m">200%</span>
+	<span class="p">}</span>
+	
+	<span class="nf">#third</span> <span class="nt">ul</span> <span class="nt">li</span> <span class="p">{</span>
+		<span class="nl">list-style</span><span class="p">:</span> <span class="nb">circle</span><span class="p">;</span>
+		<span class="nl">line-height</span><span class="p">:</span> <span class="m">200%</span>
+	<span class="p">}</span>
+	
+	<span class="nf">#first</span> <span class="p">{</span>
+		<span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="nf">#second</span> <span class="p">{</span>
+		<span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
+		<span class="nl">margin-left</span><span class="p">:</span> <span class="m">150px</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="nf">#third</span> <span class="p">{</span>
+		<span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="nt">address</span> <span class="p">{</span>
+		<span class="nl">clear</span><span class="p">:</span> <span class="nb">both</span><span class="p">;</span> <span class="c">/* float 속성을 해제하는 방법 */</span>
+	<span class="p">}</span>
+
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210421/33.png" /></p>
+
+<h3 id="-접두사prefix">* 접두사(prefix)</h3>
+<p>CSS는 모듈이 많고 표준 규약이 아직 완성되지 않은 부분도 많이 있다. 따라서 현재 계속적으로 개발이 되고 있는 상황이다. 하지만 아직 표준 규약이 아닌 속성들은 브라우저에 따라 다른 방식으로 지원이 되기 때문에 속성 이름 앞에 접두사(prefix)를 붙여서 브라우저별로 구분을 해 주어야 한다.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-ms-</code> : 인터넷 익스플로어</li>
+  <li><code class="language-plaintext highlighter-rouge">-webkit</code> : 크롬, 사파리 브라우저</li>
+  <li><code class="language-plaintext highlighter-rouge">-moz-</code> : 모질라, 파이어폭스 브라우저</li>
+  <li><code class="language-plaintext highlighter-rouge">-o-</code> : 오페라 브라우저</li>
+</ul>
+
+<h4 id="예-접두사prefix">[예] 접두사(prefix)</h4>
+
+<p><code class="language-plaintext highlighter-rouge">transform</code> 은  아직 표준 규약이 제대로 완성되지 않은 속성이다. <br />
+따라서 적용시키기 위해서는 아래와 같이 브라우저 별로 구분하여 접두사를 붙여야 한다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;title&gt;</span>Insert title here<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nc">.photo</span> <span class="p">{</span>
+		<span class="nl">position</span><span class="p">:</span> <span class="nb">absolute</span><span class="p">;</span>
+		<span class="nl">left</span><span class="p">:</span> <span class="m">50px</span><span class="p">;</span>
+		<span class="nl">top</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+		
+		<span class="nl">transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">15deg</span><span class="p">);</span>	<span class="c">/* 회전을 시키는 명령어 */</span>
+		
+		<span class="nl">-ms-transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">15deg</span><span class="p">);</span>
+		<span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">15deg</span><span class="p">);</span>
+		<span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">15deg</span><span class="p">);</span>
+		<span class="nl">-o-transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">15deg</span><span class="p">);</span>
+	<span class="p">}</span>
+
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"photo"</span> <span class="na">src=</span><span class="s">"images/img.jpg"</span> <span class="na">alt=</span><span class="s">"튤립"</span><span class="nt">&gt;</span>
+	
+
+<span class="nt">&lt;/body&gt;</span>
+
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210421/35.png" /></p>
+
+<h3 id="-opacity">* opacity</h3>
+<p><code class="language-plaintext highlighter-rouge">opacity</code> 속성은 투명도를 조절한다.</p>
+<ul>
+  <li>0 ~ 1 사이로 조절할 수 있다.
+    <ul>
+      <li>0 : 투명한 상태. 보이지 않는다.</li>
+      <li>0.5 : 반투명한 상태.</li>
+      <li>1 : 불투명한 상태. 원 상태 그대로 보인다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예-opacity">[예] opacity</h4>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+
+	<span class="nc">.photo</span> <span class="p">{</span>
+		<span class="nl">opacity</span><span class="p">:</span> <span class="m">0.5</span><span class="p">;</span> 
+	<span class="p">}</span>
+
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+	<span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"photo"</span> <span class="na">src=</span><span class="s">"images/img.jpg"</span> <span class="na">alt=</span><span class="s">"튤립"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+
+<p>위의 <strong>[예] 접두사</strong> 와 비교했을 때 확실히 투명해졌다.</p>
+<p align="center"><img src="../assets/img/images/210421/36.png" /></p>
+
+<h3 id="-hover">* :hover</h3>
+<p>호버 효과를 준다. 이미지 태그에 마우스가 올라갔을 때 디자인이 적용된다.</p>
+
+<ul>
+  <li>형식) <code class="language-plaintext highlighter-rouge">선택자:hover { 속성: 값; }</code>
+    <ul>
+      <li>기존의 상태에서 <code class="language-plaintext highlighter-rouge">:hover</code>로 지정된 선택자 안의 디자인으로 바뀐다.</li>
+      <li>따라서 별도로 설정해주어야 한다.</li>
+      <li></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예-hover">[예] hover</h4>
+
+<p>위의 <strong>[예] opacity</strong>에 호버효과를 적용해 보자.  <br />
+선택자에 다음 코드를 입력하면</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.photo:hover {
+	opacity: 1;
+}
+</code></pre></div></div>
+
+<p>반투명했던 이미지가 마우스를 올릴 때마다 선명하게 전환된다.</p>
+
+<p><img src="../assets/img/images/210421/36.png" /><img src="../assets/img/images/210421/37.png" /></p>
+
+<h3 id="-inputfocus-outline2px-solid-d50000">* input:focus {outline:2px solid #d50000;}</h3>
+
+<p>input 박스를 클릭 했을떄 나오는 테두리 색상 없애기</p>
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">input</span><span class="nd">:focus</span> <span class="p">{</span><span class="nl">outline</span><span class="p">:</span><span class="nb">none</span><span class="p">;}</span>
+</code></pre></div></div>
+:ET

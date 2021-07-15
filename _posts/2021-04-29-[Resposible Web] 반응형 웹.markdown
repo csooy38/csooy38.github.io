@@ -3,12 +3,8 @@ layout: post
 title:  "[Resposible Web] 반응형 웹"
 date:   2021-04-29 20:10:59 +0900
 categories: jekyll update
+tags: [responsibleweb]
 ---
-21.04.29.
-
-<br>
-
-
 # 반응형 웹(Responsible Web)
 반응형 웹은 하나의 웹 사이트에서 PC, 태블릿PC, 스마트폰 등 접속하는 디스플레이의 종류에 따라 화면의 크기가 자동으로 변하도록 만든 웹페이지 접근 기법을 말한다.
 - 웹 사이트를 PC용과 태블릿PC, 모바일용으로 각각 제작하지 않고, 하나의 공용 웹 사이트를 만들어 다양한 디바이스에 대응할 수 있다는 장점이 있다.

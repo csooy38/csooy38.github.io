@@ -1,0 +1,232 @@
+I"�A<h1 id="반응형-웹responsible-web">반응형 웹(Responsible Web)</h1>
+<p>반응형 웹은 하나의 웹 사이트에서 PC, 태블릿PC, 스마트폰 등 접속하는 디스플레이의 종류에 따라 화면의 크기가 자동으로 변하도록 만든 웹페이지 접근 기법을 말한다.</p>
+<ul>
+  <li>웹 사이트를 PC용과 태블릿PC, 모바일용으로 각각 제작하지 않고, 하나의 공용 웹 사이트를 만들어 다양한 디바이스에 대응할 수 있다는 장점이 있다.</li>
+  <li>웹 페이지의 내용을 수정할 경우, 하나의 웹 페이지만 수정하면 PC와 태블릿PC, 모바일 등 다양한 디바이스에서 동일하게 반영되는 장점이 있다.</li>
+  <li>반응형 웹의 핵심 기술은 가변 그리드, 유연한 이미지, 그리고 미디어 쿼리가 있다.</li>
+  <li>가장 많이 사용되고 있는 반응형 웹 제작 도구는 부트스트랩 프레임 워크가 있다.</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h2 id="1-고정-그리드-레이아웃">1. 고정 그리드 레이아웃</h2>
+
+<p align="center"><img src="../assets/img/images/210429/16.gif" /></p>
+
+<p>고정 그리드 레이아웃은 단위가 픽셀(px)이기 때문에 브라우저 크기가 확대/축소될 때 글자 및 웹 요소가 안 보이는 경우가 있다. 고정 그리드 레이아웃은 특정한 기기만 사용하고자 할 때 사용하면 유리하다. 레이아웃을 잡기가 상당히 수월하다.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">header</span> <span class="p">{</span>
+	<span class="nl">width</span><span class="p">:</span> <span class="m">960px</span><span class="p">;</span>
+	<span class="nl">padding</span><span class="p">:</span> <span class="m">15px</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<h2 id="2-가변-그리드-레이아웃">2. 가변 그리드 레이아웃</h2>
+
+<p align="center"><img src="../assets/img/images/210429/17.gif" /></p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">header</span> <span class="p">{</span>
+	<span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+	<span class="nl">padding</span><span class="p">:</span> <span class="m">1.5625%</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="-가변그리드-레이아웃-방식에서-각각의-요소의-너비를-구하는-공식중요">* <strong>가변그리드 레이아웃 방식에서 각각의 요소의 너비를 구하는 공식(중요!)</strong></h4>
+<ul>
+  <li>(요소의 너비 / 컨텐츠 전체를 감싸는 요소의 너비) * 100 = (%)
+요소를 백분율로 처리할 때 소수점 이하 값이 길게 나오는 경우에는 3-4자리정도로 끊어주는 것이 좋다.</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h2 id="3-viewport">3. viewport</h2>
+<p>viewport는 웹 페이지에서 사용자의 보이는 영역(visible area)이다.
+사용자의 영역은 기기마다 달라진다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>width : viewport의 가로 크기.</li>
+  <li>device-width : 기기의 스크린 너비에 맞추라는 의미.</li>
+  <li>initial-scale : 웹 페이지에 접속했을 때 보여질 확대배율을 설정.</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+<h2 id="4-rem">4. rem</h2>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.wrapper</span> <span class="p">{</span>
+	<span class="nl">width</span><span class="p">:</span> <span class="m">96%</span><span class="p">;</span>
+	<span class="nl">margin</span><span class="p">:</span> <span class="m">0</span> <span class="nb">auto</span><span class="p">;</span>
+	<span class="nl">font-size</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
+<span class="p">}</span>
+	
+<span class="nc">.header_text</span> <span class="p">{</span>
+	<span class="nl">font-size</span><span class="p">:</span> <span class="m">2em</span><span class="p">;</span>	
+	<span class="c">/* 12px(부모 태그(.wrapper)의 폰트사이즈) * 2 = 24px */</span>
+<span class="p">}</span>
+	
+<span class="nc">.text</span> <span class="p">{</span>
+	<span class="nl">font-size</span><span class="p">:</span> <span class="m">1.5em</span><span class="p">;</span>	<span class="c">/* 24px * 1.5 = 36px */</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">.text</code>의 font-size는 36px이 나온다. 그 이유는 <code class="language-plaintext highlighter-rouge">em</code> 단위는 상위요소가 기준이 되어 사용이 되는데, 이 때 상위요소인 <code class="language-plaintext highlighter-rouge">header_text</code> 선택자 부분의 font-size가 24px이 되기 때문이다. 그로 인하여 복잡하게 프로그래밍을 하게 되면 글자 사이즈가 원하는 대로 출력이 어려워진다. 이것이 <code class="language-plaintext highlighter-rouge">em</code> 단위의 단점이다.</p>
+
+<p>그래서 이러한 단점을 대신하기 위해서 나온 단위가 <code class="language-plaintext highlighter-rouge">rem</code>이라는 단위이다.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">body</span> <span class="p">{</span>
+	<span class="nl">font-size</span><span class="p">:</span> <span class="m">16px</span><span class="p">;</span>	<span class="c">/* rem의 기준이 되는 기본 크기를 지정 */</span>
+<span class="p">}</span>
+
+<span class="nc">.header_text</span> <span class="p">{</span>
+	<span class="nl">font-size</span><span class="p">:</span> <span class="m">2rem</span><span class="p">;</span>	<span class="c">/* 16px * 2 = 32px */</span>
+<span class="p">}</span>
+	
+<span class="nc">.text</span> <span class="p">{</span>
+	<span class="nl">font-size</span><span class="p">:</span> <span class="m">1.5rem</span><span class="p">;</span>	<span class="c">/* 16px * 1.5 = 24px */</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">rem</code> 단위는 root 즉, <code class="language-plaintext highlighter-rouge">&lt;body&gt;</code> 태그를 처음부터 기본 크기로 지정하기 때문에 <code class="language-plaintext highlighter-rouge">em</code> 단위처럼 기본이 되는 크기가 중간에 변경되지 않는다.<br />
+처음부터 끝까지 하나의 기본 사이즈를 기준으로 삼기 때문에 <code class="language-plaintext highlighter-rouge">em</code> 단위보다 간결하다.</p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="5-max-width">5. max-width</h2>
+<p><code class="language-plaintext highlighter-rouge">width</code> 속성은 웹 문서에 삽입할 이미지의 너비 값을 표현하는 것이다.<br />
+<code class="language-plaintext highlighter-rouge">max-width</code> 속성은 가변 이미지에서 최대한 표시할 수 있는 이미지의 너비값을 말한다. 브라우저 창의 너비를 줄이면 이미지도 같이 줄어든다.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.content</span> <span class="nt">img</span> <span class="p">{</span>
+	 <span class="nl">max-width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+	 <span class="nl">height</span><span class="p">:</span> <span class="nb">auto</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210430/00.gif" /></p>
+
+<p><br /></p>
+
+<p>비디오 파일에도 동일하게 적용 가능하다.</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">video</span> <span class="p">{</span>
+	<span class="nl">max-width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p align="center"><img src="../assets/img/images/210430/02.gif" /></p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="6-srcset">6. srcset</h2>
+<ul>
+  <li>형식) <code class="language-plaintext highlighter-rouge">srcset="파일 위치 [픽셀밀도][너비값]"</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">srcset</code> : 픽셀의 밀도와 너비값을 줄 수 있는 속성.</li>
+      <li>픽셀밀도 : 픽셀이 얼마나 빽빽하게 차 있는지를 의미.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;picture&gt;</span>
+<span class="c">&lt;!-- 1024px 이상은 large, 768~1024px은 medium, 320~768px은 small 이미지 표출  --&gt;</span>
+	<span class="nt">&lt;source</span> <span class="na">srcset=</span><span class="s">"images/shop-large.jpg"</span> <span class="na">media=</span><span class="s">"(min-width:1024px)"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;source</span> <span class="na">srcset=</span><span class="s">"images/shop-medium.jpg"</span> <span class="na">media=</span><span class="s">"(min-width:768px)"</span><span class="nt">&gt;</span>	
+	<span class="nt">&lt;source</span> <span class="na">srcset=</span><span class="s">"images/shop-small.jpg"</span> <span class="na">media=</span><span class="s">"(min-width:320px)"</span><span class="nt">&gt;</span>
+			
+	<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"images/shop.jpg"</span> <span class="na">style=</span><span class="s">"width: 100%"</span><span class="nt">&gt;</span>	
+<span class="nt">&lt;/picture&gt;</span>
+</code></pre></div></div>
+
+<p>캡쳐를 위해 해상도를 50%로 잡아 px은 작성코드와 다를 수 있다.</p>
+<p align="center"><img src="../assets/img/images/210430/01.gif" /></p>
+
+<p><br /></p>
+
+<hr />
+<h2 id="7-media-query-미디어-쿼리">7. Media Query 미디어 쿼리</h2>
+<p>미디어 쿼리는 접속하는 장치(미디어)에 따라서 특정한 CSS 스타일을 사용하도록 하는 것을 말한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@media screen</code> : 미디어가 스크린일 때 CSS .</li>
+  <li><code class="language-plaintext highlighter-rouge">and (max-width: Npx)</code> : 최대 너비가 Npx 일 때 CSS 스타일. 여러 개 작성 시 내림차순으로 작성해야 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">and (min-width: Npx)</code> : 최소 너비가 Npx 일 때 CSS 스타일. 여러 개 작성 시 오름차순으로 작성해야 한다.</li>
+</ul>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">/* 최대 너비 &gt; 1024px 일 때는 bg0.jpg 파일을 body 태그의 배경 이미지로 설정 */</span>
+<span class="nt">body</span> <span class="p">{</span>
+	<span class="nl">background</span><span class="p">:</span> <span class="sx">url("images/bg0.jpg")</span> <span class="nb">no-repeat</span> <span class="nb">fixed</span><span class="p">;</span>
+	<span class="nl">background-size</span><span class="p">:</span> <span class="n">cover</span><span class="p">;</span>	<span class="c">/* 창크기에 딱 맞게 이미지 크기 설정 */</span>
+<span class="p">}</span>
+
+<span class="c">/* 768 &lt; 최대 너비 &lt;= 1024px 일 때는 bg1 이미지 깔기 */</span>
+<span class="k">@media</span> <span class="n">screen</span> <span class="n">and</span> <span class="p">(</span><span class="n">max-width</span><span class="p">:</span> <span class="m">1024px</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nt">body</span> <span class="p">{</span>
+		<span class="nl">background</span><span class="p">:</span> <span class="sx">url("images/bg1.jpg")</span> <span class="nb">no-repeat</span> <span class="nb">fixed</span><span class="p">;</span>
+		<span class="nl">background-size</span><span class="p">:</span> <span class="n">cover</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+	
+<span class="c">/* 320px &lt; 최대 너비 &lt;= 768px 일 때는 bg2 이미지 깔기 */</span>
+<span class="nt">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">max-width</span><span class="o">:</span> <span class="err">768</span><span class="nt">px</span><span class="o">)</span> <span class="p">{</span>
+	<span class="err">body</span> <span class="err">{</span>
+		<span class="nl">background</span><span class="p">:</span> <span class="sx">url("images/bg2.jpg")</span> <span class="nb">no-repeat</span> <span class="nb">fixed</span><span class="p">;</span>
+		<span class="nl">background-size</span><span class="p">:</span> <span class="n">cover</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="err">}</span>
+	
+<span class="c">/* 최대 너비 &lt;= 320px 일 때는 bg3 이미지 깔기 */</span>
+<span class="k">@media</span> <span class="n">screen</span> <span class="n">and</span> <span class="p">(</span><span class="n">max-width</span><span class="p">:</span> <span class="m">320px</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nt">body</span> <span class="p">{</span>
+		<span class="nl">background</span><span class="p">:</span> <span class="sx">url("images/bg3.jpg")</span> <span class="nb">no-repeat</span> <span class="nb">fixed</span><span class="p">;</span>
+		<span class="nl">background-size</span><span class="p">:</span> <span class="n">cover</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>캡쳐를 위해 해상도를 50%로 잡아 px은 작성코드와 다를 수 있다.</p>
+<p align="center"><img src="../assets/img/images/210430/03.gif" /></p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">#wrap</span> <span class="p">{</span>
+	<span class="nl">height</span><span class="p">:</span> <span class="m">500px</span><span class="p">;</span>
+	<span class="nl">margin</span><span class="p">:</span> <span class="m">0</span> <span class="nb">auto</span><span class="p">;</span>
+	<span class="nl">border</span><span class="p">:</span> <span class="m">3px</span> <span class="nb">solid</span> <span class="m">#000</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@media</span> <span class="n">screen</span> <span class="n">and</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">320px</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nf">#wrap</span> <span class="p">{</span>
+		<span class="nl">width</span><span class="p">:</span> <span class="m">30%</span><span class="p">;</span>
+		<span class="nl">background-color</span><span class="p">:</span> <span class="no">green</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span> 
+
+<span class="k">@media</span> <span class="n">screen</span> <span class="n">and</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">768px</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nf">#wrap</span> <span class="p">{</span>
+		<span class="nl">width</span><span class="p">:</span> <span class="m">60%</span><span class="p">;</span>
+		<span class="nl">background-color</span><span class="p">:</span> <span class="no">blue</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@media</span> <span class="n">screen</span> <span class="n">and</span> <span class="p">(</span><span class="n">min-width</span><span class="p">:</span> <span class="m">1024px</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nf">#wrap</span> <span class="p">{</span>
+		<span class="nl">width</span><span class="p">:</span> <span class="m">90%</span><span class="p">;</span>
+		<span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>캡쳐를 위해 해상도를 50%로 잡아 px은 작성코드와 다를 수 있다.</p>
+<p align="center"><img src="../assets/img/images/210430/04.gif" /></p>
+
+:ET
