@@ -3,11 +3,8 @@ layout: post
 title:  "[SPRING] Connection Pool"
 date:   2021-06-25 19:14:03 +0900
 categories: jekyll update
+tags: [spring, db]
 ---
-21.06.25.
-
-<br>
-
 # SPRING
 ---
 ## 4. 커넥션풀(Connection Pool)

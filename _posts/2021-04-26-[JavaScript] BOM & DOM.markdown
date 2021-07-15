@@ -3,11 +3,8 @@ layout: post
 title:  "[JavaScript] BOM & DOM"
 date:   2021-04-26 21:51:13 +0900
 categories: jekyll update
+tags: [javascript]
 ---
-21.04.26.
-
-<br>
-
 # 자바스크립트(JavaScript)
 
 ---

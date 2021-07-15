@@ -4,14 +4,16 @@ title: About
 permalink: /about/
 ---
 
-
 # 공부하는 개발자,  최수연
 #### 열심히 달려가고 있어요. 🏃‍♀️
 <br>
 <p align="center"><img src="../assets/img/images/HELLO.jpg" width="40%"></p>
 <br>
-상명대학교 졸업  
-국비 자바 웹 프로그래머 양성 과정 2021.02.23. ~ing
+
+--- | ---: | ---: 
+상명대학교 졸업| |
+국비 자바 웹 프로그래머 양성 과정 | | 2021.02.23. ~ing |
+
 <br>
 
 ---

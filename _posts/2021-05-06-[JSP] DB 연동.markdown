@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] DB 연동"
 date:   2021-05-06 18:10:01 +0900
 categories: jekyll update
+tags: [jsp, db, oracle]
 ---
-21.05.06
-
-<br>
-
 # JSP와 DB 연동
 
 <p align="center"><img src="../assets/img/images/210506/00.gif"></p>

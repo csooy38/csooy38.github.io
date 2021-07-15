@@ -3,10 +3,8 @@ layout: post
 title:  "[JavaScript] JavaScript"
 date:   2021-04-26 17:59:44 +0900
 categories: jekyll update
+tags: [javascript]
 ---
-21.04.20.
-<br>
-
 # 자바스크립트(JavaScript)
 - 자바스크립트는 HTML 페이지와 어울어져서 웹 페이지 내의 여러 가지 요소를 다이나믹하게 제어하는 기술.
 - 자바스크립트는 개발자가 만든 문서에 방문자가 방문하여 어떤 동작을 취했을 때, 그 동작에 대응하여 반응이 일어날 수 있도록 해 주는 언어.

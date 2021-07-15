@@ -3,11 +3,8 @@ layout: post
 title:  "[MyBatis] MyBatis"
 date:   2021-07-01 21:59:59 +0900
 categories: jekyll update
+tags: [spring, mybatis]
 ---
-21.07.01.
-
-<br>
-
 # MyBatis
 ---
 ## 1. MyBatis

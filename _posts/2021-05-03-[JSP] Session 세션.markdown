@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] Session"
 date:   2021-05-03 18:33:35 +0900
 categories: jekyll update
+tags: [jsp, session]
 ---
-21.05.03
-
-<br>
-
 # JSP
 ---
 

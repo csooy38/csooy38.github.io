@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] 파일 업로드"
 date:   2021-05-21 19:32:11 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.21.
-
-<br>
-
 # 게시판 파일 업로드
 
 이전과 마찬가지로 mapping.properties 파일을 두어 서블릿을 관리하며 게시판을 작성하였다. 

@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] Java Bean 자바 빈"
 date:   2021-05-03 18:33:37 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.03
-
-<br>
-
 # JSP
 ---
 

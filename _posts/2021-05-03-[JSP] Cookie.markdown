@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] Cookie"
 date:   2021-05-03 18:33:34 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.03
-
-<br>
-
 # JSP
 ---
 

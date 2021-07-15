@@ -3,11 +3,8 @@ layout: post
 title:  "[MyBatis] sql문 작성시 join 사용"
 date:   2021-07-10 21:56:03 +0900
 categories: jekyll update
+tags: [mybatis]
 ---
-21.07.10.
-
-<br>
-
 ## 문제
 
 sql문 작성시 join을 사용하여    

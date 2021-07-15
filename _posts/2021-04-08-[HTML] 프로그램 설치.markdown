@@ -3,10 +3,8 @@ layout: post
 title:  "[HTML] 프로그램 설치"
 date:   2021-04-08 17:55:45 +0900
 categories: jekyll update
+tags: [html]
 ---
-21.04.08.
-<br>
-
 1) 웹 편집기 다운로드
 : [eclipse.org](http://eclipse.org) - Download - Download Packages - More Downloads - Older Versions - Photon - R Packages - Eclipse IDE for Java EE Developers x86_64(사양에 맞는 파일 선택하여 다운로드)
 

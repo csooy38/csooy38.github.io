@@ -3,11 +3,8 @@ layout: post
 title:  "[JQuery] JQuery"
 date:   2021-04-29 18:32:23 +0900
 categories: jekyll update
+tags: [jquery]
 ---
-21.04.29.
-
-<br>
-
 # 0. 제이쿼리(JQuery)
 바스크립트 언어를 간편한게 사용할 수 있도록 단순화시킨 오픈 소스 기반의 자바스크립트 라이브러리.  
 제이쿼리는 자바스크립트 DOM을 좀 더 쉽게 작업하기 위한 라이브러리 덩어리.

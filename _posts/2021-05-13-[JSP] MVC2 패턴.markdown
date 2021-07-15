@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] MVC2 패턴"
 date:   2021-05-13 18:19:11 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.13
-
-<br>
-
 # MVC2 패턴
 
 <p align="center"><img src="../assets/img/images/210513/05.jpg"></p>

@@ -3,11 +3,8 @@ layout: post
 title:  "[Annotation] 애노테이션"
 date:   2021-06-18 17:55:00 +0900
 categories: jekyll update
+tags: [annotation]
 ---
-21.06.18.
-
-<br>
-
 # Annotation
 
 > 스프링 애노테이션(annotation).   

@@ -5,6 +5,13 @@ layout: default
 <section>
   <div class="post-container">
     <h4 class="project-title">{{ page.title }}</h4>
+{% if page.tags %}
+  {% for tag in page.tags %}
+    {% if site.data.tags contains tag %}
+      <span class="tag" style="background-color: #FAECC5; border-radius: 5px; padding:1px 4px; color:#8C8C8C;">{{ site.data.format[tag] }}</span>
+    {% endif %}
+  {% endfor %}
+{% endif %}
     <div class="project-load">{{ content }}</div>
   </div>
   {% if site.data.settings.disqus.comments %}

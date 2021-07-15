@@ -3,11 +3,8 @@ layout: post
 title:  "[JSP] JSP"
 date:   2021-05-03 18:33:33 +0900
 categories: jekyll update
+tags: [jsp]
 ---
-21.05.03
-
-<br>
-
 # JSP
 ---
 
@@ -20,7 +17,8 @@ categories: jekyll update
 <%-- JSP 주석 : 소스코드보기에 노출되지 않는다. --%>
 ```
 
-<p align="center"><img src="../assets/img/images/210503/00.png"></p>
+<p align="center"><img src="../../../img/images/210503/00.png"></p>
+
 
 
 
