@@ -8,7 +8,7 @@ title: 'JSP project : okky'
 #### Subject
 <center><img src="../assets/img/projects/proj-1/thumbnail.jpg"></center>
 
-> okky.kr 사이트 클론코딩
+> okky.kr 사이트 클론코딩 
 
 게시판 `CRUD` 중심 `jsp` 기능 활용을 위하여 okky.kr 사이트의 클론 코딩 진행.
 
