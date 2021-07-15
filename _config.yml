@@ -15,3 +15,8 @@ plugins:   [jekyll-sitemap, jekyll-feed,  jekyll-seo-tag]
 title:		   "csooy38"
 description: "Powered by Jekyll and GitHub Pages"
 author:      "최수연"
+
+comments:
+  provider               : "disqus" 
+  disqus:
+    shortname            : "csooy38" 
