@@ -8,7 +8,7 @@ title: 'JSP project : okky'
 #### Subject
 <center><img src="../assets/img/projects/proj-1/thumbnail.jpg"></center>
 
-> okky.kr 사이트 클론코딩 
+> okky.kr 사이트 클론코딩
 
 게시판 `CRUD` 중심 `jsp` 기능 활용을 위하여 okky.kr 사이트의 클론 코딩 진행.
 
@@ -60,11 +60,6 @@ title: 'JSP project : okky'
 **[관리자]** : 회원을 관리하며, 부적절한 회원은 강제탈퇴시킬 수 있다. 또한 회사인증을 승인하거나 거절할 수 있으며, 회원이 작성한 모든 글을 강제로 수정, 삭제할 수 있다.
 
 
-
-
-{% include image.html url="http://www.gratisography.com" image="projects/proj-1/dog.jpg" %}
-
-{% include image.html url="http://www.gratisography.com" image="projects/proj-1/wall.jpg" %}
 
 [okky.kr]:http://okky.kr
 [figma]:https://www.figma.com/file/4zPrahuUVJw0Vx3DtVN5HK/JSP-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-okky.kr?node-id=0%3A1

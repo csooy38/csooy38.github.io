@@ -12,9 +12,6 @@ menu:
 
 projects:
 - {name: 'JSP: okky project',   url: 'proj-1'}
-- {name: 'JAVA: dice game',   url: 'proj-2'}
-- {name: 'Project Three', url: 'proj-3'}
-- {name: 'Project Four',  url: 'proj-4'}
 
 #-------------------------------
 # Contact Section
