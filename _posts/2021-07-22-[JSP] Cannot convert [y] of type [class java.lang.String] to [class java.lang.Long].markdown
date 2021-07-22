@@ -4,7 +4,7 @@ title:  "[JSP] Cannot convert [y] of type [class java.lang.String] to [class jav
 subtitle: 간단한 형변환 오류
 date:   2021-07-12 10:32:03 +0900
 categories: jekyll update
-tags: [jsp]
+tags: [jsp, error]
 ---
 
 <br>
@@ -49,11 +49,12 @@ int 값을 String.valueOf 으로 형변환해주면서 간단하게 해결했다
 
 <br>
 
----
-
 반대의 경우엔 오류가 발생하지 않았다.  
 EL태그는 기본적으로 String 타입이기 때문이다.
 
+<br>
+
+---
 | [참고] [참고페이지](https://docs.oracle.com/cd/E17802_01/products/products/jsp/jstl/1.1/docs/tlddocs/index.html)
 
 
