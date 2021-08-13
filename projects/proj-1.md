@@ -12,7 +12,7 @@ title: 'JSP project : okky'
 
 게시판 `CRUD` 중심 `jsp` 기능 활용을 위하여 okky.kr 사이트의 클론 코딩 진행.
 
-<br>
+<br> 
 
 ---
 #### Tools
