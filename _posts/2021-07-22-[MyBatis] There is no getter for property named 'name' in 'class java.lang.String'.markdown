@@ -11,7 +11,7 @@ tags: [mybatis, error]
 
 ## ❓ 문제
 
-```java
+```xml
 <select id="productTotalRecord" resultType="int">
 	select count(*) from product where pro_check = 'y' 
 	<if test="no gt 0"> and pro_category = #{no}</if> 

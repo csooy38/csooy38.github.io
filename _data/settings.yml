@@ -11,7 +11,8 @@ menu:
 # Projects Section
 
 projects:
-- {name: 'JSP: okky project',   url: 'proj-1'}
+
+- {name: '<b>JSP project : okky.kr 클론코딩</b><br><br>개발자 커뮤니티 사이트인 OKKY(okky.kr) 사이트의 클론 코딩. JSP 기반 게시판 CRUD 중심 반응형 웹사이트 구현.<br><br>',   url: 'proj-1'}
 
 #-------------------------------
 # Contact Section
