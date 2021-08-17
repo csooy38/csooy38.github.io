@@ -51,7 +51,7 @@ title: "Spring project : 울퉁불퉁's"
 
 <img src="../assets/img/projects/proj-2/29.png" style="cursor: pointer;" onclick="window.open(this.src)">
 
-- Oracle DB(RDS)
+- Oracle DB(AWS RDS)
 - 크게 회원/상품/결제 테이블로 나누어서 구성.
 - 회원 아이디를 주 외래키로 사용하여 review, qna, like, coupon 테이블 연결, cascade delete 설정.
 - 결제 테이블은 주문번호를 외래키로 사용하여 주된 주문정보(주문인, 주문정보, 쿠폰, 총액 등)와 주문된 상품정보를 연결.
@@ -63,6 +63,9 @@ title: "Spring project : 울퉁불퉁's"
 <img src="../assets/img/projects/proj-2/30.png" style="cursor: pointer;" onclick="window.open(this.src)">
 
 * 전체적인 프로젝트의 병합 관리(git).
+
+* DB 설계 
+	- Oracle DB(AWS RDS)
 
 * 프론트 작업
 	- 상품관련 모든 페이지(상품리스트, 상품상세, 상품검색, 장바구니)와 관리자 페이지(상품등록, 수정, 삭제, 카테고리 등록 수정 삭제)를 담당. 반응형 웹까지 모두 구현.
