@@ -1,0 +1,547 @@
+---
+layout: post
+title:  "[Spring] STS4 설치"
+subtitle: STS4를 설치 및 환경설정, Maven 설치, Spring Legacy Project 생성, pom.xml, web.xml, root-context.xml, servlet-context.xml, myBatis-config.xml, mapper.xml 설정 및 샘플, 그외 개발환경
+date:   2021-09-02 20:20:03 +0900
+categories: jekyll update
+tags: [spring]
+---
+
+<br>
+
+## 1. Spring Tools 4 (STS4) 설치
+
+
+1) 홈페이지([Spring download](https://spring.io/tools))에서 운영체제에 맞는 버전을 다운로드 한다.  
+
+
+<center><img src="../assets/img/images/210902/00.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+2) 다운받은 압축파일을 풀고, 폴더 안의 **contents** 파일을 '여기에 풀기' 한다.
+
+<center><img src="../assets/img/images/210902/01.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/02.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+3) STS4 실행 및 워크스페이스 설정
+
+<center><img src="../assets/img/images/210902/03.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/04.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/05.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+4) 상단바 - Help - Eclipse Marketplace... - sts3 검색 - **STS3 Add-On...** Install
+
+<center><img src="../assets/img/images/210902/06.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/07.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/08.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/09.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+<center>오른쪽 하단에서 설치과정을 볼 수 있다.</center>
+
+<center><img src="../assets/img/images/210902/10.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+<center>Restart Now 클릭 후 재시작</center>
+<center><img src="../assets/img/images/210902/11.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+5) 상단바 - Help - Eclipse Marketplace... - Web Developer 검색 - **Eclipse Enterprise Java and Web Developer Tools...** Install
+
+<center><img src="../assets/img/images/210902/06.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/12.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/13.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/14.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+<center>Restart Now 클릭 후 재시작</center>
+<center><img src="../assets/img/images/210902/11.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+5) Windows - Preferences - **enc** 검색, UTF-8 한글 인코딩 설정 후 Apply and Close
+
+<center><img src="../assets/img/images/210902/15.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/16.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/17.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/18.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+6) Preferences - Server - Runtime Environments 서버 설정
+
+<center><img src="../assets/img/images/210902/19.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/20.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/21.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/22.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/23.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/24.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+7) Spelling 설정
+<center><img src="../assets/img/images/210902/33.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+
+<br>
+
+<hr>
+
+## 2. Maven 설치
+1) [Maven](https://maven.apache.org/download.cgi) 설치
+
+<center><img src="../assets/img/images/210902/25.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/26.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+2) 압축 풀고 해당 폴더 - repository 폴더 생성 후 주소 복사
+
+<center><img src="../assets/img/images/210902/29.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/30.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+3) maven 폴더 - conf - settings.xml 코드편집기로 설정 편집
+<center><img src="../assets/img/images/210902/28.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/31.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+```xml
+<localRepository>C:\NCS\downloads\apache-maven-3.8.2\repository</localRepository>
+```
+<br>
+
+4) windows - preferences - User Settings 변경
+<center><img src="../assets/img/images/210902/32.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+<hr>
+
+## 3. Spring Legacy project 생성
+
+<center><img src="../assets/img/images/210902/34.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/35.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/36.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/37.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+<hr>
+
+## 4. pom.xml 설정  
+
+lombok 은 별도로 파일 다운로드 및 설치 필요
+1. [lombok download](https://projectlombok.org/download) 에서 파일을 다운로드
+2. 다운로드 받은 파일 실행 - Specify Location - 스프링 설치 경로(sts.exe) 설정 - install/update - Quit Installer
+3. pom.xml 라이브러리 추가
+4. STS 재실행
+
+```xml
+<!-- lombok 라이브러리 -->
+<dependency>
+	<groupId>org.projectlombok</groupId>
+	<artifactId>lombok</artifactId>
+	<version>1.18.20</version>
+	<scope>provided</scope>
+</dependency>
+	  
+<!-- cglib 라이브러리 : 동적으로 자바 클래스의 프록시를 생성해주는 기능 제공 -->
+<dependency>
+	<groupId>cglib</groupId>
+	<artifactId>cglib</artifactId>
+	<version>2.2.2</version>
+</dependency>
+	 
+<!-- spring-jdbc -->
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-jdbc</artifactId>
+	<version>5.3.9</version>
+</dependency>
+	
+<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
+<dependency>
+	<groupId>org.apache.commons</groupId>
+	<artifactId>commons-dbcp2</artifactId>
+	<version>2.7.0</version>
+</dependency>
+
+<!-- mybatis 프레임워크 라이브러리 -->
+<dependency>
+	<groupId>org.mybatis</groupId>
+	<artifactId>mybatis</artifactId>
+	<version>3.4.6</version>
+</dependency>
+	
+<!-- mybatis-spring 라이브러리 -->
+<dependency>
+	<groupId>org.mybatis</groupId>
+	<artifactId>mybatis-spring</artifactId>
+	<version>1.3.2</version>
+</dependency>
+	
+<!-- spring-jdbc 라이브러리 -->
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-jdbc</artifactId>
+	<version>${org.springframework-version}</version>
+</dependency>
+	
+<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6 -->
+<dependency>
+	<groupId>com.oracle.database.jdbc</groupId>
+	<artifactId>ojdbc6</artifactId>
+	<version>11.2.0.4</version>
+</dependency>
+```
+
+<br>
+
+<hr>
+
+## 5. web.xml 설정
+src - main - webapp - WEB-INF - **web.xml**
+
+```xml
+<!-- 한글 인코딩 설정 작업 -->
+<filter>
+	<filter-name>encodingFilter</filter-name>
+	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	<init-param>
+		<param-name>encoding</param-name>
+		<param-value>UTF-8</param-value>
+	</init-param>
+	
+	<init-param>
+		<param-name>forceEncoding</param-name>
+		<param-value>true</param-value>
+	</init-param>
+</filter>
+	
+<filter-mapping>
+	<filter-name>encodingFilter</filter-name>
+	<url-pattern>/</url-pattern>
+</filter-mapping>
+```
+
+<br>
+
+<hr>
+
+## 6. root-context.xml 설정
+src - main - webapp - WEB-INF - spring - **root-context.xml**
+
+```xml
+<!-- 1. dbcp 설정 -->
+<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+	<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+	<property name="username" value="sample"/>
+	<property name="password" value="1234"/>
+</bean>
+		
+<!-- 2. SqlSessionFactory 클래스 설정 -->
+<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource" />
+	<property name="mapperLocations" value="classpath:/mapper/*.xml" />
+</bean>
+	
+<!-- 3. SqlSessionTemplate 클래스 설정 -->
+<bean name="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg ref="sqlSessionFactory" />
+</bean>
+```
+
+<br>
+
+<hr>
+
+## 7. servlet-context.xml 설정
+src - main - webapp - WEB-INF - spring - appServlet - **servlet-context.xml**
+
+```xml
+<context:component-scan base-package="spring.sample" />
+```
+
+<br>
+
+<hr>
+
+## 8. myBatis-config.xml 파일 생성
+src - main - webapp - WEB-INF - spring - **myBatis - myBatis-config.xml**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+ 
+ 	<settings> 
+	 	<setting name="cacheEnabled" value="false" /> 
+	 	<setting name="jdbcTypeForNull" value="NULL" /> 
+ 	</settings>
+ 
+</configuration>
+```
+
+<br>
+
+<hr>
+
+## 9. mapper 파일 생성
+src/main/resources - **mapper - sample.xml**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.dev.model.EmpDAO">
+	<select id="empList" resultType="com.dev.model.EmpDTO">
+		select * from emp
+	</select>
+</mapper>
+```
+
+<br>
+
+<hr>
+
+## * Model Sample
+src/main/java - com.dev.model - 아래 클래스 및 인터페이스 추가
+
+- EmpDTO 클래스
+
+```java
+package com.dev.model;
+
+import lombok.Data;
+
+@Data
+public class EmpDTO {
+	private int empno;
+	private String ename;
+	private String job;
+	private int mgr;
+	private String hiredate;
+	private int sal;
+	private int comm;
+	private int deptno;
+}
+```
+
+<br>
+
+- EmpDAO 인터페이스
+
+```java
+package com.dev.model;
+
+import java.util.List;
+
+public interface EmpDAO {
+	public List<EmpDTO> getEmpList();
+}
+```
+
+<br>
+
+- EmpDAOImple 클래스
+
+```java
+package com.dev.model;
+
+import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class EmpDAOImpl implements EmpDAO {
+	
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+
+	@Override
+	public List<EmpDTO> getEmpList() {
+		// TODO Auto-generated method stub
+		return this.sqlSession.selectList("empList");
+	}
+
+}
+```
+
+<br>
+
+<hr>
+
+## * Controller Sample
+src/main/java - com.dev.test - EmpController.java
+
+```java
+package com.dev.test;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.dev.model.EmpDAO;
+import com.dev.model.EmpDTO;
+
+@Controller
+public class EmpController {
+	
+	@Autowired
+	private EmpDAO empdao;
+	
+	@RequestMapping(value = "/index")
+	public String index(Model model) {
+		
+		List<EmpDTO> list = empdao.getEmpList();
+		
+		model.addAttribute("list", list);
+		
+		return "/sample/index";
+	}
+
+}
+```
+
+<br>
+
+<hr>
+
+## * View Sample
+
+- home.jsp
+
+```html
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page session="false" %>
+<html>
+<head>
+	<title>Home</title>
+</head>
+<body>
+<h1>
+	Hello world!  
+</h1>
+
+<P><a href="index">[index]</a></P>
+</body>
+</html>
+```
+
+<br>
+
+- sample/index.jsp
+
+```html
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>INDEX</h3>
+	
+	<table>
+			<tr>
+				<th>사원번호</th>
+				<th>성명</th>
+				<th>직업</th>
+				<th>매니저</th>
+				<th>고용일자</th>
+			</tr>
+		<c:if test="${!empty list }">
+			<c:forEach items="${list }" var="dto">
+				<tr>
+					<td>${dto.getEmpno() }</td>
+					<td>${dto.getEname() }</td>
+					<td>${dto.getJob() }</td>
+					<td>${dto.getMgr() }</td>
+					<td>${dto.getHiredate() }</td>
+				</tr>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty list }">
+			<h3>조회된 사원이 없습니다.</h3>
+		</c:if>
+	</table>
+
+</body>
+</html>
+```
+
+<br>
+
+<center><img src="../assets/img/images/210902/38.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<center><img src="../assets/img/images/210902/39.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+<hr>
+
+## 그외 개발환경 
+
+- back
+	- java 1.8
+	- openJDK
+	- Spring 4
+	- Oracle 11g
+
+- front
+	- jQuery
+	- BootStrap
+	- HTML5
+	- Vue.js(ver2)
+
+
+
