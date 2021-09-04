@@ -111,7 +111,7 @@ tags: [spring]
 
 <br>
 
-<hr>
+---
 
 ## 2. Maven 설치
 1) [Maven](https://maven.apache.org/download.cgi) 설치
@@ -145,7 +145,7 @@ tags: [spring]
 
 <br>
 
-<hr>
+---
 
 ## 3. Spring Legacy project 생성
 
@@ -159,7 +159,7 @@ tags: [spring]
 
 <br>
 
-<hr>
+---
 
 ## 4. pom.xml 설정  
 
@@ -230,7 +230,7 @@ lombok 은 별도로 파일 다운로드 및 설치 필요
 
 <br>
 
-<hr>
+---
 
 ## 5. web.xml 설정
 src - main - webapp - WEB-INF - **web.xml**
@@ -259,7 +259,7 @@ src - main - webapp - WEB-INF - **web.xml**
 
 <br>
 
-<hr>
+---
 
 ## 6. root-context.xml 설정
 src - main - webapp - WEB-INF - spring - **root-context.xml**
@@ -287,7 +287,7 @@ src - main - webapp - WEB-INF - spring - **root-context.xml**
 
 <br>
 
-<hr>
+---
 
 ## 7. servlet-context.xml 설정
 src - main - webapp - WEB-INF - spring - appServlet - **servlet-context.xml**
@@ -298,7 +298,7 @@ src - main - webapp - WEB-INF - spring - appServlet - **servlet-context.xml**
 
 <br>
 
-<hr>
+---
 
 ## 8. myBatis-config.xml 파일 생성
 src - main - webapp - WEB-INF - spring - **myBatis - myBatis-config.xml**
@@ -321,7 +321,7 @@ src - main - webapp - WEB-INF - spring - **myBatis - myBatis-config.xml**
 
 <br>
 
-<hr>
+---
 
 ## 9. mapper 파일 생성
 src/main/resources - **mapper - sample.xml**
@@ -342,7 +342,7 @@ src/main/resources - **mapper - sample.xml**
 
 <br>
 
-<hr>
+---
 
 ## * Model Sample
 src/main/java - com.dev.model - 아래 클래스 및 인터페이스 추가
@@ -527,7 +527,7 @@ public class EmpController {
 
 <br>
 
-<hr>
+---
 
 ## 그외 개발환경 
 

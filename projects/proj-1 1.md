@@ -33,17 +33,6 @@ title: 'JSP project : okky'
 
 ---
 
-#### Team
-
-* 이 솔
-* 성창식
-* 이성욱
-* 최수연
-
-<br>
-
----
-
 #### Design
 * reference : [okky.kr]
 * figma : [figma] 

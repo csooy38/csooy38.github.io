@@ -30,7 +30,7 @@ First LIne
 
 <br>
 
-<hr>
+---
 
 ## 2. 역따옴표( ` ) 이용하는 방법
 - 처음과 끝에만 개행문자를 작성하면 됨
@@ -56,7 +56,7 @@ First LIne
 
 <br>
 
-<hr>
+---
 
 ## 3. 적당한 방법
 - 개행문자를 직접 작성해야 함
@@ -79,6 +79,6 @@ Third Line
 
 <br>
 
-<hr>
+---
 
-참고 | [[javascript] 여러 줄 문자열](https://itholic.github.io/js-multiline-string/)
+참고 \| [[javascript] 여러 줄 문자열](https://itholic.github.io/js-multiline-string/)
