@@ -93,8 +93,63 @@ disabled 설정된 태그는 폼 전송에 포함되지 않는다.
 
 
 ---
-참조 | [Form 태그 내 disabled 속성 input 데이터 전송 방법](https://mmozzi.tistory.com/20)
+참고 | [Form 태그 내 disabled 속성 input 데이터 전송 방법](https://mmozzi.tistory.com/20)
 
 <br>
 
-## 4.
+## 4. jQuery로  input 태그 name 변경 및 조회
+
+기본적인 형식은 아래와 같다.  
+
+```javacript
+// 1. name 변경하기
+$('#id명').attr('name', '변경할 name');	// input id명으로 변경하기
+$('li.class명 input').attr('name', '변경할 name');	// li 태그의 클래스명으로 조회하기
+$('td.class명 input').attr('name', '변경할 name');	// td 태그의 클래스명으로 조회하기
+
+// 2. name 조회하기
+$('#id명').attr('name');
+$('li.class명 input').attr('name');
+$('td.class명 input').attr('name');
+
+console.log($('#id명').attr('name'););	// 콘솔로 name 확인
+```
+
+
+```html
+<form onsubmit="nullCheck();">
+	<td class="sample"><input type="text"></td>
+	<td class="sample"><input type="text"></td>
+</form>
+```
+class 이름이 sample 인 input 태그들.  
+input 값이 있을 때만 name을 지정해주려고 처음엔 작성하지 않았다.  
+
+
+```javascript
+function nullCheck() {
+	let cnt = 0; 	// input name에 지정해줄 인덱스 값
+
+	// class가 sample인 input 태그들의 배열 변수 선언
+	let sample = $('td.sample input');	
+
+	for(let i=0; i<sample.length; i++) {	// 변수 sample 의 배열 길이 만큼 반복
+
+		// sample 배열의 i번째 input의 value가 입력되었다면
+		if($(sample).eq(i).val() != "") {	
+			
+			// i번째 input name을 sampleList[cnt].sample 로 지정
+			// sampleList[0].sample = 리스트 0번째 인덱스에 sample 변수 값 저장
+			$(sample).eq(i).attr('name', 'sampleList['+cnt+'].sample');
+			
+			cnt++;	// 카운트 증가
+		}
+	}
+}
+```
+
+for문을 돌려서 class 내의 모든 input 태그의 null 체크를 하고,  
+null이 아니라면 name을 부여한다.  
+
+---
+참고 | [How do I change the input name in jQuery](https://stackoverflow.com/questions/34622125/how-do-i-change-the-input-name-in-jquery/34622242)
