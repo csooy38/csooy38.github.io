@@ -15,6 +15,7 @@ tags: [oracle]
 -- 테스트를 위한 테이블 생성
 CREATE TABLE DUMMY_TEST(
 	T_NUMBER NUMBER(5),
+	T_SEQ NUMBER(5),
 	T_DOUBLE NUMBER(10),
 	T_STRING1 VARCHAR2(100),
 	T_STRING2 VARCHAR2(100),
@@ -25,6 +26,9 @@ INSERT INTO DUMMY_TEST
 	SELECT 
 		-- 1~10000 사이 난수 5자리(LPAD)를 랜덤으로 생성하여 반올림(ROUND)
 		LPAD(ROUND(DBMS_RANDOM.VALUE(1, 10000), 0), 5) AS T_NUMBER,
+		
+		-- 1부터 1씩 차례대로 증가하는 순번
+		TO_NUMBER(0+(ROWNUM)) AS T_SEQ,
 		
 		-- 1~10 사이 난수 5자리(LPAD)를 랜덤으로 생성 소수 첫째자리까지 반올림(ROUND)
 		ROUND(DBMS_RANDOM.VALUE(1, 10), 1) AS T_DOUBLE,

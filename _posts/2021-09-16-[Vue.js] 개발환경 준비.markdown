@@ -1,0 +1,164 @@
+---
+layout: post
+title:  "[Vue.js] 개발환경 준비 "
+subtitle: 뷰를 사용하기 위한 설치 과정
+date:   2021-09-16 06:32:03 +0900
+categories: jekyll update
+tags: [vue]
+---
+
+<br>
+
+## 1. 기본 설치 - 비주얼 스튜디오, Node.js
+
+뷰를 사용하기 위한 환경을 설정한다.  
+여러가지 툴이 있겠지만  
+그 중에서 비주얼 스튜디오(Visual Studio Code)와 노드(Node.js)를 설치.  
+
+<br>
+
+---
+## 2. Vue.js 설치
+
+뷰를 설치하는 방법에는 3가지가 있다.  
+
+1) cdn
+
+```html
+<script src="https://unpkg.com/vue@next"></script>
+```
+
+<br>
+
+2) npm
+
+```bash
+# latest stable
+$ npm install vue@next
+```
+<br>
+
+3) Vue CLI
+
+```bash
+$ node -v
+
+제대로 설치가 되었으면 아래와 같이 출력
+v14. 17. 5
+```
+Node.js 가 설치되었는지 먼저 확인.
+
+```bash
+$ npm install -g @vue/cli
+
+완료되면 최하단에 아래와 같이 출력
++ @vue/cli@4.5.13
+added 932 packages from 585 contributors in 78.77s
+```
+확인되었다면 뷰 최신버전 설치
+
+```bash
+$ vue create vue-practice
+```
+빈 프로젝트 생성  
+vue-practice 대신 원하는 프로젝트명을 작성하면 된다.  
+커맨드를 입력하면 vue2, vue3, 사용자 옵션 중 무엇으로 설치할지 선택하는 창이 나온다.  
+키보드 방향키로 움직여서 vue3 선택하여 설치했다.  
+
+```bash
+👉  Get started with the following commands:
+
+ $ cd vue-practice
+ $ npm run serve
+```
+시작 명령어 안내를 마지막으로 설치완료!   
+
+<br>
+
+---
+## 3. 비주얼 스튜디오 살펴보기
+
+```bash
+$ cd vue-practice(위에서 생성한 프로젝트명)
+$ code .
+```
+위에서 생성한 뷰 프로젝트 폴더로 이동한 후 비주얼 스튜디오를 실행한다.  
+
+<br>
+
+1) package.json
+
+```json
+{
+  "name": "vue-practice",	// 프로젝트명
+  "version": "0.1.0",		// 버전
+  "private": true,
+  "scripts": { 	// 커맨드라인 명령어(직접 추가, 수정 가능)
+    "serve": "vue-cli-service serve",	// 개발서버 실행
+    "build": "vue-cli-service build",	// 작성코드 실제 사용하기 위해 변환
+    "lint": "vue-cli-service lint"	// eslint 사용 : 잘못된 명령어 찾는 명령어
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^3.0.0"
+  },
+  ...
+}
+```
+
+<br>
+
+2) vetur 설치
+* vetur : .vue 파일을 보기 편하게 도와주는 도구.
+<center><img src="../assets/img/images/210916/01.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>  
+
+3) babel.config.js  
+* 바벨 : 스크립트 호환을 위해 구버전 자바 스크립트로 변환하는 도구
+
+<br>
+
+4) .gitignore : 깃에 올리지 않을 파일 설정 
+
+<br>
+
+4) App.vue
+```vue
+<template>
+	// html 코드
+</template>
+
+<script>
+	// javascript 코드
+</script>
+
+<style>
+	// style(css) 코드
+</style>
+```
+<br>
+
+5) 터미널  
+터미널에 명령어를 입력하여 서버를 실행한다.  
+
+
+<center><img src="../assets/img/images/210916/02.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+<center><img src="../assets/img/images/210916/03.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+```bash
+$ npm run serve 
+```
+서버를 실행하는 명령어  
+
+<br>
+
+<center><img src="../assets/img/images/210916/04.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+위 주소에서 페이지를 열어볼 수 있다.  
+
+---
+참고 | [Vue js - 초보 입문 강좌 #1. 뷰? ,개발환경 준비](https://www.youtube.com/watch?v=DmgAvJhK3YE)   
+
