@@ -1,0 +1,101 @@
+---
+layout: post
+title:  "[Vue.js] 템플릿 문법 "
+subtitle: "template 기초 문법 : v-model, v-html, mustache"
+date:   2021-09-16 20:07:03 +0900
+categories: jekyll update
+tags: [vue]
+---
+
+<br>
+
+## 1. vue 실행
+
+비주얼 스튜디오 터미널에서 서버를 실행  
+```bash
+$ npm run serve
+
+아래 주소에서 실행된 서버 실시간 확인 가능
+  App running at:
+  - Local:   http://localhost:8081/
+  - Network: http://192.168.0.10:8081/
+```
+
+터미널에서 실행되는 명령어는 package.json 에서 추가/수정 가능하다.  
+
+```vue
+"scripts": { 
+    "serve": "vue-cli-service serve",
+	...
+ }
+
+// 명령어를 아래처럼 수정해서 사용할 수도 있다.  
+"scripts": { 
+    "gogogo": "vue-cli-service serve",
+	...
+ }
+
+$ npm run gogogo
+```
+
+<br>
+
+---
+## 2. 템플릿 문법
+
+1) **mustache** : `<script>`에서 설정한 key 값을 {{ }} 형태로 받는 방식.  
+* 예) `{{ "{{ animal "}} }}`  
+
+2) **v-textl** : `<script>`에서 설정한 key 값을 태그로 받는 형식.  
+- 이때 태그 안에 조금이라도 작성시 오류 발생.   
+- 예) `<div v-textl="animal"></div>`   
+
+3) **v-model** : `<script>`에서 작성한 key 값을 연결해주는 형식.  
+- 예) `<input type="text" v-model="food" />` input 텍스트 입력칸에 자동으로 value 입력
+
+4) **v-html** : `<script>`에서 설정한 key 값에 html 문법이 포함되어 있으면, 문자열이 아닌 문법을 살려서 받는 형식.  
+
+```vue
+<template>
+  <div>
+    <h1>Hello {{ "{{ animal"}} }}</h1>
+    <h2>{{ "{{ animal"}} }}는 {{ "{{ food"}} }}를 좋아합니다.</h2>
+    <h2 v-text="food"></h2>
+    <input type="text" v-model="food" />
+
+    <div>{{ "{{ alertMessage"}} }}</div>  -- 문자열로 인식 -->
+    <div v-html="alertMessage"></div> // html 태그로 인식, 사용시 주의
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'App',
+  data(){
+    return {
+      animal: "Monkey",
+      food: "Banana",
+      alertMessage: "<h2>경고!!!</h2>"
+    };
+  }
+};
+</script>
+```
+
+<center><img src="../assets/img/images/210916/05.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+<br>
+
+---
+
+다른 얘기지만 중괄호 겹쳐 작성하니 마크다운 문법이 안 먹힌다.  
+마크다운에서 중괄호 두 번 작성하는 방법  
+
+<center><img src="../assets/img/images/210916/06.png" style="text-align:center; cursor: pointer;" onclick="window.open(this.src)"></center>
+
+
+
+---
+참고 | [Vue js - 초보 입문 강좌 #2 템플릿 문법 [ v-model, v-html, mustache ]](https://www.youtube.com/watch?v=CocO17Pj0Us)   
+
